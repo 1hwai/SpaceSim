@@ -61,7 +61,6 @@ public class ExampleChestContainer extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
             } else if (!moveItemStackTo(item, 0, 27, false))
                 return ItemStack.EMPTY;
-
             if (item.isEmpty()) {
                 slot.set(ItemStack.EMPTY);
             } else {

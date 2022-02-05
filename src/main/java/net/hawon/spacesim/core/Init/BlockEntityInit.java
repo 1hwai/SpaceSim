@@ -2,6 +2,7 @@ package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
 import net.hawon.spacesim.common.block.entity.ExampleChestBlockEntity;
+import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,8 +17,11 @@ public final class BlockEntityInit {
             .register("example_chest", () -> BlockEntityType.Builder
                     .of(ExampleChestBlockEntity::new, BlockInit.EXAMPLE_CHEST.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<GeneratorBlockEntity>> GENERATOR = BLOCK_ENTITIES
+            .register("generator", () -> BlockEntityType.Builder
+                    .of(GeneratorBlockEntity::new, BlockInit.GENERATOR.get()).build(null));
+
 
     private BlockEntityInit() {
-
     }
 }

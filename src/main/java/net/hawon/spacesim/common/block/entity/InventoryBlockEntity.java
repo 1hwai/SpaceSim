@@ -13,15 +13,12 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class InventoryBlockEntity extends BlockEntity{
+public class InventoryBlockEntity extends BlockEntity {
+
     public final int size;
     protected int timer;
     protected boolean requiresUpdate;
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     public final ItemStackHandler inventory;
     protected LazyOptional<ItemStackHandler> handler;

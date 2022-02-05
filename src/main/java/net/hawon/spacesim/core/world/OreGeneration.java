@@ -24,30 +24,30 @@ public class OreGeneration {
                 OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES,
                         BlockInit.TITANIUM_ORE.get().defaultBlockState()),
                 OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
-                        BlockInit.TITANIUM_ORE.get().defaultBlockState())),
+                        BlockInit.DEEPSLATE_TITANIUM_ORE.get().defaultBlockState())),
                 10)));
 
-        final PlacedFeature TITANIUM_ORE = PlacementUtils.register("titanium_ore_middle", titaniumOre.placed(commonOrePlacement(60, HeightRangePlacement.triangle(VerticalAnchor.absolute(-50), VerticalAnchor.absolute(56)))));
+        final PlacedFeature TITANIUM_ORE = PlacementUtils.register("titanium_ore_middle", titaniumOre.placed(commonOrePlacement(30, HeightRangePlacement.triangle(VerticalAnchor.absolute(-50), VerticalAnchor.absolute(50)))));
 
         //BAUXITE
         final ConfiguredFeature<?, ?> bauxiteOre = FeatureUtils.register("bauxite_ore", Feature.ORE.configured(new OreConfiguration(List.of(
                 OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES,
                         BlockInit.BAUXITE_ORE.get().defaultBlockState()),
                 OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
-                        BlockInit.BAUXITE_ORE.get().defaultBlockState())),
+                        BlockInit.DEEPSLATE_BAUXITE_ORE.get().defaultBlockState())),
                 10)));
 
-        final PlacedFeature BAUXITE_ORE = PlacementUtils.register("bauxite_ore_middle", bauxiteOre.placed(commonOrePlacement(40, HeightRangePlacement.triangle(VerticalAnchor.absolute(-50), VerticalAnchor.absolute(56)))));
+        final PlacedFeature BAUXITE_ORE = PlacementUtils.register("bauxite_ore_middle", bauxiteOre.placed(commonOrePlacement(15, HeightRangePlacement.triangle(VerticalAnchor.absolute(-50), VerticalAnchor.absolute(50)))));
 
         //URANIUM
         final ConfiguredFeature<?, ?> uraniumOre = FeatureUtils.register("uranium_ore", Feature.ORE.configured(new OreConfiguration(List.of(
                 OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES,
                         BlockInit.URANIUM_ORE.get().defaultBlockState()),
                 OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
-                        BlockInit.URANIUM_ORE.get().defaultBlockState())),
+                        BlockInit.DEEPSLATE_URANIUM_ORE.get().defaultBlockState())),
                 10)));
 
-        final PlacedFeature URANIUM_ORE = PlacementUtils.register("uranium_ore_middle", uraniumOre.placed(commonOrePlacement(7, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(80)))));
+        final PlacedFeature URANIUM_ORE = PlacementUtils.register("uranium_ore_middle", uraniumOre.placed(commonOrePlacement(3, HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(80)))));
 
         OVERWORLD_ORES.add(TITANIUM_ORE);
         OVERWORLD_ORES.add(BAUXITE_ORE);

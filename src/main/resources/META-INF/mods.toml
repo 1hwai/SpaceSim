@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[39,)"
+license="All Rights Reserved"
+[[mods]]
+modId="spacesim"
+version="${file.jarVersion}"
+displayName="Space Sim"
+logoFile="examplemod.png" #optional
+# A text field displayed in the mod UI
+credits="Thanks for this example mod goes to Java"
+authors="ha1"
+description='''
+
+'''
+[[dependencies.spacesim]]
+    modId="forge"
+    mandatory=true
+    versionRange="[39,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.spacesim]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.1,1.19)"
+    ordering="NONE"
+    side="BOTH"

@@ -8,10 +8,12 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class ExampleChestBlockEntity extends InventoryBlockEntity {
+
     public static final Component TITLE = new TranslatableComponent(
             "container." + SpaceSim.MOD_ID + ".example_chest");
 
     public ExampleChestBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.EXAMPLE_CHEST.get(), pos, state, 27);
     }
+
 }
