@@ -11,5 +11,7 @@
   "block.spacesim.example_chest": "Example Chest",
   "block.spacesim.deepslate_bauxite_ore": "Deepslate Bauxite Ore",
   "block.spacesim.deepslate_titanium_ore": "Deepslate titanium Ore",
-  "block.spacesim.deepslate_uranium_ore": "Deepslate uranium Ore"
+  "block.spacesim.deepslate_uranium_ore": "Deepslate uranium Ore",
+
+  "itemGroup.spacesimTab": "Space Sim"
 }

@@ -14,6 +14,7 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         if (event.includeServer()) {
+            generator.addProvider(new SpaceLootTables(generator));
             SpaceBlockTags blockTags = new SpaceBlockTags(generator, event.getExistingFileHelper());
             generator.addProvider(blockTags);
             generator.addProvider(new SpaceItemTags(generator, blockTags, event.getExistingFileHelper()));

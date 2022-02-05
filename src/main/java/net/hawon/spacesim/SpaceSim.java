@@ -34,7 +34,7 @@ public class SpaceSim
     public static final String MOD_ID = "spacesim";
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final CreativeModeTab SPACESIM_TAB = new CreativeModeTab("Space Sim") {
+    public static final CreativeModeTab SPACESIM_TAB = new CreativeModeTab("spacesimTab") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(ItemInit.RENCH.get());
