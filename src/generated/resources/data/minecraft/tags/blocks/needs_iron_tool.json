@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "spacesim:bauxite_ore",
+    "spacesim:titanium_ore",
+    "spacesim:uranium_ore",
+    "spacesim:deepslate_bauxite_ore",
+    "spacesim:deepslate_titanium_ore",
+    "spacesim:deepslate_uranium_ore"
+  ]
+}

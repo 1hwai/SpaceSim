@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "spacesim:block/example_chest"
+    }
+  }
+}
