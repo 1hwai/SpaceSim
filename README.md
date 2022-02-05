@@ -8,7 +8,7 @@
 >description:
 >>Perfect Space Mod for Space Nerds! // 우주덕들을 위한 최고의 우주모드
 >>
->>Author(me) has referenced many other tutorials videos and codes. Thx a lot.
+>>Author(me) has referenced many other tutorial videos and codes. Thx a lot.
 >>
 >>https://github.com/McJty/TutorialV3
 >>
