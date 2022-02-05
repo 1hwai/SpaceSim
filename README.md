@@ -1,4 +1,4 @@
-**Minecraft Modding**
+**Minecraft 1.18.1 Modding**
 *with JDK18*
 
 >Project Name: Space Sim
