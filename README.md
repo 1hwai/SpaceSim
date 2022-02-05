@@ -1,5 +1,5 @@
-#Minecraft Modding
-#with JDK18
+##Minecraft Modding
+##with JDK18
 
 #Project Name: Space Sim
 Author: 1HA
