@@ -18,6 +18,7 @@ public class SpaceItemModels extends ItemModelProvider {
         //Long as Snake, but for the line, I eventually gave up. Just for easier scroll.
 
         //BLOCK ENTITY
+//        withExistingParent(BlockInit.GENERATOR_ITEM.get().getRegistryName().getPath(), modLoc("block/generator/generator_idle"));
         withExistingParent(BlockInit.GENERATOR_ITEM.get().getRegistryName().getPath(), modLoc("block/generator"));
         withExistingParent(BlockInit.DOCKING_PORT_ITEM.get().getRegistryName().getPath(), modLoc("block/docking_port"));
         withExistingParent(BlockInit.EXAMPLE_CHEST_ITEM.get().getRegistryName().getPath(), modLoc("block/example_chest"));
