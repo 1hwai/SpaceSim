@@ -1,17 +1,18 @@
 {
   "item.spacesim.rench": "Rench",
-  "item.spacesim.raw_bauxite": "Raw Bauxite",
   "block.spacesim.bauxite_ore": "Bauxite Ore",
-  "item.spacesim.raw_titanium": "Raw Titanium",
-  "item.spacesim.titanium_ingot": "Titanium Ingot",
   "block.spacesim.titanium_ore": "Titanium Ore",
-  "item.spacesim.raw_uranium": "Raw Uranium",
   "block.spacesim.uranium_ore": "Uranium Ore",
-  "block.spacesim.docking_port": "Docking Port",
-  "block.spacesim.example_chest": "Example Chest",
+  "item.spacesim.raw_bauxite": "Raw Bauxite",
+  "item.spacesim.raw_titanium": "Raw Titanium",
+  "item.spacesim.raw_uranium": "Raw Uranium",
+  "item.spacesim.titanium_ingot": "Titanium Ingot",
   "block.spacesim.deepslate_bauxite_ore": "Deepslate Bauxite Ore",
   "block.spacesim.deepslate_titanium_ore": "Deepslate titanium Ore",
   "block.spacesim.deepslate_uranium_ore": "Deepslate uranium Ore",
+  "block.spacesim.docking_port": "Docking Port",
+  "block.spacesim.example_chest": "Example Chest",
+  "block.spacesim.generator": "Generator",
 
   "itemGroup.spacesimTab": "Space Sim"
 }

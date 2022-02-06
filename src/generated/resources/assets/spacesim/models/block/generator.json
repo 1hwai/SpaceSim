@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/orientable",
   "textures": {
-    "all": "spacesim:block/generator"
+    "side": "spacesim:block/generator_side",
+    "front": "spacesim:block/generator_on",
+    "top": "spacesim:block/generator_side"
   }
 }

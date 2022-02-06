@@ -1,6 +1,7 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.item.RenchItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +17,7 @@ public class ItemInit {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SpaceSim.MOD_ID);
     public static final Item.Properties ITEM_PROPERTIES = new Item.Properties().tab(SpaceSim.SPACESIM_TAB);
 
-    public static final RegistryObject<Item> RENCH = ITEMS.register("rench", () -> new Item(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> RENCH = ITEMS.register("rench", () -> new RenchItem(new Item.Properties().tab(SpaceSim.SPACESIM_TAB).durability(100)));
 
     public static final RegistryObject<Item> RAW_BAUXITE = ITEMS.register("raw_bauxite", () -> new Item(ITEM_PROPERTIES));
 

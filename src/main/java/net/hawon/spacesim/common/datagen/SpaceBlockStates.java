@@ -16,7 +16,7 @@ public class SpaceBlockStates extends BlockStateProvider {
     protected void registerStatesAndModels() {
 
         //BLOCK ENTITY
-        simpleBlock(BlockInit.GENERATOR.get());
+        registerGenerator();
         simpleBlock(BlockInit.DOCKING_PORT.get());
         simpleBlock(BlockInit.EXAMPLE_CHEST.get());
         //ORE
@@ -26,6 +26,10 @@ public class SpaceBlockStates extends BlockStateProvider {
         simpleBlock(BlockInit.DEEPSLATE_TITANIUM_ORE.get());
         simpleBlock(BlockInit.DEEPSLATE_URANIUM_ORE.get());
         simpleBlock(BlockInit.DEEPSLATE_BAUXITE_ORE.get());
+    }
+
+    protected void registerGenerator() {
+        horizontalBlock(BlockInit.GENERATOR.get(), modLoc("block/generator_side"), modLoc("block/generator_on"), modLoc("block/generator_side"));
     }
 
 }

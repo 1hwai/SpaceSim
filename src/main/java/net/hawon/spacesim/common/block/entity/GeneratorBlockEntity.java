@@ -56,6 +56,15 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         energy.invalidate();
     }
 
+    @Override
+    public void tick() {
+        this.timer++;
+        if (this.requiresUpdate && this.level != null) {
+            update();
+            this.requiresUpdate = false;
+        }
+    }
+
     public void tickServer() {
         if (energyStorage.getEnergyStored() <= GEN_CAPACTITY) {
             if (counter > 0) {
@@ -69,7 +78,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                 int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
                 if (burnTime > 0) {
                     itemHandler.extractItem(0, 1, false);
-                    counter = burnTime / 5;
+                    counter = burnTime / 20;
                     setChanged();
                 }
             }
