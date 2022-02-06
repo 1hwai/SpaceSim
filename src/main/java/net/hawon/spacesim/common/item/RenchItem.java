@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class RenchItem extends Item {
 
@@ -28,13 +29,17 @@ public class RenchItem extends Item {
             }
         }
 
-        pContext.getItemInHand().hurtAndBreak(1, pContext.getPlayer(), (player) -> player.broadcastBreakEvent(player.getUsedItemHand()));
+        pContext.getItemInHand().hurtAndBreak(1, pContext.getPlayer(),
+                (player) -> player.broadcastBreakEvent(player.getUsedItemHand())
+        );
 
         return super.useOn(pContext);
     }
 
     private void outputValuableCoordinates(Block block, BlockPos pos, Player player) {
         player.sendMessage(new TextComponent(block.asItem().getRegistryName().toString() + pos.toString()), player.getUUID());
+
+
     }
 
     private boolean isValuableBlock(Block block) {

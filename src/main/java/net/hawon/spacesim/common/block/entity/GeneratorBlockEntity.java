@@ -71,9 +71,9 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                 energyStorage.addEnergy(GEN_PER_TICK);
                 counter--;
                 setChanged();
-            }
 
-            if (counter <= 0) {
+
+            } else if (counter <= 0) {
                 ItemStack stack = itemHandler.getStackInSlot(0);
                 int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
                 if (burnTime > 0) {

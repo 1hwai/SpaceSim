@@ -1,34 +1,114 @@
 {
-  "variants": {
-    "facing=north,powered=false": {
-      "model": "spacesim:block/generator"
+  "multipart": [
+    {
+      "when": {
+        "powered": "false"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_on"
+      }
     },
-    "facing=south,powered=false": {
-      "model": "spacesim:block/generator",
-      "y": 180
+    {
+      "when": {
+        "powered": "false"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_on",
+        "x": 90
+      }
     },
-    "facing=west,powered=false": {
-      "model": "spacesim:block/generator",
-      "y": 270
+    {
+      "when": {
+        "powered": "false"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_on",
+        "x": 180
+      }
     },
-    "facing=east,powered=false": {
-      "model": "spacesim:block/generator",
-      "y": 90
+    {
+      "when": {
+        "powered": "false"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_on",
+        "x": 270
+      }
     },
-    "facing=north,powered=true": {
-      "model": "spacesim:block/generator"
+    {
+      "when": {
+        "powered": "false"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_on",
+        "x": 90,
+        "y": 90
+      }
     },
-    "facing=south,powered=true": {
-      "model": "spacesim:block/generator",
-      "y": 180
+    {
+      "when": {
+        "powered": "false"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_on",
+        "x": 90,
+        "y": 270
+      }
     },
-    "facing=west,powered=true": {
-      "model": "spacesim:block/generator",
-      "y": 270
+    {
+      "when": {
+        "powered": "true"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_idle"
+      }
     },
-    "facing=east,powered=true": {
-      "model": "spacesim:block/generator",
-      "y": 90
+    {
+      "when": {
+        "powered": "true"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_idle",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "powered": "true"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_idle",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "powered": "true"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_idle",
+        "x": 270
+      }
+    },
+    {
+      "when": {
+        "powered": "true"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_idle",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "powered": "true"
+      },
+      "apply": {
+        "model": "spacesim:block/generator/generator_idle",
+        "x": 90,
+        "y": 270
+      }
     }
-  }
+  ]
 }
