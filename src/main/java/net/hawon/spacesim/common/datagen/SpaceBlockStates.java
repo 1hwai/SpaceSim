@@ -5,9 +5,12 @@ import net.hawon.spacesim.core.Init.BlockInit;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 
 public class SpaceBlockStates extends BlockStateProvider {
 
@@ -32,15 +35,6 @@ public class SpaceBlockStates extends BlockStateProvider {
     }
 
     protected void registerGenerator() {
-//        {
-//            "parent": "minecraft:block/orientable",
-//            "textures": {
-//                    "side": "spacesim:block/generator_side",
-//                    "front": "spacesim:block/generator_on",
-//                    "top": "spacesim:block/generator_side"
-//            }
-//        }
-        //horizontalBlock(BlockInit.GENERATOR.get(), modLoc("block/generator_side"), modLoc("block/generator_on"), modLoc("block/generator_side"));
         //State: ON
         BlockModelBuilder genOn = models().getBuilder("block/generator/generator_on");
         genOn.parent(models().getExistingFile(mcLoc("orientable")));
@@ -58,27 +52,18 @@ public class SpaceBlockStates extends BlockStateProvider {
         VariantBlockStateBuilder bld = getVariantBuilder(BlockInit.GENERATOR.get());
 
         BlockModelBuilder[] models = new BlockModelBuilder[] { genOn, genIdle };
+
         for (int i = 0; i < 2; i++) {
-            boolean powered = i == 1;
-            bld.forAllStates(BlockStateProperties.POWERED, )
-            bld.partialState().modelForState().rotationY(180).addModel();
-            bld.partialState().modelForState().rotationY(270).addModel();
-            bld.partialState().modelForState().rotationY(90).addModel();
+            boolean powered = i == 0;
+            bld.partialState().with(FACING, Direction.NORTH)
+                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).addModel();
+            bld.partialState().with(FACING, Direction.SOUTH)
+                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).rotationY(180).addModel();
+            bld.partialState().with(FACING, Direction.WEST)
+                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).rotationY(270).addModel();
+            bld.partialState().with(FACING, Direction.EAST)
+                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).rotationY(90).addModel();
         }
-
-
-        MultiPartBlockStateBuilder builder = getMultipartBuilder(BlockInit.GENERATOR.get());
-
-//        BlockModelBuilder[] models = new BlockModelBuilder[] { genOn, genIdle };
-//        for (int i = 0 ; i < 2 ; i++) {
-//            boolean powered = i == 1;
-//            bld.part().modelFile(models[i]).addModel().condition(BlockStateProperties.POWERED, powered);
-//            bld.part().modelFile(models[i]).rotationX(180).addModel().condition(BlockStateProperties.POWERED, powered);
-        builder.part().modelFile(models[0]).rotationX(90).addModel().condition(BlockStateProperties.POWERED, false);
-//            bld.part().modelFile(models[i]).rotationX(270).addModel().condition(BlockStateProperties.POWERED, powered);
-//            bld.part().modelFile(models[i]).rotationY(90).rotationX(90).addModel().condition(BlockStateProperties.POWERED, powered);
-//            bld.part().modelFile(models[i]).rotationY(270).rotationX(90).addModel().condition(BlockStateProperties.POWERED, powered);
-//        }
     }
 
 }

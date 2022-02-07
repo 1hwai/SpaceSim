@@ -72,7 +72,6 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                 counter--;
                 setChanged();
 
-
             } else if (counter <= 0) {
                 ItemStack stack = itemHandler.getStackInSlot(0);
                 int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
@@ -86,8 +85,8 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
         BlockState blockState = level.getBlockState(worldPosition);
         if (blockState.getValue(BlockStateProperties.POWERED) != counter > 0) {
-            level.setBlock(worldPosition, blockState.setValue(BlockStateProperties.POWERED, counter > 0),
-                    Block.UPDATE_ALL);
+                level.setBlock(worldPosition, blockState.setValue(BlockStateProperties.POWERED, counter > 0),
+                        Block.UPDATE_ALL);
         }
 
         sendOutPower();
