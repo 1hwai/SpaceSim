@@ -43,8 +43,6 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
     private final CustomEnergyStorage energyStorage = createEnergy();
     private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
 
-    public static final Component TITLE = new TranslatableComponent("Generator");
-
     public GeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.GENERATOR.get(), pos, state, 27);
     }

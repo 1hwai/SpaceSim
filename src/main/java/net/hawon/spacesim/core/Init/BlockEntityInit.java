@@ -1,6 +1,7 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.block.entity.CopperCableBlockEntity;
 import net.hawon.spacesim.common.block.entity.ExampleChestBlockEntity;
 import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,6 +22,9 @@ public final class BlockEntityInit {
             .register("generator", () -> BlockEntityType.Builder
                     .of(GeneratorBlockEntity::new, BlockInit.GENERATOR.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<CopperCableBlockEntity>> COPPER_CABLE = BLOCK_ENTITIES
+            .register("copper_cable", () -> BlockEntityType.Builder
+                    .of(CopperCableBlockEntity::new, BlockInit.COPPER_CABLE.get()).build(null));
 
     private BlockEntityInit() {
     }

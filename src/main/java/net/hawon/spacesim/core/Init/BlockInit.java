@@ -1,9 +1,9 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.block.CopperCableBlock;
 import net.hawon.spacesim.common.block.ExampleChestBlock;
 import net.hawon.spacesim.common.block.GeneratorBlock;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -29,6 +29,7 @@ public class BlockInit {
     public static final RegistryObject<Block> DOCKING_PORT = BLOCKS.register("docking_port", () -> new Block(ORE_PROPERTIES));
     public static final RegistryObject<Item> DOCKING_PORT_ITEM = fromBlock(DOCKING_PORT);
 
+    //ORE
     public static final RegistryObject<Block> BAUXITE_ORE = BLOCKS.register("bauxite_ore", () -> new Block(ORE_PROPERTIES));
     public static final RegistryObject<Block> DEEPSLATE_BAUXITE_ORE = BLOCKS.register("deepslate_bauxite_ore", () -> new Block(DEEPSLATE_ORE_PROPERTIES));
     public static final RegistryObject<Item> BAUXITE_ORE_ITEM = fromBlock(BAUXITE_ORE);
@@ -44,6 +45,7 @@ public class BlockInit {
     public static final RegistryObject<Item> URANIUM_ORE_ITEM = fromBlock(URANIUM_ORE);
     public static final RegistryObject<Item> DEEPSLATE_URANIUM_ORE_ITEM = fromBlock(DEEPSLATE_URANIUM_ORE);
 
+    //BLOCK ENTITY
     public static final RegistryObject<ExampleChestBlock> EXAMPLE_CHEST = BLOCKS.register("example_chest", () -> new ExampleChestBlock(ORE_PROPERTIES));
     public static final RegistryObject<Item> EXAMPLE_CHEST_ITEM = fromBlock(EXAMPLE_CHEST);
 
@@ -51,6 +53,9 @@ public class BlockInit {
             BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(2.0f).lightLevel(state -> state.getValue(BlockStateProperties.POWERED) ? 14 : 0))
     );
     public static final RegistryObject<Item> GENERATOR_ITEM = fromBlock(GENERATOR);
+
+    public static final RegistryObject<CopperCableBlock> COPPER_CABLE = BLOCKS.register("copper_cable", () -> new CopperCableBlock(ORE_PROPERTIES));
+    public static final RegistryObject<Item> COPPER_CABLE_ITEM = fromBlock(COPPER_CABLE);
 
     public static final Tags.IOptionalNamedTag<Block> BAUXITE_ORE_TAG = BlockTags.createOptional(new ResourceLocation(SpaceSim.MOD_ID, "bauxite_ore"));
     public static final Tags.IOptionalNamedTag<Block> TITANIUM_ORE_TAG = BlockTags.createOptional(new ResourceLocation(SpaceSim.MOD_ID, "titanium_ore"));
