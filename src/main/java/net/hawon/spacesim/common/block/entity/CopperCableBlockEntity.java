@@ -1,38 +1,14 @@
 package net.hawon.spacesim.common.block.entity;
 
+import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public class CopperCableBlockEntity extends BlockEntity {
+public class CopperCableBlockEntity extends CableEntity {
 
-    public CopperCableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public CopperCableBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityInit.COPPER_CABLE.get(), pos, state);
+        this.MAX_CURRENT = 30;
     }
-
-    public void tickServer() {
-        BlockState blockState = level.getBlockState(worldPosition);
-        if (isPowered(worldPosition)) {
-            level.setBlock(worldPosition, blockState.setValue(BlockStateProperties.POWER, 10), Block.UPDATE_ALL);
-        }
-    }
-
-    private boolean isPowered(BlockPos pos) {
-        if (level.getBlockState(pos.above()).hasProperty(BlockStateProperties.POWER)) {
-            return true;
-        }
-        if (level.getBlockState(pos.below()).hasProperty(BlockStateProperties.POWERED)) {
-            return true;
-        }
-        //level.getBlockState(pos.above()).getValue(BlockStateProperties.POWER);
-        return false;
-    }
-
-//    private boolean isOvercurrented() {
-//
-//    }
 
 }
