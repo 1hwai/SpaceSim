@@ -21,7 +21,7 @@ public class SpaceBlockStates extends BlockStateProvider {
 
         //BLOCK ENTITY
         registerGenerator();
-        registerCopperCable();
+        //registerCopperCable();
         simpleBlock(BlockInit.DOCKING_PORT.get());
         simpleBlock(BlockInit.EXAMPLE_CHEST.get());
         //ORE

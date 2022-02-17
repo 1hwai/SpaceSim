@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -42,12 +43,10 @@ public class InventoryBlockEntity extends BlockEntity {
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.handler.cast()
-                : super.getCapability(cap, side);
-    }
-
-    public LazyOptional<ItemStackHandler> getHandler() {
-        return this.handler;
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return this.handler.cast();
+        }
+        return super.getCapability(cap, side);
     }
 
     public ItemStack getItemInSlot(int slot) {

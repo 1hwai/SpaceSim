@@ -38,6 +38,7 @@ public class CopperCableBlock extends DirectionalBlock implements EntityBlock {
         super.createBlockStateDefinition(builder);
         builder.add(FACING);
         builder.add(BlockStateProperties.POWER);
+        builder.add(BlockStateProperties.)
     }
 
     @Override
