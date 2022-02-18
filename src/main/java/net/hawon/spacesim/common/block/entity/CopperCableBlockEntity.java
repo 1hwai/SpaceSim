@@ -8,7 +8,6 @@ public class CopperCableBlockEntity extends CableEntity {
 
     public CopperCableBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.COPPER_CABLE.get(), pos, state);
-        this.MAX_CURRENT = 30;
     }
 
 }

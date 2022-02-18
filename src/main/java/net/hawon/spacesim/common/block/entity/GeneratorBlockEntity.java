@@ -3,6 +3,7 @@ package net.hawon.spacesim.common.block.entity;
 import net.hawon.spacesim.SpaceSim;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
+import net.hawon.spacesim.core.Init.BlockInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,6 +53,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         super.setRemoved();
         handler.invalidate();
         energy.invalidate();
+        testament();
     }
 
     @Override
@@ -116,6 +118,17 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         }
     }
 
+    public void testament() {
+        for (Direction direction : Direction.values()) {
+            BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
+            if (be != null) {
+                if (be.getBlockState().getBlock() == BlockInit.COPPER_CABLE.get()) {
+                    level.setBlock(worldPosition, be.getBlockState().setValue(BlockStateProperties.POWER, 0), Block.UPDATE_ALL);
+                }
+            }
+        }
+    }
+
     @Override
     public void saveAdditional(CompoundTag tag) {
         tag.put("Inventory", itemHandler.serializeNBT());
@@ -157,6 +170,14 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                 return super.insertItem(slot, stack, simulate);
             }
         };
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.inventory.deserializeNBT(tag.getCompound("Inventory"));
+        this.energyStorage.deserializeNBT(tag.getCompound("Energy"));
+        this.counter = tag.getCompound("Info").getInt("Counter");
     }
 
     @Override

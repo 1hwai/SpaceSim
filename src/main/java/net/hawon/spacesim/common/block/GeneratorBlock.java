@@ -4,6 +4,7 @@ import net.hawon.spacesim.common.block.entity.ExampleChestBlockEntity;
 import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.hawon.spacesim.common.container.ExampleChestContainer;
 import net.hawon.spacesim.common.container.GeneratorContainer;
+import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -78,19 +79,24 @@ public class GeneratorBlock extends Block implements EntityBlock {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof final GeneratorBlockEntity generator) {
-                final MenuProvider container = new MenuProvider() {
-                    @Override
-                    public Component getDisplayName() {
-                        return new TranslatableComponent(GEN_SCREEN);
-                    }
+                if (player.getItemInHand(hand).getItem().equals(ItemInit.RENCH)) {
+                    level.setBlock(pos, level.getBlockState(pos).setValue(BlockStateProperties.FACING, player.getDirection().getOpposite()), Block.UPDATE_ALL);
 
-                    @Nullable
-                    @Override
-                    public AbstractContainerMenu createMenu(int id, Inventory inv, Player player1) {
-                        return new GeneratorContainer(id, pos, inv, player1);
-                    }
-                };
-                NetworkHooks.openGui((ServerPlayer) player, container, pos);
+                } else {
+                    final MenuProvider container = new MenuProvider() {
+                        @Override
+                        public Component getDisplayName() {
+                            return new TranslatableComponent(GEN_SCREEN);
+                        }
+
+                        @Nullable
+                        @Override
+                        public AbstractContainerMenu createMenu(int id, Inventory inv, Player player1) {
+                            return new GeneratorContainer(id, pos, inv, player1);
+                        }
+                    };
+                    NetworkHooks.openGui((ServerPlayer) player, container, pos);
+                }
 
             } else {
                 throw new IllegalStateException("Error: Container Missing");

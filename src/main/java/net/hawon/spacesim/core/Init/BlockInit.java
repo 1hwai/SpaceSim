@@ -2,7 +2,6 @@ package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
 import net.hawon.spacesim.common.block.CopperCableBlock;
-import net.hawon.spacesim.common.block.ElectricFurnaceBlock;
 import net.hawon.spacesim.common.block.ExampleChestBlock;
 import net.hawon.spacesim.common.block.GeneratorBlock;
 import net.minecraft.resources.ResourceLocation;
@@ -57,9 +56,6 @@ public class BlockInit {
 
     public static final RegistryObject<CopperCableBlock> COPPER_CABLE = BLOCKS.register("copper_cable", () -> new CopperCableBlock(ORE_PROPERTIES));
     public static final RegistryObject<Item> COPPER_CABLE_ITEM = fromBlock(COPPER_CABLE);
-
-    public static final RegistryObject<ElectricFurnaceBlock> ELECTRIC_FURNACE = BLOCKS.register("electric_furnace", () -> new ElectricFurnaceBlock(ORE_PROPERTIES));
-    public static final RegistryObject<Item> ELECTRIC_FURNACE_ITEM = fromBlock(ELECTRIC_FURNACE);
 
     public static final Tags.IOptionalNamedTag<Block> BAUXITE_ORE_TAG = BlockTags.createOptional(new ResourceLocation(SpaceSim.MOD_ID, "bauxite_ore"));
     public static final Tags.IOptionalNamedTag<Block> TITANIUM_ORE_TAG = BlockTags.createOptional(new ResourceLocation(SpaceSim.MOD_ID, "titanium_ore"));

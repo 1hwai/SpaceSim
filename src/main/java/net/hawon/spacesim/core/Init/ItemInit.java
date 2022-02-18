@@ -1,6 +1,7 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.item.Galvanometer;
 import net.hawon.spacesim.common.item.RenchItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -26,6 +27,8 @@ public class ItemInit {
     public static final RegistryObject<Item> TITANIUM_INGOT = ITEMS.register("titanium_ingot", () -> new Item(ITEM_PROPERTIES));
 
     public static final RegistryObject<Item> RAW_URANIUM = ITEMS.register("raw_uranium", () -> new Item(ITEM_PROPERTIES));
+
+    public static final RegistryObject<Item> GALVANOMETER = ITEMS.register("galvanometer", () -> new Galvanometer(ITEM_PROPERTIES));
 
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);
