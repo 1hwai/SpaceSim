@@ -1,13 +1,12 @@
 package net.hawon.spacesim.common.block;
 
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
 import net.hawon.spacesim.common.block.entity.CopperCableBlockEntity;
+import net.hawon.spacesim.common.block.entity.ExampleMachineBlockEntity;
 import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
-import net.hawon.spacesim.common.network.pipe.BFS;
-import net.hawon.spacesim.common.network.pipe.StateManager;
+import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -21,26 +20,29 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CopperCableBlock extends PipeBlock implements EntityBlock {
+public class ExampleMachineBlock extends Block implements EntityBlock {
 
-    public CopperCableBlock() {
-        super();
+    public ExampleMachineBlock(Properties properties) {
+        super(properties);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CopperCableBlockEntity(pos, state);
+        return new ExampleMachineBlockEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, BlockState state, BlockEntityType<T> beType) {
         if (!level.isClientSide()) {
             return (level0, pos, state0, blockEntity) -> {
-                if (blockEntity instanceof CopperCableBlockEntity be) {
+                if (blockEntity instanceof ExampleMachineBlockEntity be) {
                     be.tickServer();
                 }
             };
@@ -49,30 +51,16 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
         return null;
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
-
-        if (!level.isClientSide()) {
-            StateManager.setState(level, pos);
-            BFS bfs = new BFS();
-            bfs.setSource(level, pos);
-            if (level.getBlockEntity(pos) instanceof CableBlockEntity cable)  {
-                bfs.setDistance(level, cable.sourcePos);
-            }
-        }
-
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof CopperCableBlockEntity cable) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof ExampleMachineBlockEntity machineBlock) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item.asItem() == ItemInit.GALVANOMETER.get()) {
-                    System.out.println(cable.sourcePos + " | " + cable.distance);
+                    String energyStored = machineBlock.getCapability(CapabilityEnergy.ENERGY).map(handler -> handler.getEnergyStored()).get().toString();
+                    player.sendMessage(new TextComponent(energyStored), player.getUUID());
                 }
             }
         }

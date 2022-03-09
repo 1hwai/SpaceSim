@@ -47,8 +47,6 @@ public class GeneratorContainer extends AbstractContainerMenu {
             });
         }
 
-        //addSlot(new SlotItemHandler(slots, 4, startX + 4 * slotSizePlus2, inventoryY));
-
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
                 addSlot(new Slot(playerInv, 9 + row * 9 + column, startX + column * slotSizePlus2,

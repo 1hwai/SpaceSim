@@ -35,12 +35,6 @@ public class InventoryBlockEntity extends BlockEntity {
         this.handler = LazyOptional.of(() -> this.inventory);
     }
 
-    public ItemStack extractItem(int slot) {
-        final int count = getItemInSlot(slot).getCount();
-        this.requiresUpdate = true;
-        return this.handler.map(inv -> inv.extractItem(slot, count, false)).orElse(ItemStack.EMPTY);
-    }
-
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
@@ -62,13 +56,6 @@ public class InventoryBlockEntity extends BlockEntity {
     public void handleUpdateTag(CompoundTag tag) {
         super.handleUpdateTag(tag);
         load(tag);
-    }
-
-    public ItemStack insertItem(int slot, ItemStack stack) {
-        final ItemStack copy = stack.copy();
-        stack.shrink(copy.getCount());
-        this.requiresUpdate = true;
-        return this.handler.map(inv -> inv.insertItem(slot, copy, false)).orElse(ItemStack.EMPTY);
     }
 
     @Override

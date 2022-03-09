@@ -32,9 +32,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GeneratorBlockEntity extends InventoryBlockEntity {
 
+    public final int GEN_TIER = 1;
+
     public static final int GEN_CAPACTITY = 2000; //MAX ENERGY CAPACITY OF GENERATOR
     public static final int GEN_PER_TICK = 1;
     public static final int GEN_OUTPUT_PER_TICK = 20;
+
+    public static final int MAX_TRANSFER = 1;
+    public static final int MAX_EXTRACT = 0;
 
     private int counter;
 
@@ -53,7 +58,6 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         super.setRemoved();
         handler.invalidate();
         energy.invalidate();
-        testament();
     }
 
     @Override
@@ -98,6 +102,9 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
             for (Direction direction : Direction.values()) {
                 BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
                 if (be != null) {
+                    if (be instanceof CableBlockEntity cable) {
+                        cable.sourcePos = worldPosition;
+                    }
                     boolean doContinue = be.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).map(handler -> {
                             if (handler.canReceive()) {
                                 int received = handler.receiveEnergy(Math.min(capacity.get(), GEN_OUTPUT_PER_TICK), false);
@@ -118,29 +125,9 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         }
     }
 
-    public void testament() {
-        for (Direction direction : Direction.values()) {
-            BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
-            if (be != null) {
-                if (be.getBlockState().getBlock() == BlockInit.COPPER_CABLE.get()) {
-                    level.setBlock(worldPosition, be.getBlockState().setValue(BlockStateProperties.POWER, 0), Block.UPDATE_ALL);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void saveAdditional(CompoundTag tag) {
-        tag.put("Inventory", itemHandler.serializeNBT());
-        tag.put("Energy", energyStorage.serializeNBT());
-
-        CompoundTag infoTag = new CompoundTag();
-        infoTag.putInt("Counter", counter);
-        tag.put("Info", infoTag);
-    }
 
     private CustomEnergyStorage createEnergy() {
-        return new CustomEnergyStorage(GEN_CAPACTITY, 0) {
+        return new CustomEnergyStorage(GEN_CAPACTITY, MAX_TRANSFER, MAX_EXTRACT) {
             @Override
             protected void onEnergyChanged() {
                 setChanged();
@@ -149,7 +136,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
     }
 
     private ItemStackHandler createHandler() {
-        return new ItemStackHandler(27) {
+        return new ItemStackHandler(1) {
 
             @Override
             protected void onContentsChanged(int slot) {
@@ -174,10 +161,25 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
     @Override
     public void load(CompoundTag tag) {
+        if (tag.contains("Inventory")) {
+            this.inventory.deserializeNBT(tag.getCompound("Inventory"));
+        }
+        if (tag.contains("Energy")) {
+            this.energyStorage.deserializeNBT(tag.get("Energy"));
+        }
+        if (tag.contains("Info")) {
+            this.counter = tag.getCompound("Info").getInt("Counter");
+        }
         super.load(tag);
-        this.inventory.deserializeNBT(tag.getCompound("Inventory"));
-        this.energyStorage.deserializeNBT(tag.getCompound("Energy"));
-        this.counter = tag.getCompound("Info").getInt("Counter");
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag tag) {
+        tag.put("Inventory", itemHandler.serializeNBT());
+        tag.put("Energy", energyStorage.serializeNBT());
+        CompoundTag infoTag = new CompoundTag();
+        infoTag.putInt("Counter", counter);
+        tag.put("Info", infoTag);
     }
 
     @Override

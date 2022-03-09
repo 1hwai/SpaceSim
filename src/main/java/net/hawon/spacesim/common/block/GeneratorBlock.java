@@ -8,6 +8,7 @@ import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -17,6 +18,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -28,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -79,10 +82,8 @@ public class GeneratorBlock extends Block implements EntityBlock {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof final GeneratorBlockEntity generator) {
-                if (player.getItemInHand(hand).getItem().equals(ItemInit.RENCH)) {
-                    level.setBlock(pos, level.getBlockState(pos).setValue(BlockStateProperties.FACING, player.getDirection().getOpposite()), Block.UPDATE_ALL);
-
-                } else {
+                Item item = player.getItemInHand(hand).getItem();
+                if (!invalidItemInHand(level, pos, state, be, player, item)) {
                     final MenuProvider container = new MenuProvider() {
                         @Override
                         public Component getDisplayName() {
@@ -95,6 +96,7 @@ public class GeneratorBlock extends Block implements EntityBlock {
                             return new GeneratorContainer(id, pos, inv, player1);
                         }
                     };
+
                     NetworkHooks.openGui((ServerPlayer) player, container, pos);
                 }
 
@@ -106,4 +108,16 @@ public class GeneratorBlock extends Block implements EntityBlock {
         return InteractionResult.SUCCESS;
     }
 
+    public boolean invalidItemInHand(Level level, BlockPos pos, BlockState state, BlockEntity be, Player player, Item item) {
+        if (item.equals(ItemInit.RENCH)) {
+            player.sendMessage(new TextComponent("rench~"), player.getUUID());
+            level.setBlock(pos, state.cycle(FACING), Block.UPDATE_ALL);
+            return true;
+        }
+        if (item.equals(ItemInit.GALVANOMETER)) {
+            player.sendMessage(new TextComponent("galva~"), player.getUUID());
+            return true;
+        }
+        return false;
+    }
 }

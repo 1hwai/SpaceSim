@@ -1,7 +1,9 @@
 package net.hawon.spacesim.common.item;
 
+import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockInit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -26,16 +28,12 @@ public class Galvanometer extends Item {
             BlockPos pos = pContext.getClickedPos();
 
             BlockState state = level.getBlockState(pos);
-            BlockEntity be = level.getBlockEntity(pos);
-            if (be != null) {
-
-            }
 
             Player player = pContext.getPlayer();
 
-            if (isValuableBlock(state)) {
-                outputValuableCoordinates(state, player);
-            }
+//            if (isValuableBlock(state)) {
+//                outputValuableCoordinates(state, player);
+//            }
         }
 
         return super.useOn(pContext);
