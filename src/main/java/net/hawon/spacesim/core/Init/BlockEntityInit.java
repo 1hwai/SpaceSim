@@ -1,14 +1,12 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.block.entity.CopperCableBlockEntity;
-import net.hawon.spacesim.common.block.entity.ExampleChestBlockEntity;
-import net.hawon.spacesim.common.block.entity.ExampleMachineBlockEntity;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
+import net.hawon.spacesim.common.block.entity.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
 
 public final class BlockEntityInit {
 
@@ -23,9 +21,9 @@ public final class BlockEntityInit {
             .register("generator", () -> BlockEntityType.Builder
                     .of(GeneratorBlockEntity::new, BlockInit.GENERATOR.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<ExampleMachineBlockEntity>> EXAMPLE_MACHINE = BLOCK_ENTITIES
-            .register("example_machine", () -> BlockEntityType.Builder
-                    .of(ExampleMachineBlockEntity::new, BlockInit.EXAMPLE_MACHINE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CrusherBlockEntity>> CRUSHER = BLOCK_ENTITIES
+            .register("crusher", () -> BlockEntityType.Builder.
+                    of(CrusherBlockEntity::new, BlockInit.CRUSHER.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<CopperCableBlockEntity>> COPPER_CABLE = BLOCK_ENTITIES
             .register("copper_cable", () -> BlockEntityType.Builder

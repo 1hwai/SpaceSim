@@ -51,8 +51,7 @@ public class ExampleChestBlock extends HorizontalDirectionalBlock implements Ent
     }
 
     @Override
-    public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand,
-                                 BlockHitResult result) {
+    public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof final ExampleChestBlockEntity chest) {
             final MenuProvider container = new SimpleMenuProvider(ExampleChestContainer.getServerContainer(chest, pos),
                     ExampleChestBlockEntity.TITLE);

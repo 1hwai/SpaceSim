@@ -21,7 +21,7 @@ public class SpaceBlockStates extends BlockStateProvider {
 
         //BLOCK ENTITY
         registerGenerator();
-        //registerCopperCable();
+        registerCrusher();
         simpleBlock(BlockInit.DOCKING_PORT.get());
         simpleBlock(BlockInit.EXAMPLE_CHEST.get());
         //ORE
@@ -31,6 +31,18 @@ public class SpaceBlockStates extends BlockStateProvider {
         simpleBlock(BlockInit.DEEPSLATE_TITANIUM_ORE.get());
         simpleBlock(BlockInit.DEEPSLATE_URANIUM_ORE.get());
         simpleBlock(BlockInit.DEEPSLATE_BAUXITE_ORE.get());
+    }
+
+    protected void registerCrusher() {
+        BlockModelBuilder crusher = models().getBuilder("block/crusher");
+
+        VariantBlockStateBuilder bld = getVariantBuilder(BlockInit.CRUSHER.get());
+
+        for (Direction direction : Direction.values()) {
+            if (direction != Direction.DOWN && direction != Direction.UP) {
+                bld.partialState().with(FACING, direction).modelForState().modelFile(crusher).addModel();
+            }
+        }
     }
 
     protected void registerGenerator() {

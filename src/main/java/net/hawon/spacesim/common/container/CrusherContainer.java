@@ -1,20 +1,15 @@
- package net.hawon.spacesim.common.container;
+package net.hawon.spacesim.common.container;
 
-import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.block.entity.ExampleChestBlockEntity;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
+import net.hawon.spacesim.common.block.entity.CrusherBlockEntity;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockInit;
 import net.hawon.spacesim.core.Init.ContainerInit;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -24,15 +19,16 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import org.jetbrains.annotations.Nullable;
 
-public class GeneratorContainer extends AbstractContainerMenu {
-
+public class CrusherContainer extends AbstractContainerMenu {
     private BlockEntity blockEntity;
     private Player playerEntity;
-    private IItemHandler playerInventory;
+    private  IItemHandler playerInventory;
 
-    public GeneratorContainer(int id, BlockPos pos, Inventory playerInv, Player player) {
-        super(ContainerInit.GENERATOR.get(), id);
+
+    public CrusherContainer(int id, BlockPos pos, Inventory playerInv, Player player) {
+        super(ContainerInit.CRUSHER.get(), id);
         blockEntity = player.getCommandSenderWorld().getBlockEntity(pos);
         this.playerEntity = player;
         this.playerInventory = new InvWrapper(playerInv);
@@ -40,9 +36,9 @@ public class GeneratorContainer extends AbstractContainerMenu {
         final int slotSizePlus2 = 18;
         final int startX = 8, startY = 86, hotbarY = 144, inventoryY = 18;
 
-        if (blockEntity != null) {
-            blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-                addSlot(new SlotItemHandler(h, 0, startX + 4 * slotSizePlus2, inventoryY));
+        if (blockEntity instanceof CrusherBlockEntity) {
+            blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                addSlot(new SlotItemHandler(handler, 0, startX + 4 * slotSizePlus2, inventoryY));
             });
         }
 
@@ -99,49 +95,43 @@ public class GeneratorContainer extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos()), playerEntity, BlockInit.GENERATOR.get());
+        return stillValid(ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos()), playerEntity, BlockInit.CRUSHER.get());
     }
+
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot.hasItem()) {
             ItemStack item = slot.getItem();
-            itemstack = item.copy();
-            if (index == 0) {
-                if (!this.moveItemStackTo(item, 1, 37, true)) {
-                    return ItemStack.EMPTY;
-                }
-                slot.onQuickCraft(item, itemstack);
-            } else {
-                if (ForgeHooks.getBurnTime(item, RecipeType.SMELTING) > 0) {
-                    if (!this.moveItemStackTo(item, 0, 1, false)) {
+            itemStack = item.copy();
+            switch (index) {
+                case 0:
+                case 1:
+                    if (!this.moveItemStackTo(item, 2, 38, true)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index < 28) {
-                    if (!this.moveItemStackTo(item, 28, 37, false)) {
+                    break;
+                default:
+                    if (ForgeHooks.getBurnTime(item, RecipeType.SMELTING) > 0) {
+                        if (!this.moveItemStackTo(item, 0, 1, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (index < 29) {
+                        if (!this.moveItemStackTo(item, 29, 38, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (index < 38 && !this.moveItemStackTo(item, 2, 28, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index < 37 && !this.moveItemStackTo(item, 1, 28, false)) {
-                    return ItemStack.EMPTY;
-                }
             }
-
             if (item.isEmpty()) {
                 slot.set(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }
-
-            if (item.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-            slot.onTake(player, item);
         }
-
-        return itemstack;
+        return itemStack;
     }
-
 }

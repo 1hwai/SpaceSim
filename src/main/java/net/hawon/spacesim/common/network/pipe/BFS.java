@@ -21,17 +21,48 @@ public class BFS {
     }
 
     public void setDistance(Level level, BlockPos sourcePos) {
+        if (sourcePos != null) {
+            queue.clear();
+            visited.clear();
 
+            queue.add(sourcePos);
+            visited.add(sourcePos);
+
+            while (!queue.isEmpty()) {
+                BlockPos pos = queue.poll();
+                BlockEntity be = level.getBlockEntity(pos);
+
+                for (Direction direction : Direction.values()) {
+                    BlockPos rel = pos.relative(direction);
+
+                    if (!visited.contains(rel)) {
+                        BlockEntity relBE = level.getBlockEntity(rel);
+                        if (relBE instanceof CableBlockEntity relCableBE) {
+                            if (be instanceof CableBlockEntity cableBE) {
+                                relCableBE.distance = cableBE.distance + 1;
+                            } else if (be instanceof GeneratorBlockEntity) {
+                                relCableBE.distance = 1;
+                            }
+                            queue.add(rel);
+                            visited.add(rel);
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    public void setSource(Level level, BlockPos cablePos) {
+    public void findSource(Level level, BlockPos cablePos) {
         queue.clear();
         visited.clear();
 
         queue.add(cablePos);
         visited.add(cablePos);
 
+        int maxTier = 0;
+        boolean geConnected = false;
 
+        CableBlockEntity cableBE = (CableBlockEntity) level.getBlockEntity(cablePos);
 
         while (!queue.isEmpty()) {
             BlockPos pos = queue.poll();
@@ -46,15 +77,23 @@ public class BFS {
                         if (be instanceof CableBlockEntity) {
                             queue.add(rel);
                             visited.add(rel);
-                        } else if (be instanceof GeneratorBlockEntity) {
-                            CableBlockEntity cableBE = (CableBlockEntity) level.getBlockEntity(cablePos);
-                            cableBE.sourcePos = rel;
+                        } else if (be instanceof GeneratorBlockEntity ge) {
+                            if (ge.GEN_TIER > maxTier) {
+                                maxTier = ge.GEN_TIER;
+                                cableBE.sourcePos = rel;
+                            }
+                            geConnected = true;
                         }
                     }
                 }
             }
         }
-    }
 
+        if (geConnected == false) {
+            cableBE.sourcePos = null;
+            cableBE.distance = 0;
+        }
+
+    }
 
 }

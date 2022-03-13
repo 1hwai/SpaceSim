@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "spacesim:block/crusher"
+    },
+    "facing=south": {
+      "model": "spacesim:block/crusher"
+    },
+    "facing=west": {
+      "model": "spacesim:block/crusher"
+    },
+    "facing=east": {
+      "model": "spacesim:block/crusher"
+    }
+  }
+}

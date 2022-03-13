@@ -29,6 +29,4 @@ public abstract class PipeBlockEntity extends BlockEntity {
         return tag;
     }
 
-
-
 }

@@ -57,9 +57,10 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
         if (!level.isClientSide()) {
             StateManager.setState(level, pos);
             BFS bfs = new BFS();
-            bfs.setSource(level, pos);
+            bfs.findSource(level, pos);
             if (level.getBlockEntity(pos) instanceof CableBlockEntity cable)  {
                 bfs.setDistance(level, cable.sourcePos);
+                cable.setChanged();
             }
         }
 

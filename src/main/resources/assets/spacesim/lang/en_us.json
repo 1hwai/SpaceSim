@@ -13,6 +13,7 @@
   "block.spacesim.docking_port": "Docking Port",
   "block.spacesim.example_chest": "Example Chest",
   "block.spacesim.generator": "Generator",
+  "block.spacesim.coppper_cable": "Copper Cable",
 
   "itemGroup.spacesimTab": "Space Sim"
 }

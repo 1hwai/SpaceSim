@@ -1,0 +1,140 @@
+package net.hawon.spacesim.common.block;
+
+import net.hawon.spacesim.common.block.entity.CopperCableBlockEntity;
+import net.hawon.spacesim.common.block.entity.CrusherBlockEntity;
+import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
+import net.hawon.spacesim.common.container.CrusherContainer;
+import net.hawon.spacesim.common.container.GeneratorContainer;
+import net.hawon.spacesim.common.item.RenchItem;
+import net.hawon.spacesim.core.Init.ItemInit;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
+
+public class CrusherBlock extends Block implements EntityBlock {
+
+    public static final VoxelShape NORTH = makeShape();
+
+    public CrusherBlock(Properties properties) {
+        super(properties);
+
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        switch (state.getValue(FACING)) {
+            default:
+                return NORTH;
+        }
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(BlockStateProperties.POWERED, false);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(FACING);
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new GeneratorBlockEntity(pos, state);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+        if (!level.isClientSide) {
+            if (level.getBlockEntity(pos) instanceof CrusherBlockEntity crusherBE) {
+                Item item = player.getItemInHand(hand).getItem();
+                if (item == ItemInit.RENCH.get())
+                    return RenchItem.rotate(state, level, pos, player);
+                if (item == ItemInit.GALVANOMETER.get()) {
+                    int energyStored = crusherBE.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                    System.out.println(energyStored);
+                    return InteractionResult.FAIL;
+                }
+
+                final MenuProvider container = new MenuProvider() {
+                    @Override
+                    public Component getDisplayName() {
+                        return CrusherBlockEntity.TITLE;
+                    }
+
+                    @Nullable
+                    @Override
+                    public AbstractContainerMenu createMenu(int id, Inventory inv, Player player1) {
+                        return new CrusherContainer(id, pos, inv, player1);
+                    }
+                };
+
+                NetworkHooks.openGui((ServerPlayer) player, container, pos);
+
+            } else {
+                throw new IllegalStateException("Error: Crusher Container Missing");
+            }
+        }
+
+        return InteractionResult.SUCCESS;
+    }
+
+    public static VoxelShape makeShape(){
+        VoxelShape shape = Shapes.empty();
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.5625, 0.375, 0.8125, 0.6875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.375, 0.375, 0.8125, 0.5), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.1875, 0.375, 0.8125, 0.3125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.0625, 0.375, 0.8125, 0.125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.75, 0.375, 0.8125, 0.875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.6875, 0.9375, 0.8125, 0.8125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.5, 0.9375, 0.8125, 0.625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.3125, 0.9375, 0.8125, 0.4375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.125, 0.9375, 0.8125, 0.25), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.875, 0.9375, 0.8125, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.9375, 0.75, 0.0625, 1, 1, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0, 0.75, 0.9375, 1, 1, 1), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0, 0.75, 0, 1, 1, 0.0625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.4375, 0.8125, 0.0625, 0.5625, 0.875, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0, 0, 0, 1, 0.75, 1), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0, 0.75, 0.0625, 0.0625, 1, 0.9375), BooleanOp.OR);
+
+        return shape;
+    }
+
+}

@@ -11,7 +11,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -34,23 +36,28 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
     public final int GEN_TIER = 1;
 
-    public static final int GEN_CAPACTITY = 2000; //MAX ENERGY CAPACITY OF GENERATOR
+    public static final int GEN_CAPACTITY = 100; //MAX ENERGY CAPACITY OF GENERATOR
     public static final int GEN_PER_TICK = 1;
-    public static final int GEN_OUTPUT_PER_TICK = 20;
+    public static final int GEN_OUTPUT_PER_TICK = 1;
 
     public static final int MAX_TRANSFER = 1;
     public static final int MAX_EXTRACT = 0;
 
     private int counter;
 
-    private final ItemStackHandler itemHandler = createHandler();
-    private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
+    private final ItemStackHandler itemHandler;
+    private final LazyOptional<IItemHandler> handler;
 
-    private final CustomEnergyStorage energyStorage = createEnergy();
-    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> energyStorage);
+    private final CustomEnergyStorage energyStorage;
+    private final LazyOptional<IEnergyStorage> energy;
 
     public GeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.GENERATOR.get(), pos, state, 27);
+
+        itemHandler = createHandler();
+        handler = LazyOptional.of(() -> itemHandler);
+        energyStorage = createEnergy();
+        energy = LazyOptional.of(() -> energyStorage);
     }
 
     @Override
@@ -58,15 +65,6 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         super.setRemoved();
         handler.invalidate();
         energy.invalidate();
-    }
-
-    @Override
-    public void tick() {
-        this.timer++;
-        if (this.requiresUpdate && this.level != null) {
-            update();
-            this.requiresUpdate = false;
-        }
     }
 
     public void tickServer() {
@@ -78,11 +76,13 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
             } else if (counter <= 0) {
                 ItemStack stack = itemHandler.getStackInSlot(0);
-                int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
-                if (burnTime > 0) {
-                    itemHandler.extractItem(0, 1, false);
-                    counter = burnTime / 20;
-                    setChanged();
+                if (stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK)) {
+                    int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
+                    if (burnTime > 0) {
+                        itemHandler.extractItem(0, 1, false);
+                        counter = burnTime;
+                        setChanged();
+                    }
                 }
             }
         }
@@ -104,6 +104,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                 if (be != null) {
                     if (be instanceof CableBlockEntity cable) {
                         cable.sourcePos = worldPosition;
+                        cable.distance = 1;
                     }
                     boolean doContinue = be.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).map(handler -> {
                             if (handler.canReceive()) {
@@ -162,7 +163,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
     @Override
     public void load(CompoundTag tag) {
         if (tag.contains("Inventory")) {
-            this.inventory.deserializeNBT(tag.getCompound("Inventory"));
+            this.itemHandler.deserializeNBT(tag.getCompound("Inventory"));
         }
         if (tag.contains("Energy")) {
             this.energyStorage.deserializeNBT(tag.get("Energy"));

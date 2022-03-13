@@ -28,7 +28,8 @@ public class ExampleChestContainer extends AbstractContainerMenu {
         super(ContainerInit.EXAMPLE_CHEST.get(), id);
         this.containerAccess = ContainerLevelAccess.create(playerInv.player.level, pos);
 
-        final int slotSizePlus2 = 18, startX = 8, startY = 86, hotbarY = 144, inventoryY = 18;
+        final int slotSizePlus2 = 18;
+        final int startX = 8, startY = 86, hotbarY = 144, inventoryY = 18;
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
@@ -51,11 +52,11 @@ public class ExampleChestContainer extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        var retStack = ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
         final Slot slot = getSlot(index);
         if (slot.hasItem()) {
             final ItemStack item = slot.getItem();
-            retStack = item.copy();
+            itemStack = item.copy();
             if (index < 27) {
                 if (!moveItemStackTo(item, 27, this.slots.size(), true))
                     return ItemStack.EMPTY;
@@ -68,7 +69,7 @@ public class ExampleChestContainer extends AbstractContainerMenu {
             }
         }
 
-        return retStack;
+        return itemStack;
     }
 
     @Override

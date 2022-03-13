@@ -4,6 +4,7 @@ import net.hawon.spacesim.common.block.entity.ExampleChestBlockEntity;
 import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.hawon.spacesim.common.container.ExampleChestContainer;
 import net.hawon.spacesim.common.container.GeneratorContainer;
+import net.hawon.spacesim.common.item.RenchItem;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -80,44 +81,31 @@ public class GeneratorBlock extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
-            BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof final GeneratorBlockEntity generator) {
-                Item item = player.getItemInHand(hand).getItem();
-                if (!invalidItemInHand(level, pos, state, be, player, item)) {
-                    final MenuProvider container = new MenuProvider() {
-                        @Override
-                        public Component getDisplayName() {
-                            return new TranslatableComponent(GEN_SCREEN);
-                        }
+            if (level.getBlockEntity(pos) instanceof GeneratorBlockEntity) {
+                Item item = player.getMainHandItem().getItem();
+                if (item == ItemInit.RENCH.get())
+                    return RenchItem.rotate(state, level, pos, player);
 
-                        @Nullable
-                        @Override
-                        public AbstractContainerMenu createMenu(int id, Inventory inv, Player player1) {
-                            return new GeneratorContainer(id, pos, inv, player1);
-                        }
-                    };
+                final MenuProvider container = new MenuProvider() {
+                    @Override
+                    public Component getDisplayName() {
+                        return new TranslatableComponent(GEN_SCREEN);
+                    }
 
-                    NetworkHooks.openGui((ServerPlayer) player, container, pos);
-                }
+                    @Nullable
+                    @Override
+                    public AbstractContainerMenu createMenu(int id, Inventory inv, Player player1) {
+                        return new GeneratorContainer(id, pos, inv, player1);
+                    }
+                };
+
+                NetworkHooks.openGui((ServerPlayer) player, container, pos);
 
             } else {
-                throw new IllegalStateException("Error: Container Missing");
+                throw new IllegalStateException("Error: Generator Container Missing");
             }
         }
 
         return InteractionResult.SUCCESS;
-    }
-
-    public boolean invalidItemInHand(Level level, BlockPos pos, BlockState state, BlockEntity be, Player player, Item item) {
-        if (item.equals(ItemInit.RENCH)) {
-            player.sendMessage(new TextComponent("rench~"), player.getUUID());
-            level.setBlock(pos, state.cycle(FACING), Block.UPDATE_ALL);
-            return true;
-        }
-        if (item.equals(ItemInit.GALVANOMETER)) {
-            player.sendMessage(new TextComponent("galva~"), player.getUUID());
-            return true;
-        }
-        return false;
     }
 }
