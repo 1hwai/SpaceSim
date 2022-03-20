@@ -4,13 +4,16 @@
       "model": "spacesim:block/crusher"
     },
     "facing=south": {
-      "model": "spacesim:block/crusher"
+      "model": "spacesim:block/crusher",
+      "y": 180
     },
     "facing=west": {
-      "model": "spacesim:block/crusher"
+      "model": "spacesim:block/crusher",
+      "y": 270
     },
     "facing=east": {
-      "model": "spacesim:block/crusher"
+      "model": "spacesim:block/crusher",
+      "y": 90
     }
   }
 }

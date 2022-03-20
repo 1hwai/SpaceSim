@@ -1,14 +1,11 @@
 package net.hawon.spacesim.common.block;
 
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
+import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
 import net.hawon.spacesim.common.block.entity.CopperCableBlockEntity;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.hawon.spacesim.common.network.pipe.BFS;
 import net.hawon.spacesim.common.network.pipe.StateManager;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -59,7 +56,7 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
             BFS bfs = new BFS();
             bfs.findSource(level, pos);
             if (level.getBlockEntity(pos) instanceof CableBlockEntity cable)  {
-                bfs.setDistance(level, cable.sourcePos);
+                bfs.setDistance(level, cable.getSourcePos());
                 cable.setChanged();
             }
         }
@@ -73,7 +70,7 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
             if (level.getBlockEntity(pos) instanceof CopperCableBlockEntity cable) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item.asItem() == ItemInit.GALVANOMETER.get()) {
-                    System.out.println(cable.sourcePos + " | " + cable.distance);
+                    System.out.println(cable.getSourcePos() + " | " + cable.getDistance());
                 }
             }
         }

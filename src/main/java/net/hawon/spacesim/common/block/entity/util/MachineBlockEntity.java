@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.block.entity;
+package net.hawon.spacesim.common.block.entity.util;
 
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
@@ -26,10 +26,10 @@ public abstract class MachineBlockEntity extends BlockEntity {
 
     public final int size;
 
-    private int counter;
+    public int counter;
 
-    private final ItemStackHandler itemHandler;
-    private final LazyOptional<IItemHandler> handler;
+    public final ItemStackHandler itemHandler;
+    public final LazyOptional<IItemHandler> handler;
 
     public final CustomEnergyStorage energyStorage;
     public final LazyOptional<IEnergyStorage> energy;
@@ -91,36 +91,7 @@ public abstract class MachineBlockEntity extends BlockEntity {
 
     public abstract CustomEnergyStorage createEnergy();
 
-    public ItemStackHandler createHandler() {
-        return new ItemStackHandler(this.size) {
-
-            @Override
-            protected void onContentsChanged(int slot) {
-                setChanged();
-            }
-
-            @Override
-            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
-            }
-
-            @Override
-            public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                MachineBlockEntity.this.update();
-                return super.extractItem(slot, amount, simulate);
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-                if (ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) <= 0) {
-                    return stack;
-                }
-                MachineBlockEntity.this.update();
-                return super.insertItem(slot, stack, simulate);
-            }
-
-        };
-    }
+    public abstract ItemStackHandler createHandler();
 
     @Override
     public void saveAdditional(CompoundTag tag) {

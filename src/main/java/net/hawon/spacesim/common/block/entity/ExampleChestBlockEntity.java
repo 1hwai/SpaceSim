@@ -1,6 +1,6 @@
 package net.hawon.spacesim.common.block.entity;
 
-import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.block.entity.util.InventoryBlockEntity;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

@@ -1,5 +1,6 @@
 package net.hawon.spacesim.common.block.entity;
 
+import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

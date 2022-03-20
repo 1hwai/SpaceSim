@@ -21,7 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static net.hawon.spacesim.common.block.SpaceBlockProperties.*;
+import static net.hawon.spacesim.common.block.entity.util.SpaceBlockProperties.*;
 
 public abstract class PipeBlock extends Block implements EntityBlock {
 

@@ -5,6 +5,7 @@ import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockInit;
 import net.hawon.spacesim.core.Init.ContainerInit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -34,11 +36,12 @@ public class CrusherContainer extends AbstractContainerMenu {
         this.playerInventory = new InvWrapper(playerInv);
 
         final int slotSizePlus2 = 18;
-        final int startX = 8, startY = 86, hotbarY = 144, inventoryY = 18;
+        final int startX = 8, startY = 86, hotbarY = 144, inventoryY = 36;
 
-        if (blockEntity instanceof CrusherBlockEntity) {
+        if (blockEntity != null) {
             blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                addSlot(new SlotItemHandler(handler, 0, startX + 4 * slotSizePlus2, inventoryY));
+                addSlot(new SlotItemHandler(handler, 0, startX + 2 * slotSizePlus2, inventoryY));
+                addSlot(new SlotItemHandler(handler, 1, startX + 6 * slotSizePlus2, inventoryY));
             });
         }
 
@@ -112,9 +115,11 @@ public class CrusherContainer extends AbstractContainerMenu {
                     if (!this.moveItemStackTo(item, 2, 38, true)) {
                         return ItemStack.EMPTY;
                     }
+                    slot.onQuickCraft(item, itemStack);
                     break;
                 default:
-                    if (ForgeHooks.getBurnTime(item, RecipeType.SMELTING) > 0) {
+//                    if (CrusherBlockEntity.isItemValid(item)) {
+                    if (true) {
                         if (!this.moveItemStackTo(item, 0, 1, false)) {
                             return ItemStack.EMPTY;
                         }

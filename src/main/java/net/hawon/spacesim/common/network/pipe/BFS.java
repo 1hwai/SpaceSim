@@ -1,6 +1,6 @@
 package net.hawon.spacesim.common.network.pipe;
 
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
+import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
 import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,9 +39,9 @@ public class BFS {
                         BlockEntity relBE = level.getBlockEntity(rel);
                         if (relBE instanceof CableBlockEntity relCableBE) {
                             if (be instanceof CableBlockEntity cableBE) {
-                                relCableBE.distance = cableBE.distance + 1;
+                                relCableBE.setDistance(cableBE.getDistance() + 1);
                             } else if (be instanceof GeneratorBlockEntity) {
-                                relCableBE.distance = 1;
+                                relCableBE.setDistance(1);
                             }
                             queue.add(rel);
                             visited.add(rel);
@@ -78,9 +78,9 @@ public class BFS {
                             queue.add(rel);
                             visited.add(rel);
                         } else if (be instanceof GeneratorBlockEntity ge) {
-                            if (ge.GEN_TIER > maxTier) {
-                                maxTier = ge.GEN_TIER;
-                                cableBE.sourcePos = rel;
+                            if (ge.getTier() > maxTier) {
+                                maxTier = ge.getTier();
+                                cableBE.setSourcePos(rel);
                             }
                             geConnected = true;
                         }
@@ -90,8 +90,8 @@ public class BFS {
         }
 
         if (geConnected == false) {
-            cableBE.sourcePos = null;
-            cableBE.distance = 0;
+            cableBE.setSourcePos(null);
+            cableBE.setDistance(0);
         }
 
     }

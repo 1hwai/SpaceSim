@@ -38,11 +38,11 @@ public class SpaceBlockStates extends BlockStateProvider {
 
         VariantBlockStateBuilder bld = getVariantBuilder(BlockInit.CRUSHER.get());
 
-        for (Direction direction : Direction.values()) {
-            if (direction != Direction.DOWN && direction != Direction.UP) {
-                bld.partialState().with(FACING, direction).modelForState().modelFile(crusher).addModel();
-            }
-        }
+        bld.partialState().with(FACING, Direction.NORTH).modelForState().modelFile(crusher).addModel();
+        bld.partialState().with(FACING, Direction.SOUTH).modelForState().modelFile(crusher).rotationY(180).addModel();
+        bld.partialState().with(FACING, Direction.WEST).modelForState().modelFile(crusher).rotationY(270).addModel();
+        bld.partialState().with(FACING, Direction.EAST).modelForState().modelFile(crusher).rotationY(90).addModel();
+
     }
 
     protected void registerGenerator() {

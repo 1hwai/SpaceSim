@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.block.entity;
+package net.hawon.spacesim.common.block.entity.util;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

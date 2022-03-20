@@ -2,9 +2,8 @@ package net.hawon.spacesim.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.container.ExampleChestContainer;
+import net.hawon.spacesim.common.container.CrusherContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -14,14 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
-public class ExampleChestScreen extends AbstractContainerScreen<ExampleChestContainer> {
+public class CrusherScreen extends AbstractContainerScreen<CrusherContainer> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(SpaceSim.MOD_ID,
-            "textures/gui/example_chest.png");
+            "textures/gui/crusher.png");
 
     private ExtendedButton beanButton;
 
-    public ExampleChestScreen(ExampleChestContainer container, Inventory playerInv, Component title) {
+    public CrusherScreen(CrusherContainer container, Inventory playerInv, Component title) {
         super(container, playerInv, title);
         this.leftPos = 0;
         this.topPos = 0;
@@ -31,18 +30,20 @@ public class ExampleChestScreen extends AbstractContainerScreen<ExampleChestCont
 
     @Override
     public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(stack);
         super.render(stack, mouseX, mouseY, partialTicks);
-        this.font.draw(stack, this.title, this.leftPos + 20, this.topPos + 5, 0x404040);
+        this.renderTooltip(stack, mouseX, mouseY);
+        this.font.draw(stack, this.title, this.leftPos + 10, this.topPos + 5, 0x404040);
         this.font.draw(stack, this.playerInventoryTitle, this.leftPos + 8, this.topPos + 75, 0x404040);
     }
 
-    @Override
-    protected void init() {
-        super.init();
-        this.beanButton = addRenderableWidget(
-                new ExtendedButton(this.leftPos, this.topPos, 16, 16, new TextComponent("beans"),
-                        btn -> Minecraft.getInstance().player.displayClientMessage(new TextComponent("beans"), false)));
-    }
+//    @Override
+//    protected void init() {
+//        super.init();
+//        this.beanButton = addRenderableWidget(
+//                new ExtendedButton(this.leftPos, this.topPos, 16, 16, new TextComponent("beans"),
+//                        btn -> Minecraft.getInstance().player.displayClientMessage(new TextComponent("beans"), false)));
+//    }
 
     @Override
     protected void renderBg(PoseStack stack, float mouseX, int mouseY, int partialTicks) {
@@ -55,5 +56,6 @@ public class ExampleChestScreen extends AbstractContainerScreen<ExampleChestCont
 
     @Override
     protected void renderLabels(PoseStack stack, int mouseX, int mouseY) {
+        drawString(stack, Minecraft.getInstance().font, "Energy: " + menu.getEnergy() + "J", this.imageWidth / 2 - 32, 65, 0xffffff);
     }
 }

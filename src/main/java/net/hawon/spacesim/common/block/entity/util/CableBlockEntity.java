@@ -1,19 +1,17 @@
-package net.hawon.spacesim.common.block.entity;
+package net.hawon.spacesim.common.block.entity.util;
 
-import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.block.entity.util.PipeBlockEntity;
 import net.hawon.spacesim.common.network.pipe.BFS;
 import net.hawon.spacesim.common.network.pipe.StateManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class CableBlockEntity extends PipeBlockEntity {
 
     private int timer;
-    public BlockPos sourcePos = null;
-    public int distance;
+    private BlockPos sourcePos = null;
+    private int distance;
 
     public CableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -28,6 +26,22 @@ public abstract class CableBlockEntity extends PipeBlockEntity {
 
             timer++;
         }
+    }
+
+    public void setSourcePos(BlockPos pos) {
+        this.sourcePos = pos;
+    }
+
+    public BlockPos getSourcePos() {
+        return sourcePos;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getDistance() {
+        return distance;
     }
 
 }

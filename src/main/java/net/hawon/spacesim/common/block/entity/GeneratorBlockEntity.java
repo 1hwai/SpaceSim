@@ -1,17 +1,12 @@
 package net.hawon.spacesim.common.block.entity;
 
-import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
+import net.hawon.spacesim.common.block.entity.util.InventoryBlockEntity;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
-import net.hawon.spacesim.core.Init.BlockInit;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -36,7 +31,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
     public final int GEN_TIER = 1;
 
-    public static final int GEN_CAPACTITY = 100; //MAX ENERGY CAPACITY OF GENERATOR
+    public static final int GEN_CAPACITY = 100; //MAX ENERGY CAPACITY OF GENERATOR
     public static final int GEN_PER_TICK = 1;
     public static final int GEN_OUTPUT_PER_TICK = 1;
 
@@ -52,7 +47,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
     private final LazyOptional<IEnergyStorage> energy;
 
     public GeneratorBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityInit.GENERATOR.get(), pos, state, 27);
+        super(BlockEntityInit.GENERATOR.get(), pos, state, 1);
 
         itemHandler = createHandler();
         handler = LazyOptional.of(() -> itemHandler);
@@ -68,19 +63,20 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
     }
 
     public void tickServer() {
-        if (energyStorage.getEnergyStored() <= GEN_CAPACTITY) {
+        if (energyStorage.getEnergyStored() < GEN_CAPACITY) {
             if (counter > 0) {
                 energyStorage.addEnergy(GEN_PER_TICK);
                 counter--;
                 setChanged();
 
-            } else if (counter <= 0) {
+            }
+            if (counter <= 0) {
                 ItemStack stack = itemHandler.getStackInSlot(0);
-                if (stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK)) {
+                if (isItemValid(stack)) {
                     int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
                     if (burnTime > 0) {
                         itemHandler.extractItem(0, 1, false);
-                        counter = burnTime;
+                        counter = burnTime / 10;
                         setChanged();
                     }
                 }
@@ -96,6 +92,10 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         sendOutPower();
     }
 
+    private static boolean isItemValid(ItemStack stack) {
+        return stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK);
+    }
+
     private void sendOutPower() {
         AtomicInteger capacity = new AtomicInteger(energyStorage.getEnergyStored());
         if (capacity.get() > 0) {
@@ -103,21 +103,20 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                 BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
                 if (be != null) {
                     if (be instanceof CableBlockEntity cable) {
-                        cable.sourcePos = worldPosition;
-                        cable.distance = 1;
+                        cable.setSourcePos(worldPosition);
+                        cable.setDistance(1);
                     }
                     boolean doContinue = be.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).map(handler -> {
-                            if (handler.canReceive()) {
-                                int received = handler.receiveEnergy(Math.min(capacity.get(), GEN_OUTPUT_PER_TICK), false);
-                                capacity.addAndGet(-received);
-                                energyStorage.consumeEnergy(received);
-                                setChanged();
-                                return capacity.get() > 0;
-                            } else {
-                                return true;
-                            }
+                        if (handler.canReceive()) {
+                            int received = handler.receiveEnergy(Math.min(capacity.get(), GEN_OUTPUT_PER_TICK), false);
+                            capacity.addAndGet(-received);
+                            energyStorage.consumeEnergy(received);
+                            setChanged();
+                            return capacity.get() > 0;
+                        } else {
+                            return true;
                         }
-                    ).orElse(true);
+                    }).orElse(true);
                     if (!doContinue) {
                         return;
                     }
@@ -128,7 +127,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
 
     private CustomEnergyStorage createEnergy() {
-        return new CustomEnergyStorage(GEN_CAPACTITY, MAX_TRANSFER, MAX_EXTRACT) {
+        return new CustomEnergyStorage(GEN_CAPACITY, MAX_TRANSFER, MAX_EXTRACT) {
             @Override
             protected void onEnergyChanged() {
                 setChanged();
@@ -146,7 +145,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
+                return GeneratorBlockEntity.this.isItemValid(stack);
             }
 
             @Nonnull
@@ -193,4 +192,9 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         }
         return super.getCapability(cap, side);
     }
+
+    public int getTier() {
+        return GEN_TIER;
+    }
+
 }
