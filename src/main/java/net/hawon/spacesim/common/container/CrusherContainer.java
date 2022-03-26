@@ -5,6 +5,7 @@ import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockInit;
 import net.hawon.spacesim.core.Init.ContainerInit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -39,9 +40,11 @@ public class CrusherContainer extends AbstractContainerMenu {
         final int startX = 8, startY = 86, hotbarY = 144, inventoryY = 36;
 
         if (blockEntity != null) {
-            blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                addSlot(new SlotItemHandler(handler, 0, startX + 2 * slotSizePlus2, inventoryY));
-                addSlot(new SlotItemHandler(handler, 1, startX + 6 * slotSizePlus2, inventoryY));
+            blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).ifPresent(inputHandler -> {
+                addSlot(new SlotItemHandler(inputHandler, 0, startX + 2 * slotSizePlus2, inventoryY));
+            });
+            blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN).ifPresent(outputHandler -> {
+                addSlot(new SlotItemHandler(outputHandler, 0, startX + 6 * slotSizePlus2, inventoryY));
             });
         }
 

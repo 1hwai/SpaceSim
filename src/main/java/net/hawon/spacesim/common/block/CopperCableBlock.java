@@ -1,9 +1,10 @@
 package net.hawon.spacesim.common.block;
 
-import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
-import net.hawon.spacesim.common.block.entity.CopperCableBlockEntity;
+import net.hawon.spacesim.common.block.entity.CableBlockEntity;
 import net.hawon.spacesim.common.network.pipe.BFS;
 import net.hawon.spacesim.common.network.pipe.StateManager;
+import net.hawon.spacesim.core.Init.BlockEntityInit;
+import net.hawon.spacesim.core.Init.BlockInit;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -30,14 +31,14 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CopperCableBlockEntity(pos, state);
+        return new CableBlockEntity(pos, state, 0);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, BlockState state, BlockEntityType<T> beType) {
         if (!level.isClientSide()) {
             return (level0, pos, state0, blockEntity) -> {
-                if (blockEntity instanceof CopperCableBlockEntity be) {
+                if (blockEntity instanceof CableBlockEntity be) {
                     be.tickServer();
                 }
             };
@@ -56,7 +57,7 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
             BFS bfs = new BFS();
             bfs.findSource(level, pos);
             if (level.getBlockEntity(pos) instanceof CableBlockEntity cable)  {
-                bfs.setDistance(level, cable.getSourcePos());
+                bfs.setCurrent(level, cable.getSourcePos());
                 cable.setChanged();
             }
         }
@@ -67,10 +68,10 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof CopperCableBlockEntity cable) {
+            if (level.getBlockEntity(pos) instanceof CableBlockEntity cable) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item.asItem() == ItemInit.GALVANOMETER.get()) {
-                    System.out.println(cable.getSourcePos() + " | " + cable.getDistance());
+                    System.out.println(cable.getSourcePos() + " | " + cable.getCurrent());
                 }
             }
         }

@@ -1,6 +1,5 @@
 package net.hawon.spacesim.common.block.entity;
 
-import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
 import net.hawon.spacesim.common.block.entity.util.InventoryBlockEntity;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
@@ -33,10 +32,10 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
     public static final int GEN_CAPACITY = 100; //MAX ENERGY CAPACITY OF GENERATOR
     public static final int GEN_PER_TICK = 1;
-    public static final int GEN_OUTPUT_PER_TICK = 1;
+    public static final int OUTPUT_PER_TICK = 1;
 
     public static final int MAX_TRANSFER = 1;
-    public static final int MAX_EXTRACT = 0;
+    public static final int MAX_EXTRACT = 1;
 
     private int counter;
 
@@ -89,7 +88,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                         Block.UPDATE_ALL);
         }
 
-        sendOutPower();
+        //sendOutPower();
     }
 
     private static boolean isItemValid(ItemStack stack) {
@@ -102,13 +101,13 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
             for (Direction direction : Direction.values()) {
                 BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
                 if (be != null) {
-                    if (be instanceof CableBlockEntity cable) {
-                        cable.setSourcePos(worldPosition);
-                        cable.setDistance(1);
+                    if (be instanceof CableBlockEntity cableBE) {
+                        cableBE.setSourcePos(worldPosition);
+                        cableBE.setCurrent(OUTPUT_PER_TICK);
                     }
                     boolean doContinue = be.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).map(handler -> {
                         if (handler.canReceive()) {
-                            int received = handler.receiveEnergy(Math.min(capacity.get(), GEN_OUTPUT_PER_TICK), false);
+                            int received = handler.receiveEnergy(Math.min(capacity.get(), OUTPUT_PER_TICK), false);
                             capacity.addAndGet(-received);
                             energyStorage.consumeEnergy(received);
                             setChanged();
@@ -195,6 +194,10 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
     public int getTier() {
         return GEN_TIER;
+    }
+
+    public static int getOutputPerTick() {
+        return OUTPUT_PER_TICK;
     }
 
 }

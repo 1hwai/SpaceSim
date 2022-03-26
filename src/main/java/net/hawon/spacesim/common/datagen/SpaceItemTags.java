@@ -36,6 +36,9 @@ public class SpaceItemTags extends ItemTagsProvider {
                 .add(BlockInit.URANIUM_ORE_ITEM.get())
                 .add(BlockInit.DEEPSLATE_URANIUM_ORE_ITEM.get());
 
+        tag(Tags.Items.DUSTS)
+                .add(ItemInit.TITANIUM_DUST.get());
+
     }
 
     @Override

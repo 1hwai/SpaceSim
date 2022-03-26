@@ -42,7 +42,7 @@ public class BlockInit {
     public static final RegistryObject<CrusherBlock> CRUSHER = BLOCKS.register("crusher", () -> new CrusherBlock(ORE_PROPERTIES.dynamicShape()));
     public static final RegistryObject<Item> CRUSHER_ITEM = fromBlock(CRUSHER);
 
-    public static final RegistryObject<CopperCableBlock> COPPER_CABLE = BLOCKS.register("copper_cable", () -> new CopperCableBlock());
+    public static final RegistryObject<CopperCableBlock> COPPER_CABLE = BLOCKS.register("copper_cable", CopperCableBlock::new);
     public static final RegistryObject<Item> COPPER_CABLE_ITEM = fromBlock(COPPER_CABLE);
 
 

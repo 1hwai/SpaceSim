@@ -1,7 +1,7 @@
 package net.hawon.spacesim.common.network.pipe;
 
 import net.hawon.spacesim.common.block.entity.util.SpaceBlockProperties;
-import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
+import net.hawon.spacesim.common.block.entity.CableBlockEntity;
 import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

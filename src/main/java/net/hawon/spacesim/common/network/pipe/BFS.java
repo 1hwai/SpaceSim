@@ -1,6 +1,6 @@
 package net.hawon.spacesim.common.network.pipe;
 
-import net.hawon.spacesim.common.block.entity.util.CableBlockEntity;
+import net.hawon.spacesim.common.block.entity.CableBlockEntity;
 import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +20,7 @@ public class BFS {
     public BFS() {
     }
 
-    public void setDistance(Level level, BlockPos sourcePos) {
+    public void setCurrent(Level level, BlockPos sourcePos) {
         if (sourcePos != null) {
             queue.clear();
             visited.clear();
@@ -38,14 +38,21 @@ public class BFS {
                     if (!visited.contains(rel)) {
                         BlockEntity relBE = level.getBlockEntity(rel);
                         if (relBE instanceof CableBlockEntity relCableBE) {
+
                             if (be instanceof CableBlockEntity cableBE) {
-                                relCableBE.setDistance(cableBE.getDistance() + 1);
-                            } else if (be instanceof GeneratorBlockEntity) {
-                                relCableBE.setDistance(1);
+                                float test = cableBE.getCurrent() - cableBE.getLoss();
+                                if (test >= 0) {
+                                    relCableBE.setCurrent(test);
+                                } else {
+                                    relCableBE.setCurrent(0);
+                                }
+                            } else if (be instanceof GeneratorBlockEntity ge) {
+                                relCableBE.setCurrent(ge.getOutputPerTick());
                             }
                             queue.add(rel);
                             visited.add(rel);
                         }
+
                     }
                 }
             }
@@ -89,9 +96,9 @@ public class BFS {
             }
         }
 
-        if (geConnected == false) {
+        if (!geConnected) {
             cableBE.setSourcePos(null);
-            cableBE.setDistance(0);
+            cableBE.setCurrent(0);
         }
 
     }

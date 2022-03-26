@@ -34,7 +34,12 @@ public class SpaceItemModels extends ItemModelProvider {
         //SINGLE TEXTURE ITEM
         singleTexture(ItemInit.RENCH.get().getRegistryName().getPath(), mcLoc("item/generated"), "layer0", modLoc("items/rench"));
         singleTexture(ItemInit.GALVANOMETER.get().getRegistryName().getPath(), mcLoc("item/generated"), "layer0", modLoc("items/galvanometer"));
+
+
         singleTexture(ItemInit.TITANIUM_INGOT.get().getRegistryName().getPath(), mcLoc("item/generated"), "layer0", modLoc("items/titanium_ingot"));
+        singleTexture(ItemInit.TITANIUM_DUST.get().getRegistryName().getPath(), mcLoc("item/generated"), "layer0", modLoc("items/titanium_dust"));
+
+
         singleTexture(ItemInit.RAW_BAUXITE.get().getRegistryName().getPath(), mcLoc("item/generated"), "layer0", modLoc("items/raw_bauxite"));
         singleTexture(ItemInit.RAW_TITANIUM.get().getRegistryName().getPath(), mcLoc("item/generated"), "layer0", modLoc("items/raw_titanium"));
         singleTexture(ItemInit.RAW_URANIUM.get().getRegistryName().getPath(), mcLoc("item/generated"), "layer0", modLoc("items/raw_uranium"));

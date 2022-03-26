@@ -32,10 +32,12 @@ d0119dbdd45da7a3db2ab5bca6c777233f4ee1bb assets/spacesim/models/item/raw_bauxite
 b0919f3590f61d482c08310f1224dc809a8f55ad assets/spacesim/models/item/raw_titanium.json
 32e63ec9bd545e148754abdd983f68f012c072de assets/spacesim/models/item/raw_uranium.json
 8680d301887013797bc51284e009601a46a5520d assets/spacesim/models/item/rench.json
+2c62cb3013fac9305780b80bdbaeaf59ac81264d assets/spacesim/models/item/titanium_dust.json
 0a4c99665b2563ef6ffac5f3049a990f9f5618cc assets/spacesim/models/item/titanium_ingot.json
 270238fe02b0afa95dbae7edf3c7948cb0a7f7ae assets/spacesim/models/item/titanium_ore.json
 79a225cfe3308ac80d2799c1a4c0b56f1aaee42f assets/spacesim/models/item/uranium_ore.json
 955ff7cccae5a8c6859649fdac279593f1d63d82 data/forge/tags/blocks/ores.json
+6b0feab30b207a87332dcfc2ac3bf5680aa30583 data/forge/tags/items/dusts.json
 6b4c7302e95a9fde69ef01e53cb6714eaa7f14cb data/forge/tags/items/ingots.json
 955ff7cccae5a8c6859649fdac279593f1d63d82 data/forge/tags/items/ores.json
 955ff7cccae5a8c6859649fdac279593f1d63d82 data/minecraft/tags/blocks/mineable/pickaxe.json

@@ -1,16 +1,15 @@
 package net.hawon.spacesim.common.block;
 
-import net.hawon.spacesim.common.block.entity.CopperCableBlockEntity;
+import net.hawon.spacesim.common.block.entity.CableBlockEntity;
 import net.hawon.spacesim.common.block.entity.CrusherBlockEntity;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
 import net.hawon.spacesim.common.container.CrusherContainer;
-import net.hawon.spacesim.common.container.GeneratorContainer;
 import net.hawon.spacesim.common.item.RenchItem;
+import net.hawon.spacesim.common.network.pipe.BFS;
+import net.hawon.spacesim.common.network.pipe.StateManager;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -24,14 +23,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -100,6 +96,19 @@ public class CrusherBlock extends Block implements EntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CrusherBlockEntity(pos, state);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+
+        if (!level.isClientSide()) {
+            if (level.getBlockEntity(pos) instanceof CrusherBlockEntity crusherBE) {
+                crusherBE.setSource();
+            }
+        }
+
     }
 
     @SuppressWarnings("deprecation")

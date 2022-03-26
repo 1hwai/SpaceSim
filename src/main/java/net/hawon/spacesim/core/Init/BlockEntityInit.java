@@ -25,9 +25,9 @@ public final class BlockEntityInit {
             .register("crusher", () -> BlockEntityType.Builder.
                     of(CrusherBlockEntity::new, BlockInit.CRUSHER.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<CopperCableBlockEntity>> COPPER_CABLE = BLOCK_ENTITIES
-            .register("copper_cable", () -> BlockEntityType.Builder
-                    .of(CopperCableBlockEntity::new, BlockInit.COPPER_CABLE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CableBlockEntity>> CABLE = BLOCK_ENTITIES
+            .register("cable", () -> BlockEntityType.Builder
+                    .of(CableBlockEntity::new, BlockInit.COPPER_CABLE.get()).build(null));
 
     private BlockEntityInit() {
     }

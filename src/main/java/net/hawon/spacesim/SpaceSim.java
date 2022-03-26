@@ -32,7 +32,7 @@ public class SpaceSim
 {
     // Directly reference a log4j logger.
     public static final String MOD_ID = "spacesim";
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static final CreativeModeTab SPACESIM_TAB = new CreativeModeTab("spacesimTab") {
         @Override
