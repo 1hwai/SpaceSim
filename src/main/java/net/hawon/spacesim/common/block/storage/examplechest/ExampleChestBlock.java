@@ -1,6 +1,5 @@
-package net.hawon.spacesim.common.block;
+package net.hawon.spacesim.common.block.storage.examplechest;
 
-import net.hawon.spacesim.common.block.entity.ExampleChestBlockEntity;
 import net.hawon.spacesim.common.container.ExampleChestContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -1,7 +1,7 @@
-package net.hawon.spacesim.common.block.entity.util;
+package net.hawon.spacesim.common.block.machines;
 
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
+import net.hawon.spacesim.common.block.pipe.cables.CableBlockEntity;
+import net.hawon.spacesim.common.block.generator.GeneratorBlockEntity;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -62,8 +62,9 @@ public abstract class MachineBlockEntity extends BlockEntity {
             if (be != null) {
                 be.getCapability(CapabilityEnergy.ENERGY, null).ifPresent(storage -> {
                     if (storage.canExtract()) {
-                        int toSend = storage.extractEnergy(GeneratorBlockEntity.MAX_EXTRACT, false);
-                        energyStorage.receiveEnergy((int) Math.min(toSend, current), false);
+                        int extracted = storage.extractEnergy(GeneratorBlockEntity.MAX_EXTRACT, false);
+                        energyStorage.receiveEnergy((int) Math.min(extracted, current), false);
+                        setChanged();
                     }
                 });
             }

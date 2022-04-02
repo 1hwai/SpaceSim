@@ -1,6 +1,6 @@
-package net.hawon.spacesim.common.block.entity;
+package net.hawon.spacesim.common.block.machines.crusher;
 
-import net.hawon.spacesim.common.block.entity.util.MachineBlockEntity;
+import net.hawon.spacesim.common.block.machines.MachineBlockEntity;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.hawon.spacesim.core.Init.ItemInit;
@@ -19,12 +19,12 @@ public class CrusherBlockEntity extends MachineBlockEntity {
 
     public static final Component TITLE = new TranslatableComponent("Crusher");
 
-    public static final int ENERGY_CAPACITY = 80;
-    public static final int MAX_TRANSFER = 1; //PER TICK
-    public static final int MAX_EXTRACT = 1;
-    public static final int ENERGY_CONSUME = 2; //PER 5 TICK
+    public static final int ENERGY_CAPACITY = 2000;
+    public static final int MAX_TRANSFER = 0; //PER TICK
+    public static final int MAX_EXTRACT = 0;
+    public static final int ENERGY_CONSUME = 2; //PER TICK
 
-    public static final int DELTA_TIME = 200; //a.k.a. Burn Time, 10sec
+    public static final int BURN_TIME = 200; //a.k.a. Burn Time, 10sec
 
     public CrusherBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.CRUSHER.get(), pos, state, 1, 1);
@@ -32,9 +32,8 @@ public class CrusherBlockEntity extends MachineBlockEntity {
 
     @Override
     public void tick() {
-        if (timer == 0) {
+        if (timer == 0)
             setSource();
-        }
         receivePower();
         crush();
         timer++;
@@ -46,14 +45,12 @@ public class CrusherBlockEntity extends MachineBlockEntity {
                 if (progress == 1) {
                     outputInv.insertItem(0, new ItemStack(ItemInit.TITANIUM_DUST.get()), false);
                 }
-                if (progress % 5 == 0) {
-                    energyStorage.consumeEnergy(ENERGY_CONSUME);
-                }
+                energyStorage.consumeEnergy(ENERGY_CONSUME);
                 progress--;
             } else {
                 if (isInputItemValid(inputInv.getStackInSlot(0))) {
                     inputInv.extractItem(0, 1, false);
-                    progress = DELTA_TIME + 1; //burn time, 10sec
+                    progress = BURN_TIME + 1; //burn time, 10sec
                     setChanged();
                 }
             }

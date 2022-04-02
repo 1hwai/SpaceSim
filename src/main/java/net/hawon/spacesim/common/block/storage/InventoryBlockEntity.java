@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.block.entity.util;
+package net.hawon.spacesim.common.block.storage;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

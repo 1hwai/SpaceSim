@@ -1,11 +1,10 @@
-package net.hawon.spacesim.common.block;
+package net.hawon.spacesim.common.block.pipe;
 
-import net.hawon.spacesim.common.network.pipe.StateManager;
+import net.hawon.spacesim.common.block.pipe.cables.StateManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -17,11 +16,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static net.hawon.spacesim.common.block.entity.util.SpaceBlockProperties.*;
+import static net.hawon.spacesim.common.block.util.SpaceBlockProperties.*;
 
 public abstract class PipeBlock extends Block implements EntityBlock {
 
@@ -57,12 +55,25 @@ public abstract class PipeBlock extends Block implements EntityBlock {
     @Override
     public abstract <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, BlockState state, BlockEntityType<T> beType);
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public abstract InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result);
+    public abstract static class PipeBlockEntity extends BlockEntity {
 
+        public PipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+            super(type, pos, state);
+        }
 
+        @Override
+        public final CompoundTag getUpdateTag() {
+            return writeUpdate(super.getUpdateTag());
+        }
 
+        @Override
+        public final ClientboundBlockEntityDataPacket getUpdatePacket() {
+            return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
+        }
 
+        public CompoundTag writeUpdate(CompoundTag tag) {
+            return tag;
+        }
 
+    }
 }

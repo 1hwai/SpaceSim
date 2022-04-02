@@ -1,6 +1,6 @@
-package net.hawon.spacesim.common.block.entity;
+package net.hawon.spacesim.common.block.generator;
 
-import net.hawon.spacesim.common.block.entity.util.InventoryBlockEntity;
+import net.hawon.spacesim.common.block.pipe.cables.CableBlockEntity;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
@@ -26,11 +26,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GeneratorBlockEntity extends InventoryBlockEntity {
+public class GeneratorBlockEntity extends BlockEntity {
 
     public final int GEN_TIER = 1;
 
-    public static final int GEN_CAPACITY = 100; //MAX ENERGY CAPACITY OF GENERATOR
+    public static final int GEN_CAPACITY = 8000; //MAX ENERGY CAPACITY OF GENERATOR
     public static final int GEN_PER_TICK = 1;
     public static final int OUTPUT_PER_TICK = 1;
 
@@ -39,26 +39,19 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
     private int counter;
 
-    private final ItemStackHandler itemHandler;
+    private final ItemStackHandler inventory;
     private final LazyOptional<IItemHandler> handler;
 
     private final CustomEnergyStorage energyStorage;
     private final LazyOptional<IEnergyStorage> energy;
 
     public GeneratorBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityInit.GENERATOR.get(), pos, state, 1);
+        super(BlockEntityInit.GENERATOR.get(), pos, state);
 
-        itemHandler = createHandler();
-        handler = LazyOptional.of(() -> itemHandler);
+        inventory = createHandler();
+        handler = LazyOptional.of(() -> inventory);
         energyStorage = createEnergy();
         energy = LazyOptional.of(() -> energyStorage);
-    }
-
-    @Override
-    public void setRemoved() {
-        super.setRemoved();
-        handler.invalidate();
-        energy.invalidate();
     }
 
     public void tickServer() {
@@ -70,11 +63,11 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
             }
             if (counter <= 0) {
-                ItemStack stack = itemHandler.getStackInSlot(0);
+                ItemStack stack = inventory.getStackInSlot(0);
                 if (isItemValid(stack)) {
                     int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
                     if (burnTime > 0) {
-                        itemHandler.extractItem(0, 1, false);
+                        inventory.extractItem(0, 1, false);
                         counter = burnTime / 10;
                         setChanged();
                     }
@@ -88,42 +81,29 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
                         Block.UPDATE_ALL);
         }
 
-        //sendOutPower();
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return serializeNBT();
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        super.handleUpdateTag(tag);
+        load(tag);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.handler.invalidate();
+        this.energy.invalidate();
     }
 
     private static boolean isItemValid(ItemStack stack) {
         return stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK);
     }
-
-    private void sendOutPower() {
-        AtomicInteger capacity = new AtomicInteger(energyStorage.getEnergyStored());
-        if (capacity.get() > 0) {
-            for (Direction direction : Direction.values()) {
-                BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
-                if (be != null) {
-                    if (be instanceof CableBlockEntity cableBE) {
-                        cableBE.setSourcePos(worldPosition);
-                        cableBE.setCurrent(OUTPUT_PER_TICK);
-                    }
-                    boolean doContinue = be.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).map(handler -> {
-                        if (handler.canReceive()) {
-                            int received = handler.receiveEnergy(Math.min(capacity.get(), OUTPUT_PER_TICK), false);
-                            capacity.addAndGet(-received);
-                            energyStorage.consumeEnergy(received);
-                            setChanged();
-                            return capacity.get() > 0;
-                        } else {
-                            return true;
-                        }
-                    }).orElse(true);
-                    if (!doContinue) {
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
 
     private CustomEnergyStorage createEnergy() {
         return new CustomEnergyStorage(GEN_CAPACITY, MAX_TRANSFER, MAX_EXTRACT) {
@@ -144,7 +124,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return GeneratorBlockEntity.this.isItemValid(stack);
+                return GeneratorBlockEntity.isItemValid(stack);
             }
 
             @Nonnull
@@ -161,7 +141,7 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
     @Override
     public void load(CompoundTag tag) {
         if (tag.contains("Inventory")) {
-            this.itemHandler.deserializeNBT(tag.getCompound("Inventory"));
+            this.inventory.deserializeNBT(tag.getCompound("Inventory"));
         }
         if (tag.contains("Energy")) {
             this.energyStorage.deserializeNBT(tag.get("Energy"));
@@ -172,9 +152,17 @@ public class GeneratorBlockEntity extends InventoryBlockEntity {
         super.load(tag);
     }
 
+    public void update() {
+        requestModelDataUpdate();
+        setChanged();
+        if (this.level != null) {
+            this.level.setBlockAndUpdate(this.worldPosition, getBlockState());
+        }
+    }
+
     @Override
     public void saveAdditional(CompoundTag tag) {
-        tag.put("Inventory", itemHandler.serializeNBT());
+        tag.put("Inventory", inventory.serializeNBT());
         tag.put("Energy", energyStorage.serializeNBT());
         CompoundTag infoTag = new CompoundTag();
         infoTag.putInt("Counter", counter);

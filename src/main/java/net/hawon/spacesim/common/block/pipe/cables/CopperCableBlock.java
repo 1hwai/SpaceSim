@@ -1,10 +1,8 @@
-package net.hawon.spacesim.common.block;
+package net.hawon.spacesim.common.block.pipe.cables;
 
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
-import net.hawon.spacesim.common.network.pipe.BFS;
-import net.hawon.spacesim.common.network.pipe.StateManager;
-import net.hawon.spacesim.core.Init.BlockEntityInit;
-import net.hawon.spacesim.core.Init.BlockInit;
+import net.hawon.spacesim.common.block.pipe.PipeBlock;
+import net.hawon.spacesim.common.network.PacketHandler;
+import net.hawon.spacesim.common.network.packet.energy.ServerEnergyPacket;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -54,12 +52,7 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
 
         if (!level.isClientSide()) {
             StateManager.setState(level, pos);
-            BFS bfs = new BFS();
-            bfs.findSource(level, pos);
-            if (level.getBlockEntity(pos) instanceof CableBlockEntity cable)  {
-                bfs.setCurrent(level, cable.getSourcePos());
-                cable.setChanged();
-            }
+            PacketHandler.INSTANCE.sendToServer(new ServerEnergyPacket(pos));
         }
 
     }

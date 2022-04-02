@@ -1,11 +1,7 @@
-package net.hawon.spacesim.common.block.entity.util;
+package net.hawon.spacesim.common.block.util;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-
-import javax.annotation.Nullable;
 
 public class SpaceBlockProperties {
     //Machine|Generator attached

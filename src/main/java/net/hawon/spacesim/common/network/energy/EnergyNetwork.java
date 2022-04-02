@@ -1,7 +1,7 @@
-package net.hawon.spacesim.common.network.pipe;
+package net.hawon.spacesim.common.network.energy;
 
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
+import net.hawon.spacesim.common.block.pipe.cables.CableBlockEntity;
+import net.hawon.spacesim.common.block.generator.GeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -12,15 +12,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class BFS {
+public class EnergyNetwork {
 
-    public List<BlockPos> visited = new ArrayList<>();
-    public Queue<BlockPos> queue = new LinkedList<>();
+    //Using bfs algorithm
 
-    public BFS() {
+    private final List<BlockPos> visited = new ArrayList<>();
+    private final Queue<BlockPos> queue = new LinkedList<>();
+
+    private final Level level;
+
+    public EnergyNetwork(Level level) {
+        this.level = level;
     }
 
-    public void setCurrent(Level level, BlockPos sourcePos) {
+    public void update(BlockPos cablePos, BlockPos sourcePos) {
+        findSource(cablePos);
+        setCurrent(sourcePos);
+    }
+
+    public void setCurrent(BlockPos sourcePos) {
         if (sourcePos != null) {
             queue.clear();
             visited.clear();
@@ -46,8 +56,8 @@ public class BFS {
                                 } else {
                                     relCableBE.setCurrent(0);
                                 }
-                            } else if (be instanceof GeneratorBlockEntity ge) {
-                                relCableBE.setCurrent(ge.getOutputPerTick());
+                            } else if (be instanceof GeneratorBlockEntity) {
+                                relCableBE.setCurrent(GeneratorBlockEntity.getOutputPerTick());
                             }
                             queue.add(rel);
                             visited.add(rel);
@@ -59,7 +69,7 @@ public class BFS {
         }
     }
 
-    public void findSource(Level level, BlockPos cablePos) {
+    public void findSource(BlockPos cablePos) {
         queue.clear();
         visited.clear();
 

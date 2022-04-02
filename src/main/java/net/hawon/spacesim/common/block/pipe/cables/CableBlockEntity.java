@@ -1,14 +1,13 @@
-package net.hawon.spacesim.common.block.entity;
+package net.hawon.spacesim.common.block.pipe.cables;
 
-import net.hawon.spacesim.common.block.entity.util.PipeBlockEntity;
-import net.hawon.spacesim.common.network.pipe.BFS;
-import net.hawon.spacesim.common.network.pipe.StateManager;
+import net.hawon.spacesim.common.block.pipe.PipeBlock;
+import net.hawon.spacesim.common.network.PacketHandler;
+import net.hawon.spacesim.common.network.packet.energy.ServerEnergyPacket;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CableBlockEntity extends PipeBlockEntity {
+public class CableBlockEntity extends PipeBlock.PipeBlockEntity {
 
     private int timer;
     private BlockPos sourcePos = null;
@@ -16,14 +15,14 @@ public class CableBlockEntity extends PipeBlockEntity {
     private static float loss;
 
     public CableBlockEntity(BlockPos pos, BlockState state, int tier) {
-        super(BlockEntityInit.CABLE.get(), pos, state);
+        this(pos, state);
+        PacketHandler.INSTANCE.sendToServer(new ServerEnergyPacket(this.worldPosition));
 
         if (tier == 0) { //COPPER CABLE
             loss = 0.25f;
         } else {
             loss = 0.5f;
         }
-        current = 0;
     }
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
@@ -33,10 +32,6 @@ public class CableBlockEntity extends PipeBlockEntity {
     public void tickServer() {
         if (timer == 0) {
             StateManager.setState(level, worldPosition);
-            BFS bfs = new BFS();
-            bfs.findSource(level, worldPosition);
-            bfs.setCurrent(level, sourcePos);
-
             timer++;
         }
     }
@@ -50,11 +45,13 @@ public class CableBlockEntity extends PipeBlockEntity {
     }
 
     public void setCurrent(float current) {
+        if (current < 0)
+            current = 0;
         this.current = current;
     }
 
     public float getCurrent() {
-        return this.current;
+        return current;
     }
 
     public float getLoss() {

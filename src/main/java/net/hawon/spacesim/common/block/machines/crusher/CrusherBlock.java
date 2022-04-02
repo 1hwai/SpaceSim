@@ -1,11 +1,7 @@
-package net.hawon.spacesim.common.block;
+package net.hawon.spacesim.common.block.machines.crusher;
 
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
-import net.hawon.spacesim.common.block.entity.CrusherBlockEntity;
 import net.hawon.spacesim.common.container.CrusherContainer;
 import net.hawon.spacesim.common.item.RenchItem;
-import net.hawon.spacesim.common.network.pipe.BFS;
-import net.hawon.spacesim.common.network.pipe.StateManager;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -121,7 +117,7 @@ public class CrusherBlock extends Block implements EntityBlock {
                     return RenchItem.rotate(state, level, pos, player);
                 if (item == ItemInit.GALVANOMETER.get()) {
                     int energyStored = crusherBE.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
-                    System.out.println(energyStored);
+                    System.out.println(crusherBE.sourcePos + " || " +energyStored);
                     return InteractionResult.FAIL;
                 }
 

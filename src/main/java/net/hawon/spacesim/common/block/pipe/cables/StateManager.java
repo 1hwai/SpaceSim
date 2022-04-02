@@ -1,8 +1,7 @@
-package net.hawon.spacesim.common.network.pipe;
+package net.hawon.spacesim.common.block.pipe.cables;
 
-import net.hawon.spacesim.common.block.entity.util.SpaceBlockProperties;
-import net.hawon.spacesim.common.block.entity.CableBlockEntity;
-import net.hawon.spacesim.common.block.entity.GeneratorBlockEntity;
+import net.hawon.spacesim.common.block.util.SpaceBlockProperties;
+import net.hawon.spacesim.common.block.generator.GeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -22,12 +21,8 @@ public class StateManager {
 
             if (be instanceof GeneratorBlockEntity) {
                 attachment[0] = true;
-                attachment[1] = false;
             } else if (be instanceof CableBlockEntity) {
-                attachment[0] = false;
                 attachment[1] = true;
-            } else {
-                attachment[0] = attachment[1] = false;
             }
             blockState = blockState.setValue(attach(direction, true), attachment[0]);
             blockState = blockState.setValue(attach(direction, false), attachment[1]);
