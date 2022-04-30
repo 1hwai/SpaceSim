@@ -19,7 +19,6 @@ public class CrusherBlockEntity extends MachineBlockEntity {
 
     public static final Component TITLE = new TranslatableComponent("Crusher");
 
-    public static final int ENERGY_CAPACITY = 2000;
     public static final int MAX_TRANSFER = 0; //PER TICK
     public static final int MAX_EXTRACT = 0;
     public static final int ENERGY_CONSUME = 2; //PER TICK
@@ -27,7 +26,7 @@ public class CrusherBlockEntity extends MachineBlockEntity {
     public static final int BURN_TIME = 200; //a.k.a. Burn Time, 10sec
 
     public CrusherBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityInit.CRUSHER.get(), pos, state, 1, 1);
+        super(BlockEntityInit.CRUSHER.get(), pos, state);
     }
 
     @Override

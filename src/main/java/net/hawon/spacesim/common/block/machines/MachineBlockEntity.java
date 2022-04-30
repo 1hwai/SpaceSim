@@ -18,6 +18,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class MachineBlockEntity extends BlockEntity {
 
@@ -35,14 +36,17 @@ public abstract class MachineBlockEntity extends BlockEntity {
     public final ItemStackHandler outputInv;
     public final LazyOptional<IItemHandler> outputHandler;
 
+    public int ENERGY_CAPACITY;
+    public int MIN_CURRENT = 16;
     public final CustomEnergyStorage energyStorage;
     public final LazyOptional<IEnergyStorage> energy;
 
-    public MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int inputSize, int outputSize) {
+    public MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int inputSize, int outputSize, int energyCapacity) {
         super(type, pos, state);
 
         INPUT_SIZE = inputSize;
         OUTPUT_SIZE = outputSize;
+        ENERGY_CAPACITY = energyCapacity * 1000; //Important: KILO
 
         inputInv = createInputHandler();
         inputHandler = LazyOptional.of(() -> inputInv);
@@ -54,17 +58,22 @@ public abstract class MachineBlockEntity extends BlockEntity {
 
     }
 
+    public MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        this(type, pos, state, 1, 1, 16000);
+    }
+
     public abstract void tick();
 
     public void receivePower() {
-        if (sourcePos != null) {
+        AtomicInteger capacity = new AtomicInteger(energyStorage.getEnergyStored());
+        if (sourcePos != null && capacity.get() < ENERGY_CAPACITY && current > MIN_CURRENT) {
             BlockEntity be = level.getBlockEntity(sourcePos);
             if (be != null) {
                 be.getCapability(CapabilityEnergy.ENERGY, null).ifPresent(storage -> {
                     if (storage.canExtract()) {
                         int extracted = storage.extractEnergy(GeneratorBlockEntity.MAX_EXTRACT, false);
-                        energyStorage.receiveEnergy((int) Math.min(extracted, current), false);
-                        setChanged();
+                        energyStorage.addEnergy((int) Math.min(extracted, current));
+                        update();
                     }
                 });
             }
@@ -73,7 +82,7 @@ public abstract class MachineBlockEntity extends BlockEntity {
 
     public void setSource() {
         float maxCurrent = 0;
-        boolean valid = false;
+        boolean zeroConnection = true;
         for (Direction direction : Direction.values()) {
             BlockPos pos = worldPosition.relative(direction);
             BlockEntity be = level.getBlockEntity(pos);
@@ -81,15 +90,15 @@ public abstract class MachineBlockEntity extends BlockEntity {
                 if (cableBE.getCurrent() > maxCurrent) {
                     maxCurrent = cableBE.getCurrent();
                     sourcePos = cableBE.getSourcePos();
-                    current = cableBE.getCurrent();
-                    valid = true;
+                    current = cableBE.getCurrent();//!!!!!!!!!!!!
+                    zeroConnection = false;
                 }
             } else if (be instanceof GeneratorBlockEntity) {
                 sourcePos = pos;
-                current = GeneratorBlockEntity.getOutputPerTick();
+                current = GeneratorBlockEntity.getMaxExtract();
             }
         }
-        if (!valid) sourcePos = null;
+        if (zeroConnection) sourcePos = null;
     }
 
     @Override

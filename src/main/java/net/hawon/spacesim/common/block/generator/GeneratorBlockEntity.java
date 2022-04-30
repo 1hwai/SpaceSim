@@ -30,14 +30,13 @@ public class GeneratorBlockEntity extends BlockEntity {
 
     public final int GEN_TIER = 1;
 
-    public static final int GEN_CAPACITY = 8000; //MAX ENERGY CAPACITY OF GENERATOR
-    public static final int GEN_PER_TICK = 1;
-    public static final int OUTPUT_PER_TICK = 1;
+    public static final int ENERGY_CAPACITY = 8000 * 1000; //MAX ENERGY CAPACITY OF GENERATOR
+    public static final int GEN_PER_TICK = 1000;
 
     public static final int MAX_TRANSFER = 1;
-    public static final int MAX_EXTRACT = 1;
+    public static final int MAX_EXTRACT = 1000;
 
-    private int counter;
+    private int progress;
 
     private final ItemStackHandler inventory;
     private final LazyOptional<IItemHandler> handler;
@@ -55,20 +54,20 @@ public class GeneratorBlockEntity extends BlockEntity {
     }
 
     public void tickServer() {
-        if (energyStorage.getEnergyStored() < GEN_CAPACITY) {
-            if (counter > 0) {
+        if (energyStorage.getEnergyStored() < ENERGY_CAPACITY) {
+            if (progress > 0) {
                 energyStorage.addEnergy(GEN_PER_TICK);
-                counter--;
+                progress--;
                 setChanged();
 
             }
-            if (counter <= 0) {
+            if (progress <= 0) {
                 ItemStack stack = inventory.getStackInSlot(0);
                 if (isItemValid(stack)) {
                     int burnTime = ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
                     if (burnTime > 0) {
                         inventory.extractItem(0, 1, false);
-                        counter = burnTime / 10;
+                        progress = burnTime / 10;
                         setChanged();
                     }
                 }
@@ -76,11 +75,10 @@ public class GeneratorBlockEntity extends BlockEntity {
         }
 
         BlockState blockState = level.getBlockState(worldPosition);
-        if (blockState.getValue(BlockStateProperties.POWERED) != counter > 0) {
-                level.setBlock(worldPosition, blockState.setValue(BlockStateProperties.POWERED, counter > 0),
+        if (blockState.getValue(BlockStateProperties.POWERED) != progress > 0) {
+                level.setBlock(worldPosition, blockState.setValue(BlockStateProperties.POWERED, progress > 0),
                         Block.UPDATE_ALL);
         }
-
     }
 
     @Override
@@ -105,8 +103,38 @@ public class GeneratorBlockEntity extends BlockEntity {
         return stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK);
     }
 
+//    private void sendOutPower() {
+//        AtomicInteger capacity = new AtomicInteger(energyStorage.getEnergyStored());
+//        if (capacity.get() > 0) {
+//            for (Direction direction : Direction.values()) {
+//                BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
+//                if (be != null) {
+//                    if (be instanceof CableBlockEntity cableBE) {
+//                        cableBE.setSourcePos(worldPosition);
+//                        cableBE.setCurrent(OUTPUT_PER_TICK);
+//                    }
+//                    boolean doContinue = be.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).map(handler -> {
+//                        if (handler.canReceive()) {
+//                            int received = handler.receiveEnergy(Math.min(capacity.get(), OUTPUT_PER_TICK), false);
+//                            capacity.addAndGet(-received);
+//                            energyStorage.consumeEnergy(received);
+//                            setChanged();
+//                            return capacity.get() > 0;
+//                        } else {
+//                            return true;
+//                        }
+//                    }).orElse(true);
+//                    if (!doContinue) {
+//                        return;
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+
     private CustomEnergyStorage createEnergy() {
-        return new CustomEnergyStorage(GEN_CAPACITY, MAX_TRANSFER, MAX_EXTRACT) {
+        return new CustomEnergyStorage(ENERGY_CAPACITY, MAX_TRANSFER, MAX_EXTRACT) {
             @Override
             protected void onEnergyChanged() {
                 setChanged();
@@ -147,7 +175,7 @@ public class GeneratorBlockEntity extends BlockEntity {
             this.energyStorage.deserializeNBT(tag.get("Energy"));
         }
         if (tag.contains("Info")) {
-            this.counter = tag.getCompound("Info").getInt("Counter");
+            this.progress = tag.getCompound("Info").getInt("progress");
         }
         super.load(tag);
     }
@@ -165,7 +193,7 @@ public class GeneratorBlockEntity extends BlockEntity {
         tag.put("Inventory", inventory.serializeNBT());
         tag.put("Energy", energyStorage.serializeNBT());
         CompoundTag infoTag = new CompoundTag();
-        infoTag.putInt("Counter", counter);
+        infoTag.putInt("progress", progress);
         tag.put("Info", infoTag);
     }
 
@@ -184,8 +212,8 @@ public class GeneratorBlockEntity extends BlockEntity {
         return GEN_TIER;
     }
 
-    public static int getOutputPerTick() {
-        return OUTPUT_PER_TICK;
+    public static int getMaxExtract() {
+        return MAX_EXTRACT;
     }
 
 }

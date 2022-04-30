@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class EnergyNetwork {
+public class CableEnergyNetwork {
 
     //Using bfs algorithm
 
@@ -21,7 +21,7 @@ public class EnergyNetwork {
 
     private final Level level;
 
-    public EnergyNetwork(Level level) {
+    public CableEnergyNetwork(Level level) {
         this.level = level;
     }
 
@@ -57,7 +57,7 @@ public class EnergyNetwork {
                                     relCableBE.setCurrent(0);
                                 }
                             } else if (be instanceof GeneratorBlockEntity) {
-                                relCableBE.setCurrent(GeneratorBlockEntity.getOutputPerTick());
+                                relCableBE.setCurrent(GeneratorBlockEntity.getMaxExtract());
                             }
                             queue.add(rel);
                             visited.add(rel);

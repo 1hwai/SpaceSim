@@ -109,7 +109,7 @@ public class CrusherBlock extends Block implements EntityBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    public @NotNull InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
             if (level.getBlockEntity(pos) instanceof CrusherBlockEntity crusherBE) {
                 Item item = player.getItemInHand(hand).getItem();
@@ -123,13 +123,12 @@ public class CrusherBlock extends Block implements EntityBlock {
 
                 final MenuProvider container = new MenuProvider() {
                     @Override
-                    public Component getDisplayName() {
+                    public @NotNull Component getDisplayName() {
                         return CrusherBlockEntity.TITLE;
                     }
 
-                    @Nullable
                     @Override
-                    public AbstractContainerMenu createMenu(int id, Inventory inv, Player player1) {
+                    public @NotNull AbstractContainerMenu createMenu(int id, Inventory inv, Player player1) {
                         return new CrusherContainer(id, pos, inv, player1);
                     }
                 };
