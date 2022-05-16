@@ -33,8 +33,11 @@ public class GeneratorBlockEntity extends BlockEntity {
     public static final int ENERGY_CAPACITY = 8000 * 1000; //MAX ENERGY CAPACITY OF GENERATOR
     public static final int GEN_PER_TICK = 1000;
 
+
+
+
     public static final int MAX_TRANSFER = 1;
-    public static final int MAX_EXTRACT = 1000;
+    public static final int MAX_EXTRACT = 1;
 
     private int progress;
 
@@ -102,36 +105,6 @@ public class GeneratorBlockEntity extends BlockEntity {
     private static boolean isItemValid(ItemStack stack) {
         return stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK);
     }
-
-//    private void sendOutPower() {
-//        AtomicInteger capacity = new AtomicInteger(energyStorage.getEnergyStored());
-//        if (capacity.get() > 0) {
-//            for (Direction direction : Direction.values()) {
-//                BlockEntity be = level.getBlockEntity(worldPosition.relative(direction));
-//                if (be != null) {
-//                    if (be instanceof CableBlockEntity cableBE) {
-//                        cableBE.setSourcePos(worldPosition);
-//                        cableBE.setCurrent(OUTPUT_PER_TICK);
-//                    }
-//                    boolean doContinue = be.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).map(handler -> {
-//                        if (handler.canReceive()) {
-//                            int received = handler.receiveEnergy(Math.min(capacity.get(), OUTPUT_PER_TICK), false);
-//                            capacity.addAndGet(-received);
-//                            energyStorage.consumeEnergy(received);
-//                            setChanged();
-//                            return capacity.get() > 0;
-//                        } else {
-//                            return true;
-//                        }
-//                    }).orElse(true);
-//                    if (!doContinue) {
-//                        return;
-//                    }
-//                }
-//            }
-//        }
-//    }
-
 
     private CustomEnergyStorage createEnergy() {
         return new CustomEnergyStorage(ENERGY_CAPACITY, MAX_TRANSFER, MAX_EXTRACT) {

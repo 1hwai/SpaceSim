@@ -2,6 +2,8 @@ package net.hawon.spacesim.common.block.machines.crusher;
 
 import net.hawon.spacesim.common.block.machines.MachineBlockEntity;
 import net.hawon.spacesim.common.energy.CustomEnergyStorage;
+import net.hawon.spacesim.common.network.PacketHandler;
+import net.hawon.spacesim.common.network.packet.energy.ServerMachinePacket;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
@@ -32,8 +34,7 @@ public class CrusherBlockEntity extends MachineBlockEntity {
     @Override
     public void tick() {
         if (timer == 0)
-            setSource();
-        receivePower();
+            PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(this.worldPosition));
         crush();
         timer++;
     }
@@ -63,22 +64,6 @@ public class CrusherBlockEntity extends MachineBlockEntity {
         if (Items.RAW_IRON.equals(item)) return true;
 
         return false;
-    }
-
-    @Override
-    public CustomEnergyStorage createEnergy() {
-        return new CustomEnergyStorage(ENERGY_CAPACITY, MAX_TRANSFER, MAX_EXTRACT) {
-            @Override
-            protected void onEnergyChanged() {
-                setChanged();
-            }
-
-            @Override
-            public boolean canExtract()
-            {
-                return false;
-            }
-        };
     }
 
     @Override

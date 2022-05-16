@@ -2,7 +2,7 @@ package net.hawon.spacesim.common.block.pipe.cables;
 
 import net.hawon.spacesim.common.block.pipe.PipeBlock;
 import net.hawon.spacesim.common.network.PacketHandler;
-import net.hawon.spacesim.common.network.packet.energy.ServerEnergyPacket;
+import net.hawon.spacesim.common.network.packet.energy.ServerCablePacket;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -22,14 +22,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class CopperCableBlock extends PipeBlock implements EntityBlock {
 
-    public CopperCableBlock() {
-        super();
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CableBlockEntity(pos, state, 0);
+        return new CableBlockEntity(pos, state, CableMaterial.COPPER_MEDIUM);
     }
 
     @Override
@@ -52,7 +48,7 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
 
         if (!level.isClientSide()) {
             StateManager.setState(level, pos);
-            PacketHandler.INSTANCE.sendToServer(new ServerEnergyPacket(pos));
+            PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(pos));
         }
 
     }
@@ -64,7 +60,7 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
             if (level.getBlockEntity(pos) instanceof CableBlockEntity cable) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item.asItem() == ItemInit.GALVANOMETER.get()) {
-                    System.out.println(cable.getSourcePos() + " | " + cable.getCurrent());
+                    System.out.println(cable.getSourcePos() + " | ");
                 }
             }
         }

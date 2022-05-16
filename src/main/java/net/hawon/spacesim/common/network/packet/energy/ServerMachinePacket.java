@@ -1,7 +1,7 @@
 package net.hawon.spacesim.common.network.packet.energy;
 
-import net.hawon.spacesim.common.block.pipe.cables.CableBlockEntity;
-import net.hawon.spacesim.common.network.energy.CableEnergyNetwork;
+import net.hawon.spacesim.common.block.machines.MachineBlockEntity;
+import net.hawon.spacesim.common.network.energy.MachineEnergyNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -12,31 +12,31 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-public class ServerEnergyPacket {
+public class ServerMachinePacket {
 
-    public final BlockPos cablePos;
+    public final BlockPos pos;
 
-    public ServerEnergyPacket(BlockPos cablePos) {
-        this.cablePos = cablePos;
+    public ServerMachinePacket(BlockPos pos) {
+        this.pos = pos;
     }
 
-    public ServerEnergyPacket(FriendlyByteBuf buffer) {
+    public ServerMachinePacket(FriendlyByteBuf buffer) {
         this(buffer.readBlockPos());
     }
 
     public void encode(FriendlyByteBuf buffer) { //encode -> save data
-        buffer.writeBlockPos(cablePos);
+        buffer.writeBlockPos(pos);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
         final var success = new AtomicBoolean(false);
         ctx.get().enqueueWork(() -> {
-            Level level = Objects.requireNonNull(ctx.get().getSender()).level;
-            BlockEntity blockEntity = level.getBlockEntity(cablePos);
+           Level level = Objects.requireNonNull(ctx.get().getSender()).level;
+            BlockEntity be = level.getBlockEntity(pos);
 
-            if (blockEntity instanceof CableBlockEntity cableBE) {
-                CableEnergyNetwork energyNetwork = new CableEnergyNetwork(level);
-                energyNetwork.update(cablePos, cableBE.getSourcePos());
+            if (be instanceof MachineBlockEntity machineBE) {
+                MachineEnergyNetwork energyNetwork = new MachineEnergyNetwork(level, machineBE);
+                energyNetwork.updateSource();
 
                 success.set(true);
             }
@@ -45,4 +45,5 @@ public class ServerEnergyPacket {
         ctx.get().setPacketHandled(true);
         return success.get();
     }
+
 }

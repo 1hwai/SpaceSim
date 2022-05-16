@@ -1,6 +1,7 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.block.machines.generator.GeneratorCC.GeneratorCCBlock;
 import net.hawon.spacesim.common.block.pipe.cables.CopperCableBlock;
 import net.hawon.spacesim.common.block.machines.crusher.CrusherBlock;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlock;
@@ -44,6 +45,9 @@ public class BlockInit {
 
     public static final RegistryObject<CopperCableBlock> COPPER_CABLE = BLOCKS.register("copper_cable", CopperCableBlock::new);
     public static final RegistryObject<Item> COPPER_CABLE_ITEM = fromBlock(COPPER_CABLE);
+
+    public static final RegistryObject<GeneratorCCBlock> GENERATOR_CC = BLOCKS.register("generator_cc", () -> new GeneratorCCBlock(ORE_PROPERTIES));
+    public static final RegistryObject<Item> GENERATOR_CC_ITEM = fromBlock(GENERATOR_CC);
 
 
     //ORE

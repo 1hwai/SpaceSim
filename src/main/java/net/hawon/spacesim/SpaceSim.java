@@ -1,9 +1,6 @@
 package net.hawon.spacesim;
 
-import net.hawon.spacesim.core.Init.BlockEntityInit;
-import net.hawon.spacesim.core.Init.BlockInit;
-import net.hawon.spacesim.core.Init.ContainerInit;
-import net.hawon.spacesim.core.Init.ItemInit;
+import net.hawon.spacesim.core.Init.*;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -48,6 +45,7 @@ public class SpaceSim
         BlockInit.BLOCKS.register(bus);
         BlockEntityInit.BLOCK_ENTITIES.register(bus);
         ContainerInit.CONTAINERS.register(bus);
+        RecipeInit.SERIALIZERS.register(bus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

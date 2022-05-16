@@ -1,8 +1,10 @@
 package net.hawon.spacesim.common.network;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.network.packet.energy.ClientEnergyPacket;
-import net.hawon.spacesim.common.network.packet.energy.ServerEnergyPacket;
+import net.hawon.spacesim.common.network.packet.energy.ClientCablePacket;
+import net.hawon.spacesim.common.network.packet.energy.ClientMachinePacket;
+import net.hawon.spacesim.common.network.packet.energy.ServerCablePacket;
+import net.hawon.spacesim.common.network.packet.energy.ServerMachinePacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -20,13 +22,25 @@ public class PacketHandler {
 
     public static void init() {
         int index = 0;
-        INSTANCE.messageBuilder(ServerEnergyPacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ServerEnergyPacket::encode).decoder(ServerEnergyPacket::new)
-                .consumer(ServerEnergyPacket::handle)
+
+        //Cable
+        INSTANCE.messageBuilder(ServerCablePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ServerCablePacket::encode).decoder(ServerCablePacket::new)
+                .consumer(ServerCablePacket::handle)
                 .add();
-        INSTANCE.messageBuilder(ClientEnergyPacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(ClientEnergyPacket::encode).decoder(ClientEnergyPacket::new)
-                .consumer(ClientEnergyPacket::handle)
+        INSTANCE.messageBuilder(ClientCablePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ClientCablePacket::encode).decoder(ClientCablePacket::new)
+                .consumer(ClientCablePacket::handle)
                 .add();
+        //Machine
+        INSTANCE.messageBuilder(ServerMachinePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ServerMachinePacket::encode).decoder(ServerMachinePacket::new)
+                .consumer(ServerMachinePacket::handle)
+                .add();
+        INSTANCE.messageBuilder(ClientMachinePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ClientMachinePacket::encode).decoder(ClientMachinePacket::new)
+                .consumer(ClientMachinePacket::handle)
+                .add();
+
     }
 }

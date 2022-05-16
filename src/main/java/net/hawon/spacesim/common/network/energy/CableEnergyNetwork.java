@@ -20,66 +20,64 @@ public class CableEnergyNetwork {
     private final Queue<BlockPos> queue = new LinkedList<>();
 
     private final Level level;
+    private final CableBlockEntity cableBE;
 
-    public CableEnergyNetwork(Level level) {
+    public CableEnergyNetwork(Level level, CableBlockEntity cableBE) {
         this.level = level;
+        this.cableBE = cableBE;
     }
 
-    public void update(BlockPos cablePos, BlockPos sourcePos) {
-        findSource(cablePos);
-        setCurrent(sourcePos);
-    }
+    public void setCurrent() {
+        BlockPos sourcePos = cableBE.getPowerSource().getBlockPos();
+        if (sourcePos == null)
+            return;
 
-    public void setCurrent(BlockPos sourcePos) {
-        if (sourcePos != null) {
-            queue.clear();
-            visited.clear();
+        queue.clear();
+        visited.clear();
 
-            queue.add(sourcePos);
-            visited.add(sourcePos);
+        queue.add(sourcePos);
+        visited.add(sourcePos);
 
-            while (!queue.isEmpty()) {
-                BlockPos pos = queue.poll();
-                BlockEntity be = level.getBlockEntity(pos);
+        while (!queue.isEmpty()) {
+            BlockPos pos = queue.poll();
+            BlockEntity be = level.getBlockEntity(pos);
 
-                for (Direction direction : Direction.values()) {
-                    BlockPos rel = pos.relative(direction);
+            for (Direction direction : Direction.values()) {
+                BlockPos rel = pos.relative(direction);
 
-                    if (!visited.contains(rel)) {
-                        BlockEntity relBE = level.getBlockEntity(rel);
-                        if (relBE instanceof CableBlockEntity relCableBE) {
+                if (!visited.contains(rel)) {
+                    BlockEntity relBE = level.getBlockEntity(rel);
+                    if (relBE instanceof CableBlockEntity relCableBE) {
 
-                            if (be instanceof CableBlockEntity cableBE) {
-                                float test = cableBE.getCurrent() - cableBE.getLoss();
-                                if (test >= 0) {
-                                    relCableBE.setCurrent(test);
-                                } else {
-                                    relCableBE.setCurrent(0);
-                                }
-                            } else if (be instanceof GeneratorBlockEntity) {
-                                relCableBE.setCurrent(GeneratorBlockEntity.getMaxExtract());
+                        if (be instanceof CableBlockEntity cableBE) {
+                            float test = cableBE.getCurrent() - cableBE.getLoss();
+                            if (test >= 0) {
+                                relCableBE.setCurrent(test);
+                            } else {
+                                relCableBE.setCurrent(0);
                             }
-                            queue.add(rel);
-                            visited.add(rel);
+                        } else if (be instanceof GeneratorBlockEntity) {
+                            relCableBE.setCurrent(GeneratorBlockEntity.getMaxExtract());
                         }
-
+                        queue.add(rel);
+                        visited.add(rel);
                     }
+
                 }
             }
         }
     }
 
-    public void findSource(BlockPos cablePos) {
+
+    public void findSource() {
+        BlockPos cablePos = cableBE.getBlockPos();
         queue.clear();
         visited.clear();
 
         queue.add(cablePos);
         visited.add(cablePos);
 
-        int maxTier = 0;
-        boolean geConnected = false;
-
-        CableBlockEntity cableBE = (CableBlockEntity) level.getBlockEntity(cablePos);
+        boolean powerConnected = false;
 
         while (!queue.isEmpty()) {
             BlockPos pos = queue.poll();
@@ -90,25 +88,23 @@ public class CableEnergyNetwork {
                 if (!visited.contains(rel)) {
                     BlockEntity be = level.getBlockEntity(rel);
 
-                    if (be != null) {
-                        if (be instanceof CableBlockEntity) {
-                            queue.add(rel);
-                            visited.add(rel);
-                        } else if (be instanceof GeneratorBlockEntity ge) {
-                            if (ge.getTier() > maxTier) {
-                                maxTier = ge.getTier();
-                                cableBE.setSourcePos(rel);
-                            }
-                            geConnected = true;
+                    if (be instanceof CableBlockEntity) {
+                        queue.add(rel);
+                        visited.add(rel);
+                    } else if (be instanceof GeneratorBlockEntity ge) {
+                        if (ge.getTier() > maxTier) {
+                            maxTier = ge.getTier();
+                            cableBE.setSourcePos(rel);
                         }
+                        cableBE.setPowerSource();
+                        powerConnected = true;
                     }
                 }
             }
         }
 
-        if (!geConnected) {
-            cableBE.setSourcePos(null);
-            cableBE.setCurrent(0);
+        if (!powerConnected) {
+            cableBE.setPowerSource(null);
         }
 
     }
