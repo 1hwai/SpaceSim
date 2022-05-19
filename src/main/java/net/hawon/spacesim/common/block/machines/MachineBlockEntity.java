@@ -19,6 +19,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class MachineBlockEntity extends BlockEntity {
@@ -26,7 +27,10 @@ public abstract class MachineBlockEntity extends BlockEntity {
     protected int timer;
     public int progress;
 
+    public UUID id;
+
     public BlockEntity powerSource;
+    public Electricity regularElec;
     public Electricity electricity;
     public int MIN_CURRENT = 16;
 
@@ -39,6 +43,9 @@ public abstract class MachineBlockEntity extends BlockEntity {
 
     public MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int inputSize, int outputSize, int energyCapacity, int minCurrent) {
         super(type, pos, state);
+
+        id = UUID.randomUUID();
+        regularElec = new Electricity(20, 380);
 
         INPUT_SIZE = inputSize;
         OUTPUT_SIZE = outputSize;

@@ -14,45 +14,40 @@ public class GeneratorCCBlockEntity extends BlockEntity {
     private int timer;
 
     public BlockEntity electromagnetBE;
-    public HashMap<Integer, BlockEntity> connectionMap = new HashMap<>();
-    //This connectionMap manages machines connected to the generator, to manage its usage
 
     public int rpm = 3000, eMagnetStrength = 80;
     //eMagnetStrength as percentage
     //average rpm should be 3600
 
-
-    public Electricity electricity = new Electricity(); //average output
+    public Electricity e = new Electricity();
+    //average output
 
     public GeneratorCCBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.GENERATOR_CC.get(), pos, state);
     }
 
     public void tick() {
-        electricity.setCurrent(14 * rpm * eMagnetStrength); //almost equals (eMS + eMS/3) * 10 * rpm
-        electricity.power = electricity.getCurrent() * electricity.getVoltageLN();
-        if (timer % 80 == 0)
-            printInfo();
+        setElectricity();
         timer++;
     }
 
-    public void printInfo() {
-        System.out.println("RPM : " + rpm + " EMS: " + eMagnetStrength);
-        System.out.println(
-                "Current : " + electricity.getCurrent()
-                + "LN Voltage(abs) : " + electricity.getVoltageLN()
-                + "LL Voltage(abs) : " + electricity.getVoltageLL()
-                + " Power : " + electricity.getPower()
-                );
+    private void setElectricity() {
+        double strength = rpm * eMagnetStrength;
+        if (!isIdle()) {
+            e.setCurrent(0.125 * strength);
+            if (strength > 0) {
+                if (strength < 55000)
+                    e.setVoltage(0.4 * rpm * eMagnetStrength);
+                else
+                    e.setVoltage(22000);
+            }
+        } else {
+            e.reset();
+        }
     }
 
-
-    public void update() {
-        requestModelDataUpdate();
-        setChanged();
-        if (level != null) {
-            level.setBlockAndUpdate(worldPosition, getBlockState());
-        }
+    public boolean isIdle() {
+        return rpm <= 0 || eMagnetStrength <= 0;
     }
 
 }

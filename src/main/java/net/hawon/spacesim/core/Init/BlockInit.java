@@ -2,10 +2,12 @@ package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
 import net.hawon.spacesim.common.block.machines.generator.GeneratorCC.GeneratorCCBlock;
+import net.hawon.spacesim.common.block.machines.generator.GeneratorOM.GeneratorOMBlock;
 import net.hawon.spacesim.common.block.pipe.cables.CopperCableBlock;
 import net.hawon.spacesim.common.block.machines.crusher.CrusherBlock;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlock;
 import net.hawon.spacesim.common.block.generator.GeneratorBlock;
+import net.hawon.spacesim.common.energy.ThreePhaseType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -48,6 +50,19 @@ public class BlockInit {
 
     public static final RegistryObject<GeneratorCCBlock> GENERATOR_CC = BLOCKS.register("generator_cc", () -> new GeneratorCCBlock(ORE_PROPERTIES));
     public static final RegistryObject<Item> GENERATOR_CC_ITEM = fromBlock(GENERATOR_CC);
+
+    //Generator OM
+    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_L1 = BLOCKS.register("generator_om_l_one", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.L1));
+    public static final RegistryObject<Item> GENERATOR_OM_L1_ITEM = fromBlock(GENERATOR_OM_L1);
+
+    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_L2 = BLOCKS.register("generator_om_l_two", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.L2));
+    public static final RegistryObject<Item> GENERATOR_OM_L2_ITEM = fromBlock(GENERATOR_OM_L2);
+
+    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_L3 = BLOCKS.register("generator_om_l_three", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.L3));
+    public static final RegistryObject<Item> GENERATOR_OM_L3_ITEM = fromBlock(GENERATOR_OM_L3);
+
+    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_N = BLOCKS.register("generator_om_l_n", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.N));
+    public static final RegistryObject<Item> GENERATOR_OM_N_ITEM = fromBlock(GENERATOR_OM_N);
 
 
     //ORE

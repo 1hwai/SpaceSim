@@ -21,12 +21,6 @@ public class CrusherBlockEntity extends MachineBlockEntity {
 
     public static final Component TITLE = new TranslatableComponent("Crusher");
 
-    public static final int MAX_TRANSFER = 0; //PER TICK
-    public static final int MAX_EXTRACT = 0;
-    public static final int ENERGY_CONSUME = 2; //PER TICK
-
-    public static final int BURN_TIME = 200; //a.k.a. Burn Time, 10sec
-
     public CrusherBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.CRUSHER.get(), pos, state);
     }
@@ -40,21 +34,7 @@ public class CrusherBlockEntity extends MachineBlockEntity {
     }
 
     private void crush() {
-        if (energyStorage.getEnergyStored() > 0) {
-            if (progress > 0) {
-                if (progress == 1) {
-                    outputInv.insertItem(0, new ItemStack(ItemInit.TITANIUM_DUST.get()), false);
-                }
-                energyStorage.consumeEnergy(ENERGY_CONSUME);
-                progress--;
-            } else {
-                if (isInputItemValid(inputInv.getStackInSlot(0))) {
-                    inputInv.extractItem(0, 1, false);
-                    progress = BURN_TIME + 1; //burn time, 10sec
-                    setChanged();
-                }
-            }
-        }
+
     }
 
     private boolean isInputItemValid(ItemStack stack) {
