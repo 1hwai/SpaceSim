@@ -32,13 +32,13 @@ public class Electricity {
         this.resistance = resistance;
     }
 
-    public double getResistance() {
-        return resistance;
-    }
-
     public double getPower() {
         power = current * voltage;
         return power;
+    }
+
+    public boolean isVoltageValid() {
+        return voltage >= 0;
     }
 
 
