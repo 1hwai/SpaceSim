@@ -1,9 +1,8 @@
 package net.hawon.spacesim.common.block.machines.crusher;
 
 import net.hawon.spacesim.common.block.machines.MachineBlockEntity;
-import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.common.network.PacketHandler;
-import net.hawon.spacesim.common.network.packet.energy.ServerMachinePacket;
+import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;

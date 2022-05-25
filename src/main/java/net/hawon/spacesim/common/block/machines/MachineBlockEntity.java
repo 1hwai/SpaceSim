@@ -1,8 +1,5 @@
 package net.hawon.spacesim.common.block.machines;
 
-import net.hawon.spacesim.common.block.pipe.cables.CableBlockEntity;
-import net.hawon.spacesim.common.block.generator.GeneratorBlockEntity;
-import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.common.energy.Electricity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,26 +9,23 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class MachineBlockEntity extends BlockEntity {
 
     protected int timer;
-    public int progress;
 
     public UUID id;
+    public int progress;
 
-    public BlockEntity powerSource;
-    public Electricity regularElec;
-    public Electricity electricity;
+    public SourceBlockEntity source;
+    public Electricity regularE;
+    public Electricity e;
     public int MIN_CURRENT = 16;
 
     public final int INPUT_SIZE;
@@ -45,7 +39,7 @@ public abstract class MachineBlockEntity extends BlockEntity {
         super(type, pos, state);
 
         id = UUID.randomUUID();
-        regularElec = new Electricity(20, 380);
+        regularE = new Electricity(20, 380);
 
         INPUT_SIZE = inputSize;
         OUTPUT_SIZE = outputSize;
@@ -64,9 +58,15 @@ public abstract class MachineBlockEntity extends BlockEntity {
 
     public abstract void tick();
 
-    public void setPowerSource(BlockEntity powerSource) {
-        this.powerSource = powerSource;
+    public void setSource(SourceBlockEntity source) {
+        this.source = source;
     }
+
+    public SourceBlockEntity getSource() {
+        return source;
+    }
+
+    //Default Settings
 
     @Override
     public CompoundTag getUpdateTag() {

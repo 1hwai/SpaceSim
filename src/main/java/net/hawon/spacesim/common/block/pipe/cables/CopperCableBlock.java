@@ -2,7 +2,7 @@ package net.hawon.spacesim.common.block.pipe.cables;
 
 import net.hawon.spacesim.common.block.pipe.PipeBlock;
 import net.hawon.spacesim.common.network.PacketHandler;
-import net.hawon.spacesim.common.network.packet.energy.ServerCablePacket;
+import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -32,8 +32,8 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, BlockState state, BlockEntityType<T> beType) {
         if (!level.isClientSide()) {
             return (level0, pos, state0, blockEntity) -> {
-                if (blockEntity instanceof CableBlockEntity be) {
-                    be.tickServer();
+                if (blockEntity instanceof CableBlockEntity cableBE) {
+                    cableBE.tick();
                 }
             };
         }
@@ -60,7 +60,7 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
             if (level.getBlockEntity(pos) instanceof CableBlockEntity cable) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item.asItem() == ItemInit.GALVANOMETER.get()) {
-                    System.out.println(cable.getSourcePos() + " | ");
+                    System.out.println(cable.getSource().getBlockPos());
                 }
             }
         }

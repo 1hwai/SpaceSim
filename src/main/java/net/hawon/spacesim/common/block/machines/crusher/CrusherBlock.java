@@ -3,7 +3,7 @@ package net.hawon.spacesim.common.block.machines.crusher;
 import net.hawon.spacesim.common.container.CrusherContainer;
 import net.hawon.spacesim.common.item.RenchItem;
 import net.hawon.spacesim.common.network.PacketHandler;
-import net.hawon.spacesim.common.network.packet.energy.ServerMachinePacket;
+import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +35,6 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 
