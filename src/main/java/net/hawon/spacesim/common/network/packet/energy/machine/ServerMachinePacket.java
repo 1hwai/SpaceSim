@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.network.packet.energy;
+package net.hawon.spacesim.common.network.packet.energy.machine;
 
 import net.hawon.spacesim.common.block.machines.MachineBlockEntity;
 import net.hawon.spacesim.common.network.energy.MachineEnergyNetwork;

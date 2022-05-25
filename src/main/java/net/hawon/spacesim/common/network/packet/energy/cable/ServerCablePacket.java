@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.network.packet.energy;
+package net.hawon.spacesim.common.network.packet.energy.cable;
 
 import net.hawon.spacesim.common.block.pipe.cables.CableBlockEntity;
 import net.hawon.spacesim.common.network.energy.CableEnergyNetwork;
@@ -37,7 +37,7 @@ public class ServerCablePacket {
             if (be instanceof CableBlockEntity cableBE) {
                 CableEnergyNetwork energyNetwork = new CableEnergyNetwork(level, cableBE);
                 energyNetwork.findSource();
-                energyNetwork.setCurrent();
+                energyNetwork.setElectricity();
 
                 success.set(true);
             }

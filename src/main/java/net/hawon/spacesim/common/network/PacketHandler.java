@@ -1,10 +1,10 @@
 package net.hawon.spacesim.common.network;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.network.packet.energy.ClientCablePacket;
-import net.hawon.spacesim.common.network.packet.energy.ClientMachinePacket;
-import net.hawon.spacesim.common.network.packet.energy.ServerCablePacket;
-import net.hawon.spacesim.common.network.packet.energy.ServerMachinePacket;
+import net.hawon.spacesim.common.network.packet.energy.cable.ClientCablePacket;
+import net.hawon.spacesim.common.network.packet.energy.machine.ClientMachinePacket;
+import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
+import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;

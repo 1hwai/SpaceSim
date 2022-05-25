@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.network.packet.energy;
+package net.hawon.spacesim.common.network.packet.energy.machine;
 
 import net.hawon.spacesim.client.ClientAccess;
 import net.minecraft.core.BlockPos;
@@ -10,26 +10,27 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-public class ClientCablePacket {
-    public final BlockPos cablePos;
+public class ClientMachinePacket {
 
-    public ClientCablePacket(BlockPos cablePos) {
-        this.cablePos = cablePos;
+    public final BlockPos machinePos;
+
+    public ClientMachinePacket(BlockPos pos) {
+        this.machinePos = pos;
     }
 
-    public ClientCablePacket(FriendlyByteBuf buffer) {
+    public ClientMachinePacket(FriendlyByteBuf buffer) {
         this(buffer.readBlockPos());
     }
 
-    public void encode(FriendlyByteBuf buffer) { //encode -> save data
-        buffer.writeBlockPos(cablePos);
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeBlockPos(machinePos);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
         final var success = new AtomicBoolean(false);
         ctx.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                success.set(ClientAccess.updateCable(cablePos));
+                success.set(ClientAccess.updateCable(machinePos));
             });
         });
 
