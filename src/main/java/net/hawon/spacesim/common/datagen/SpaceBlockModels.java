@@ -15,7 +15,6 @@ public class SpaceBlockModels extends BlockModelProvider {
 
     @Override
     protected void registerModels() {
-//        orientableVertical("generator", modLoc("block/generator_on"), modLoc("block/generator_side"));
     }
 
     @Override

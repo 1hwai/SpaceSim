@@ -1,6 +1,7 @@
 package net.hawon.spacesim.common.block.pipe.cables;
 
 import net.hawon.spacesim.common.block.pipe.PipeBlock;
+import net.hawon.spacesim.common.block.pipe.StateManager;
 import net.hawon.spacesim.common.network.PacketHandler;
 import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
 import net.hawon.spacesim.core.Init.ItemInit;
@@ -25,14 +26,14 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CableBlockEntity(pos, state, CableMaterial.COPPER_MEDIUM);
+        return new CableBE(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, BlockState state, BlockEntityType<T> beType) {
         if (!level.isClientSide()) {
             return (level0, pos, state0, blockEntity) -> {
-                if (blockEntity instanceof CableBlockEntity cableBE) {
+                if (blockEntity instanceof CableBE cableBE) {
                     cableBE.tick();
                 }
             };
@@ -57,10 +58,10 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
     @Override
     public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof CableBlockEntity cable) {
+            if (level.getBlockEntity(pos) instanceof CableBE cable) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item.asItem() == ItemInit.GALVANOMETER.get()) {
-                    System.out.println(cable.getSource().getBlockPos());
+                    System.out.println(cable.getSourceBE().getBlockPos());
                 }
             }
         }

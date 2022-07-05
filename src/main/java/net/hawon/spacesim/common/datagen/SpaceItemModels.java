@@ -19,7 +19,6 @@ public class SpaceItemModels extends ItemModelProvider {
 
         //BLOCK ENTITY
         withExistingParent(BlockInit.CRUSHER.get().getRegistryName().getPath(), modLoc("block/crusher"));
-        withExistingParent(BlockInit.GENERATOR_ITEM.get().getRegistryName().getPath(), modLoc("block/generator/generator_idle"));
         withExistingParent(BlockInit.DOCKING_PORT_ITEM.get().getRegistryName().getPath(), modLoc("block/docking_port"));
         withExistingParent(BlockInit.EXAMPLE_CHEST_ITEM.get().getRegistryName().getPath(), modLoc("block/example_chest"));
 

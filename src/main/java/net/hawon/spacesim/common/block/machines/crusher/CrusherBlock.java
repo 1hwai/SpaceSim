@@ -81,7 +81,7 @@ public class CrusherBlock extends Block implements EntityBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, BlockState state, BlockEntityType<T> beType) {
         if (!level.isClientSide()) {
             return (level0, pos, state0, blockEntity) -> {
-                if (blockEntity instanceof CrusherBlockEntity be) {
+                if (blockEntity instanceof CrusherBE be) {
                     be.tick();
                 }
             };
@@ -92,7 +92,7 @@ public class CrusherBlock extends Block implements EntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CrusherBlockEntity(pos, state);
+        return new CrusherBE(pos, state);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class CrusherBlock extends Block implements EntityBlock {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
         if (!level.isClientSide()) {
-            if (level.getBlockEntity(pos) instanceof CrusherBlockEntity crusherBE) {
+            if (level.getBlockEntity(pos) instanceof CrusherBE crusherBE) {
                 PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(pos));
             }
         }
@@ -112,20 +112,20 @@ public class CrusherBlock extends Block implements EntityBlock {
     @Override
     public @NotNull InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof CrusherBlockEntity crusherBE) {
+            if (level.getBlockEntity(pos) instanceof CrusherBE crusherBE) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item == ItemInit.RENCH.get())
                     return RenchItem.rotate(state, level, pos, player);
                 if (item == ItemInit.GALVANOMETER.get()) {
                     int energyStored = crusherBE.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
-                    System.out.println(crusherBE.sourcePos + " || " +energyStored);
+                    System.out.println(crusherBE.getSource() + " || " +energyStored);
                     return InteractionResult.FAIL;
                 }
 
                 final MenuProvider container = new MenuProvider() {
                     @Override
                     public @NotNull Component getDisplayName() {
-                        return CrusherBlockEntity.TITLE;
+                        return CrusherBE.TITLE;
                     }
 
                     @Override

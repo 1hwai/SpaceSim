@@ -20,7 +20,6 @@ public class SpaceBlockStates extends BlockStateProvider {
     protected void registerStatesAndModels() {
 
         //BLOCK ENTITY
-        registerGenerator();
         registerCrusher();
         simpleBlock(BlockInit.DOCKING_PORT.get());
         simpleBlock(BlockInit.EXAMPLE_CHEST.get());
@@ -43,38 +42,6 @@ public class SpaceBlockStates extends BlockStateProvider {
         bld.partialState().with(FACING, Direction.WEST).modelForState().modelFile(crusher).rotationY(270).addModel();
         bld.partialState().with(FACING, Direction.EAST).modelForState().modelFile(crusher).rotationY(90).addModel();
 
-    }
-
-    protected void registerGenerator() {
-        //State: ON
-        BlockModelBuilder genOn = models().getBuilder("block/generator/generator_on");
-        genOn.parent(models().getExistingFile(mcLoc("orientable")));
-        genOn.texture("side", "block/generator_side")
-                .texture("front", "block/generator_on")
-                .texture("top", "block/generator_side");
-
-        //State: IDLE
-        BlockModelBuilder genIdle = models().getBuilder("block/generator/generator_idle");
-        genIdle.parent(models().getExistingFile(mcLoc("orientable")));
-        genIdle.texture("side", "block/generator_side")
-                .texture("front", "block/generator_idle")
-                .texture("top", "block/generator_side");
-
-        VariantBlockStateBuilder bld = getVariantBuilder(BlockInit.GENERATOR.get());
-
-        BlockModelBuilder[] models = new BlockModelBuilder[] { genOn, genIdle };
-
-        for (int i = 0; i < 2; i++) {
-            boolean powered = i == 0;
-            bld.partialState().with(FACING, Direction.NORTH)
-                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).addModel();
-            bld.partialState().with(FACING, Direction.SOUTH)
-                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).rotationY(180).addModel();
-            bld.partialState().with(FACING, Direction.WEST)
-                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).rotationY(270).addModel();
-            bld.partialState().with(FACING, Direction.EAST)
-                    .with(BlockStateProperties.POWERED, powered).modelForState().modelFile(models[i]).rotationY(90).addModel();
-        }
     }
 
 }

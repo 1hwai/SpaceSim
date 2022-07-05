@@ -56,6 +56,6 @@ public class CrusherScreen extends AbstractContainerScreen<CrusherContainer> {
 
     @Override
     protected void renderLabels(PoseStack stack, int mouseX, int mouseY) {
-        drawString(stack, Minecraft.getInstance().font, "Energy: " + menu.getEnergy() + "J", this.imageWidth / 2 - 32, 65, 0xffffff);
+        drawString(stack, Minecraft.getInstance().font, "Energy: " + "Currently not Possible " + "J", this.imageWidth / 2 - 32, 65, 0xffffff);
     }
 }

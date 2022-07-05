@@ -13,7 +13,6 @@ public class SpaceLootTables extends BaseLootTables {
 
     @Override
     protected void addTables() {
-        lootTables.put(BlockInit.GENERATOR.get(), createStandardTable("generator", BlockInit.GENERATOR.get(), BlockEntityInit.GENERATOR.get()));
         lootTables.put(BlockInit.BAUXITE_ORE.get(), createSilkTouchTable("bauxite_ore", BlockInit.BAUXITE_ORE.get(), ItemInit.RAW_BAUXITE.get(), 1, 1));
         lootTables.put(BlockInit.TITANIUM_ORE.get(), createSilkTouchTable("titanium_ore", BlockInit.TITANIUM_ORE.get(), ItemInit.RAW_TITANIUM.get(), 1, 1));
         lootTables.put(BlockInit.URANIUM_ORE.get(), createSilkTouchTable("uranium_ore", BlockInit.URANIUM_ORE.get(), ItemInit.RAW_URANIUM.get(), 1, 1));

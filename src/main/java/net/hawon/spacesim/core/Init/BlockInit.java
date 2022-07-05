@@ -1,13 +1,9 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.block.machines.generator.GeneratorCC.GeneratorCCBlock;
-import net.hawon.spacesim.common.block.machines.generator.GeneratorOM.GeneratorOMBlock;
 import net.hawon.spacesim.common.block.pipe.cables.CopperCableBlock;
 import net.hawon.spacesim.common.block.machines.crusher.CrusherBlock;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlock;
-import net.hawon.spacesim.common.block.generator.GeneratorBlock;
-import net.hawon.spacesim.common.energy.ThreePhaseType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -37,33 +33,11 @@ public class BlockInit {
     public static final RegistryObject<ExampleChestBlock> EXAMPLE_CHEST = BLOCKS.register("example_chest", () -> new ExampleChestBlock(ORE_PROPERTIES));
     public static final RegistryObject<Item> EXAMPLE_CHEST_ITEM = fromBlock(EXAMPLE_CHEST);
 
-    public static final RegistryObject<GeneratorBlock> GENERATOR = BLOCKS.register("generator", () -> new GeneratorBlock(
-            BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).strength(2.0f).lightLevel(state -> state.getValue(BlockStateProperties.POWERED) ? 14 : 0))
-    );
-    public static final RegistryObject<Item> GENERATOR_ITEM = fromBlock(GENERATOR);
-
     public static final RegistryObject<CrusherBlock> CRUSHER = BLOCKS.register("crusher", () -> new CrusherBlock(ORE_PROPERTIES.dynamicShape()));
     public static final RegistryObject<Item> CRUSHER_ITEM = fromBlock(CRUSHER);
 
     public static final RegistryObject<CopperCableBlock> COPPER_CABLE = BLOCKS.register("copper_cable", CopperCableBlock::new);
     public static final RegistryObject<Item> COPPER_CABLE_ITEM = fromBlock(COPPER_CABLE);
-
-    public static final RegistryObject<GeneratorCCBlock> GENERATOR_CC = BLOCKS.register("generator_cc", () -> new GeneratorCCBlock(ORE_PROPERTIES));
-    public static final RegistryObject<Item> GENERATOR_CC_ITEM = fromBlock(GENERATOR_CC);
-
-    //Generator OM
-    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_L1 = BLOCKS.register("generator_om_l_one", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.L1));
-    public static final RegistryObject<Item> GENERATOR_OM_L1_ITEM = fromBlock(GENERATOR_OM_L1);
-
-    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_L2 = BLOCKS.register("generator_om_l_two", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.L2));
-    public static final RegistryObject<Item> GENERATOR_OM_L2_ITEM = fromBlock(GENERATOR_OM_L2);
-
-    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_L3 = BLOCKS.register("generator_om_l_three", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.L3));
-    public static final RegistryObject<Item> GENERATOR_OM_L3_ITEM = fromBlock(GENERATOR_OM_L3);
-
-    public static final RegistryObject<GeneratorOMBlock> GENERATOR_OM_N = BLOCKS.register("generator_om_l_n", () -> new GeneratorOMBlock(ORE_PROPERTIES, ThreePhaseType.N));
-    public static final RegistryObject<Item> GENERATOR_OM_N_ITEM = fromBlock(GENERATOR_OM_N);
-
 
     //ORE
     public static final RegistryObject<Block> BAUXITE_ORE = BLOCKS.register("bauxite_ore", () -> new Block(ORE_PROPERTIES));

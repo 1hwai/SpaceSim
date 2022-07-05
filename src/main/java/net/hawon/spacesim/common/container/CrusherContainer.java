@@ -1,6 +1,5 @@
 package net.hawon.spacesim.common.container;
 
-import net.hawon.spacesim.common.energy.CustomEnergyStorage;
 import net.hawon.spacesim.core.Init.BlockInit;
 import net.hawon.spacesim.core.Init.ContainerInit;
 import net.minecraft.core.BlockPos;
@@ -52,45 +51,45 @@ public class CrusherContainer extends AbstractContainerMenu {
             addSlot(new Slot(playerInv, column, startX + column * slotSizePlus2, hotbarY));
         }
 
-        trackPower();
+//        trackPower();
     }
 
     // Setup syncing of power from server to client so that the GUI can show the amount of power in the block
-    private void trackPower() {
-        // splitting 32 bit integer into two 16 bit integers
-        addDataSlot(new DataSlot() {
-            @Override
-            public int get() {
-                return getEnergy() & 0xffff;
-            }
-
-            @Override
-            public void set(int value) {
-                blockEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(h -> {
-                    int energyStored = h.getEnergyStored() & 0xffff0000;
-                    ((CustomEnergyStorage)h).setEnergy(energyStored + (value & 0xffff));
-                });
-            }
-        });
-        addDataSlot(new DataSlot() {
-            @Override
-            public int get() {
-                return (getEnergy() >> 16) & 0xffff;
-            }
-
-            @Override
-            public void set(int value) {
-                blockEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(h -> {
-                    int energyStored = h.getEnergyStored() & 0x0000ffff;
-                    ((CustomEnergyStorage)h).setEnergy(energyStored | (value << 16));
-                });
-            }
-        });
-    }
-
-    public int getEnergy() {
-        return blockEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
-    }
+//    private void trackPower() {
+//        // splitting 32 bit integer into two 16 bit integers
+//        addDataSlot(new DataSlot() {
+//            @Override
+//            public int get() {
+//                return getEnergy() & 0xffff;
+//            }
+//
+//            @Override
+//            public void set(int value) {
+//                blockEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(h -> {
+//                    int energyStored = h.getEnergyStored() & 0xffff0000;
+//                    ((CustomEnergyStorage)h).setEnergy(energyStored + (value & 0xffff));
+//                });
+//            }
+//        });
+//        addDataSlot(new DataSlot() {
+//            @Override
+//            public int get() {
+//                return (getEnergy() >> 16) & 0xffff;
+//            }
+//
+//            @Override
+//            public void set(int value) {
+//                blockEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(h -> {
+//                    int energyStored = h.getEnergyStored() & 0x0000ffff;
+//                    ((CustomEnergyStorage)h).setEnergy(energyStored | (value << 16));
+//                });
+//            }
+//        });
+//    }
+//
+//    public int getEnergy() {
+//        return blockEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+//    }
 
     @Override
     public boolean stillValid(Player player) {

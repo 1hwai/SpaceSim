@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.block.util;
+package net.hawon.spacesim.common.block.utils;
 
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;

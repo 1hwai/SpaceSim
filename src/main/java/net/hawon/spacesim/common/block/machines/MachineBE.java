@@ -1,10 +1,11 @@
 package net.hawon.spacesim.common.block.machines;
 
-import net.hawon.spacesim.common.energy.Electricity;
+import net.hawon.spacesim.common.block.machines.skeleton.ConsumerBE;
+import net.hawon.spacesim.common.block.machines.skeleton.NodeBE;
+import net.hawon.spacesim.common.block.machines.skeleton.SourceBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -14,19 +15,11 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
-public abstract class MachineBlockEntity extends BlockEntity {
+public abstract class MachineBE extends ConsumerBE {
 
     protected int timer;
-
-    public UUID id;
     public int progress;
-
-    public SourceBlockEntity source;
-    public Electricity regularE;
-    public Electricity e;
-    public int MIN_CURRENT = 16;
 
     public final int INPUT_SIZE;
     public final int OUTPUT_SIZE;
@@ -35,15 +28,12 @@ public abstract class MachineBlockEntity extends BlockEntity {
     public final ItemStackHandler outputInv;
     public final LazyOptional<IItemHandler> outputHandler;
 
-    public MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int inputSize, int outputSize, int energyCapacity, int minCurrent) {
+    public MachineBE(BlockEntityType<?> type, BlockPos pos, BlockState state, int inputSize, int outputSize) {
         super(type, pos, state);
 
-        id = UUID.randomUUID();
-        regularE = new Electricity(20, 380);
 
         INPUT_SIZE = inputSize;
         OUTPUT_SIZE = outputSize;
-        MIN_CURRENT = minCurrent;
 
         inputInv = createInputHandler();
         inputHandler = LazyOptional.of(() -> inputInv);
@@ -52,18 +42,8 @@ public abstract class MachineBlockEntity extends BlockEntity {
 
     }
 
-    public MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        this(type, pos, state, 1, 1, 16000, 16);
-    }
-
-    public abstract void tick();
-
-    public void setSource(SourceBlockEntity source) {
-        this.source = source;
-    }
-
-    public SourceBlockEntity getSource() {
-        return source;
+    public MachineBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        this(type, pos, state, 1, 1);
     }
 
     //Default Settings
@@ -95,7 +75,7 @@ public abstract class MachineBlockEntity extends BlockEntity {
             outputInv.deserializeNBT(tag.getCompound("outputInventory"));
         }
         if (tag.contains("Info")) {
-            progress = tag.getCompound("Info").getInt("Counter");
+            progress = tag.getCompound("Info").getInt("Progress");
         }
         super.load(tag);
     }

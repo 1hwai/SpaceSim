@@ -14,6 +14,7 @@
   "block.spacesim.example_chest": "Example Chest",
   "block.spacesim.generator": "Generator",
   "block.spacesim.coppper_cable": "Copper Cable",
+  "item.spacesim.crusher": "Crusher",
 
   "itemGroup.spacesimTab": "Space Sim"
 }

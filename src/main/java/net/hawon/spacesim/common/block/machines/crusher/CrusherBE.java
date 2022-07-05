@@ -1,8 +1,6 @@
 package net.hawon.spacesim.common.block.machines.crusher;
 
-import net.hawon.spacesim.common.block.machines.MachineBlockEntity;
-import net.hawon.spacesim.common.network.PacketHandler;
-import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
+import net.hawon.spacesim.common.block.machines.MachineBE;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
@@ -16,24 +14,19 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 
-public class CrusherBlockEntity extends MachineBlockEntity {
+public class CrusherBE extends MachineBE {
 
-    public static final Component TITLE = new TranslatableComponent("Crusher");
+    public static final Component TITLE = new TranslatableComponent("addServer.resourcePack");
 
-    public CrusherBlockEntity(BlockPos pos, BlockState state) {
+    public CrusherBE(BlockPos pos, BlockState state) {
         super(BlockEntityInit.CRUSHER.get(), pos, state);
     }
 
-    @Override
     public void tick() {
-        if (timer == 0)
-            PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(this.worldPosition));
-        crush();
         timer++;
     }
 
     private void crush() {
-
     }
 
     private boolean isInputItemValid(ItemStack stack) {
@@ -56,12 +49,12 @@ public class CrusherBlockEntity extends MachineBlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return CrusherBlockEntity.this.isInputItemValid(stack);
+                return CrusherBE.this.isInputItemValid(stack);
             }
 
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                CrusherBlockEntity.super.update();
+                CrusherBE.super.update();
                 return super.extractItem(slot, amount, simulate);
             }
 
@@ -84,7 +77,7 @@ public class CrusherBlockEntity extends MachineBlockEntity {
 
             @Override
             public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-                CrusherBlockEntity.super.update();
+                CrusherBE.super.update();
                 return super.insertItem(slot, stack, simulate);
             }
 

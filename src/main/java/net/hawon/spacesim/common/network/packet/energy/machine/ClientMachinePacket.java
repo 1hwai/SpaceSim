@@ -30,7 +30,7 @@ public class ClientMachinePacket {
         final var success = new AtomicBoolean(false);
         ctx.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                success.set(ClientAccess.updateCable(machinePos));
+                success.set(true);
             });
         });
 

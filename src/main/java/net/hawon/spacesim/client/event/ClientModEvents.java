@@ -3,7 +3,6 @@ package net.hawon.spacesim.client.event;
 import net.hawon.spacesim.SpaceSim;
 import net.hawon.spacesim.client.screen.CrusherScreen;
 import net.hawon.spacesim.client.screen.ExampleChestScreen;
-import net.hawon.spacesim.client.screen.GeneratorScreen;
 import net.hawon.spacesim.core.Init.BlockInit;
 import net.hawon.spacesim.core.Init.ContainerInit;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -24,7 +23,6 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         MenuScreens.register(ContainerInit.EXAMPLE_CHEST.get(), ExampleChestScreen::new);
-        MenuScreens.register(ContainerInit.GENERATOR.get(), GeneratorScreen::new);
         MenuScreens.register(ContainerInit.CRUSHER.get(), CrusherScreen::new);
     }
 
