@@ -1,7 +1,6 @@
 package net.hawon.spacesim.common.network.packet.energy.machine;
 
-import net.hawon.spacesim.common.block.machines.MachineBlockEntity;
-import net.hawon.spacesim.common.network.energy.MachineEnergyNetwork;
+import net.hawon.spacesim.common.block.machines.MachineBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -34,9 +33,7 @@ public class ServerMachinePacket {
            Level level = Objects.requireNonNull(ctx.get().getSender()).level;
             BlockEntity be = level.getBlockEntity(pos);
 
-            if (be instanceof MachineBlockEntity machineBE) {
-                MachineEnergyNetwork energyNetwork = new MachineEnergyNetwork(level, machineBE);
-                energyNetwork.updateSource();
+            if (be instanceof MachineBE machineBE) {
 
                 success.set(true);
             }

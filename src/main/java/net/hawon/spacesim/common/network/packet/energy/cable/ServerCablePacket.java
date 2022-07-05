@@ -1,7 +1,7 @@
 package net.hawon.spacesim.common.network.packet.energy.cable;
 
-import net.hawon.spacesim.common.block.pipe.cables.CableBlockEntity;
-import net.hawon.spacesim.common.network.energy.CableEnergyNetwork;
+import net.hawon.spacesim.common.block.pipe.cables.CableBE;
+import net.hawon.spacesim.common.network.energy.CableNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -34,10 +34,9 @@ public class ServerCablePacket {
             Level level = Objects.requireNonNull(ctx.get().getSender()).level;
             BlockEntity be = level.getBlockEntity(cablePos);
 
-            if (be instanceof CableBlockEntity cableBE) {
-                CableEnergyNetwork energyNetwork = new CableEnergyNetwork(level, cableBE);
-                energyNetwork.findSource();
-                energyNetwork.setElectricity();
+            if (be instanceof CableBE cableBE) {
+                CableNetwork network = new CableNetwork(level, cableBE);
+                network.find();
 
                 success.set(true);
             }
