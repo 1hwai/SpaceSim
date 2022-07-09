@@ -1,7 +1,7 @@
-package net.hawon.spacesim.common.block.pipe;
+package net.hawon.spacesim.common.block.edges;
 
 import net.hawon.spacesim.common.block.machines.skeleton.SourceBE;
-import net.hawon.spacesim.common.block.pipe.cables.CableBE;
+import net.hawon.spacesim.common.block.edges.cables.CableBE;
 import net.hawon.spacesim.common.block.utils.SpaceBlockProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

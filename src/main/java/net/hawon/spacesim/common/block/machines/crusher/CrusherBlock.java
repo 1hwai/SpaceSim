@@ -31,8 +31,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,16 +52,12 @@ public class CrusherBlock extends Block implements EntityBlock {
     @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
-        switch (state.getValue(FACING)) {
-            case SOUTH:
-                return SOUTH;
-            case WEST:
-                return WEST;
-            case EAST:
-                return EAST;
-            default:
-                return NORTH;
-        }
+        return switch (state.getValue(FACING)) {
+            case SOUTH -> SOUTH;
+            case WEST -> WEST;
+            case EAST -> EAST;
+            default -> NORTH;
+        };
     }
 
     @Override
@@ -117,8 +111,7 @@ public class CrusherBlock extends Block implements EntityBlock {
                 if (item == ItemInit.RENCH.get())
                     return RenchItem.rotate(state, level, pos, player);
                 if (item == ItemInit.GALVANOMETER.get()) {
-                    int energyStored = crusherBE.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
-                    System.out.println(crusherBE.getSource() + " || " +energyStored);
+                    System.out.println(crusherBE.parent);
                     return InteractionResult.FAIL;
                 }
 
@@ -147,7 +140,7 @@ public class CrusherBlock extends Block implements EntityBlock {
     public static VoxelShape makeShape(Direction direction){
         VoxelShape shape = Shapes.empty();
         switch (direction) {
-            case SOUTH:
+            case SOUTH -> {
                 shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.3125, 0.9375, 0.8125, 0.4375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.5, 0.9375, 0.8125, 0.625), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.625, 0.75, 0.6875, 0.9375, 0.8125, 0.8125), BooleanOp.OR);
@@ -164,8 +157,8 @@ public class CrusherBlock extends Block implements EntityBlock {
                 shape = Shapes.join(shape, Shapes.box(0, 0.75, 0.9375, 1, 1, 1), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.4375, 0.8125, 0.0625, 0.5625, 0.875, 0.9375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0, 0, 0, 1, 0.75, 1), BooleanOp.OR);
-                break;
-            case EAST:
+            }
+            case EAST -> {
                 shape = Shapes.join(shape, Shapes.box(0.3125, 0.75, 0.0625, 0.4375, 0.8125, 0.375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.5, 0.75, 0.0625, 0.625, 0.8125, 0.375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.6875, 0.75, 0.0625, 0.8125, 0.8125, 0.375), BooleanOp.OR);
@@ -182,8 +175,9 @@ public class CrusherBlock extends Block implements EntityBlock {
                 shape = Shapes.join(shape, Shapes.box(0.9375, 0.75, 0, 1, 1, 1), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.0625, 0.8125, 0.4375, 0.9375, 0.875, 0.5625), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0, 0, 0, 1, 0.75, 1), BooleanOp.OR);
-                break;
-            case WEST:	shape = Shapes.join(shape, Shapes.box(0.5625, 0.75, 0.625, 0.6875, 0.8125, 0.9375), BooleanOp.OR);
+            }
+            case WEST -> {
+                shape = Shapes.join(shape, Shapes.box(0.5625, 0.75, 0.625, 0.6875, 0.8125, 0.9375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.375, 0.75, 0.625, 0.5, 0.8125, 0.9375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.1875, 0.75, 0.625, 0.3125, 0.8125, 0.9375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.625, 0.125, 0.8125, 0.9375), BooleanOp.OR);
@@ -199,8 +193,8 @@ public class CrusherBlock extends Block implements EntityBlock {
                 shape = Shapes.join(shape, Shapes.box(0, 0.75, 0, 0.0625, 1, 1), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.0625, 0.8125, 0.4375, 0.9375, 0.875, 0.5625), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0, 0, 0, 1, 0.75, 1), BooleanOp.OR);
-                break;
-            default:
+            }
+            default -> {
                 shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.5625, 0.375, 0.8125, 0.6875), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.375, 0.375, 0.8125, 0.5), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0.0625, 0.75, 0.1875, 0.375, 0.8125, 0.3125), BooleanOp.OR);
@@ -217,6 +211,7 @@ public class CrusherBlock extends Block implements EntityBlock {
                 shape = Shapes.join(shape, Shapes.box(0.4375, 0.8125, 0.0625, 0.5625, 0.875, 0.9375), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0, 0, 0, 1, 0.75, 1), BooleanOp.OR);
                 shape = Shapes.join(shape, Shapes.box(0, 0.75, 0.0625, 0.0625, 1, 0.9375), BooleanOp.OR);
+            }
         }
 
         return shape;

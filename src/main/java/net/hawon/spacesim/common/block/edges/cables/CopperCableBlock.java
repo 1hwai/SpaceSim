@@ -1,7 +1,7 @@
-package net.hawon.spacesim.common.block.pipe.cables;
+package net.hawon.spacesim.common.block.edges.cables;
 
-import net.hawon.spacesim.common.block.pipe.PipeBlock;
-import net.hawon.spacesim.common.block.pipe.StateManager;
+import net.hawon.spacesim.common.block.edges.EdgeBlock;
+import net.hawon.spacesim.common.block.edges.StateManager;
 import net.hawon.spacesim.common.network.PacketHandler;
 import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
 import net.hawon.spacesim.core.Init.ItemInit;
@@ -21,7 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CopperCableBlock extends PipeBlock implements EntityBlock {
+public class CopperCableBlock extends EdgeBlock implements EntityBlock {
 
     @Nullable
     @Override
@@ -48,7 +48,6 @@ public class CopperCableBlock extends PipeBlock implements EntityBlock {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
         if (!level.isClientSide()) {
-            StateManager.setState(level, pos);
             PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(pos));
         }
 

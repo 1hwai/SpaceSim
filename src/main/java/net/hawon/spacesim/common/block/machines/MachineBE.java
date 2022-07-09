@@ -1,11 +1,13 @@
 package net.hawon.spacesim.common.block.machines;
 
+import net.hawon.spacesim.common.block.edges.cables.CableBE;
 import net.hawon.spacesim.common.block.machines.skeleton.ConsumerBE;
 import net.hawon.spacesim.common.block.machines.skeleton.NodeBE;
 import net.hawon.spacesim.common.block.machines.skeleton.SourceBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,6 +22,8 @@ public abstract class MachineBE extends ConsumerBE {
 
     protected int timer;
     public int progress;
+
+    private Direction cableDirection;
 
     public final int INPUT_SIZE;
     public final int OUTPUT_SIZE;
@@ -44,6 +48,16 @@ public abstract class MachineBE extends ConsumerBE {
 
     public MachineBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         this(type, pos, state, 1, 1);
+    }
+
+    public void setCableDirection(Direction cableDirection) {
+        BlockEntity be = level.getBlockEntity(worldPosition.relative(cableDirection));
+        if (be instanceof CableBE)
+            this.cableDirection = cableDirection;
+    }
+
+    public Direction getCableDirection() {
+        return cableDirection;
     }
 
     //Default Settings

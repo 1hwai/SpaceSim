@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.block.pipe;
+package net.hawon.spacesim.common.block.edges;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -6,9 +6,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class PipeBE extends BlockEntity {
+public class EdgeBE extends BlockEntity {
 
-    public PipeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public EdgeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

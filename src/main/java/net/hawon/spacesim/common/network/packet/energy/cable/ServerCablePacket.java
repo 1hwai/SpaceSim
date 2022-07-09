@@ -1,6 +1,6 @@
 package net.hawon.spacesim.common.network.packet.energy.cable;
 
-import net.hawon.spacesim.common.block.pipe.cables.CableBE;
+import net.hawon.spacesim.common.block.edges.cables.CableBE;
 import net.hawon.spacesim.common.network.energy.CableNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,8 +35,6 @@ public class ServerCablePacket {
             BlockEntity be = level.getBlockEntity(cablePos);
 
             if (be instanceof CableBE cableBE) {
-                CableNetwork network = new CableNetwork(level, cableBE);
-                network.find();
 
                 success.set(true);
             }

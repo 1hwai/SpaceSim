@@ -1,7 +1,8 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.block.pipe.cables.CopperCableBlock;
+import net.hawon.spacesim.common.block.machines.generator.TestgenBlock;
+import net.hawon.spacesim.common.block.edges.cables.CopperCableBlock;
 import net.hawon.spacesim.common.block.machines.crusher.CrusherBlock;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlock;
 import net.minecraft.resources.ResourceLocation;
@@ -9,9 +10,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.DeferredRegister;
@@ -32,6 +31,10 @@ public class BlockInit {
     //BLOCK ENTITY
     public static final RegistryObject<ExampleChestBlock> EXAMPLE_CHEST = BLOCKS.register("example_chest", () -> new ExampleChestBlock(ORE_PROPERTIES));
     public static final RegistryObject<Item> EXAMPLE_CHEST_ITEM = fromBlock(EXAMPLE_CHEST);
+
+    //Test
+    public static final RegistryObject<TestgenBlock> TESTGEN = BLOCKS.register("testgen", () -> new TestgenBlock(ORE_PROPERTIES));
+    public static final RegistryObject<Item> TESTGEN_ITEM = fromBlock(TESTGEN);
 
     public static final RegistryObject<CrusherBlock> CRUSHER = BLOCKS.register("crusher", () -> new CrusherBlock(ORE_PROPERTIES.dynamicShape()));
     public static final RegistryObject<Item> CRUSHER_ITEM = fromBlock(CRUSHER);

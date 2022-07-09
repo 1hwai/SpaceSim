@@ -1,7 +1,8 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.block.pipe.cables.CableBE;
+import net.hawon.spacesim.common.block.machines.generator.TestgenBE;
+import net.hawon.spacesim.common.block.edges.cables.CableBE;
 import net.hawon.spacesim.common.block.machines.crusher.CrusherBE;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -18,6 +19,10 @@ public final class BlockEntityInit {
     public static final RegistryObject<BlockEntityType<ExampleChestBlockEntity>> EXAMPLE_CHEST = BLOCK_ENTITIES
             .register("example_chest", () -> BlockEntityType.Builder
                     .of(ExampleChestBlockEntity::new, BlockInit.EXAMPLE_CHEST.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TestgenBE>> TESTGEN = BLOCK_ENTITIES
+            .register("testgen", () -> BlockEntityType.Builder
+                    .of(TestgenBE::new, BlockInit.TESTGEN.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<CrusherBE>> CRUSHER = BLOCK_ENTITIES
             .register("crusher", () -> BlockEntityType.Builder.

@@ -1,7 +1,11 @@
-package net.hawon.spacesim.common.block.pipe;
+package net.hawon.spacesim.common.block.edges;
 
+import net.hawon.spacesim.common.network.PacketHandler;
+import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,10 +14,10 @@ import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.Nullable;
 
 import static net.hawon.spacesim.common.block.utils.SpaceBlockProperties.*;
+import static net.hawon.spacesim.common.block.utils.SpaceBlockProperties.INV_WEST;
 
-public abstract class PipeBlock extends Block {
-
-    public PipeBlock() {
+public class EdgeBlock extends Block {
+    public EdgeBlock() {
         super(BlockBehaviour.Properties.of(Material.STONE).strength(0.3f));
     }
 
@@ -38,4 +42,14 @@ public abstract class PipeBlock extends Block {
         return blockState;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+
+        if (!level.isClientSide()) {
+            StateManager.setState(level, pos);
+        }
+
+    }
 }

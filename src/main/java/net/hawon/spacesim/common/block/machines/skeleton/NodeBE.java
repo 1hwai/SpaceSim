@@ -1,6 +1,8 @@
 package net.hawon.spacesim.common.block.machines.skeleton;
 
+import net.hawon.spacesim.common.block.edges.cables.CableBE;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,14 +19,19 @@ public abstract class NodeBE extends BlockEntity {
     }
 
     public boolean setParent(NodeBE be) {// Fix required
-        be.parent = parent;
-        parent = be;
+        if (be == this)
+            return false;
+        if (parent != null) {
+            parent.children.remove(this);
+//            parent.children.add(be);
+        }
         be.children.add(this);
+        parent = be;
         return true;
     }
 
     public boolean addChild(NodeBE be) {
-        if (children.contains(be))
+        if (be.parent == this || children.contains(be))
             return false;
         be.parent = this;
         children.add(be);
@@ -32,19 +39,25 @@ public abstract class NodeBE extends BlockEntity {
     }
 
     public void rmParent() {
-
+        if (parent == null) return;
+        parent.children.remove(this);
+        parent = null;
     }
 
     public void remove() {
-        if (parent != null)
-            parent.children.remove(this);
-        for (NodeBE be : children) {
-            be.parent = null;
-        }
+        rmParent();
+        rmChildren();
+    }
+
+    public void rmChild(NodeBE be) {
+        if (be.parent != this) return;
+        be.parent = null;
+        children.remove(be);
+    }
+
+    public void rmChildren() {
+        children.forEach((node) -> node.parent = null);
         children.clear();
     }
 
-    public void rmChild() {
-
-    }
 }
