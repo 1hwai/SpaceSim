@@ -44,15 +44,17 @@ public class MachineNetwork extends BFS<MachineBE, CableBE> {
                 } else if (neighborBE instanceof SourceBE sourceBE) {
                     be.setParent(sourceBE);
                     hasFound = true;
-
+                    traceBack(element);
                     break;
                 }
             }
         }
 
+        if (!hasFound) be.rmParent();
+
     }
 
-    public void traceBack(final Element<CableBE> element) {
+    private void traceBack(final Element<CableBE> element) {
         Element<CableBE> temp = element;
         while (temp.from != null) {
 //            temp.edge.e
