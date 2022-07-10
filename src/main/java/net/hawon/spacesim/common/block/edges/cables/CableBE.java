@@ -17,8 +17,7 @@ public class CableBE extends EdgeBE {
 
     public CableBE(BlockPos pos, BlockState state) {
         super(BlockEntityInit.CABLE.get(), pos, state);
-        e = new Electricity();
-        e.regular = new Electricity(0, 0, 0.15);
+        e = new Electricity(0, 0, 0.15);
         PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(worldPosition));
     }
 

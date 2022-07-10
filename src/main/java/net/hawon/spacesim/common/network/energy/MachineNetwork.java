@@ -44,6 +44,7 @@ public class MachineNetwork extends BFS<MachineBE, CableBE> {
                 } else if (neighborBE instanceof SourceBE sourceBE) {
                     be.setParent(sourceBE);
                     hasFound = true;
+                    element.edge.e = sourceBE.e;
                     traceBack(element);
                     break;
                 }
@@ -57,7 +58,9 @@ public class MachineNetwork extends BFS<MachineBE, CableBE> {
     private void traceBack(final Element<CableBE> element) {
         Element<CableBE> temp = element;
         while (temp.from != null) {
-//            temp.edge.e
+            temp.from.edge.e.voltageDrop(temp.edge.e);
+            temp = temp.from;
         }
     }
+
 }
