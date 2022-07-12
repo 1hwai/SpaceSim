@@ -8,9 +8,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import java.util.HashMap;
-
-
 public class MachineNetwork extends BFS<MachineBE, CableBE> {
 
     public MachineNetwork(Level level, MachineBE be) {

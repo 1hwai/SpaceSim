@@ -3,10 +3,11 @@ package net.hawon.spacesim.common.network;
 import net.hawon.spacesim.common.block.edges.EdgeBE;
 import net.hawon.spacesim.common.block.machines.skeleton.NodeBE;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.*;
 
-public abstract class BFS<T extends NodeBE, E extends EdgeBE> {
+public abstract class BFS<T extends BlockEntity, E extends EdgeBE> {
 
     public final Level level;
     public final T be;
