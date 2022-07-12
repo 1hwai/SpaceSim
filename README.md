@@ -1,7 +1,7 @@
 **Minecraft 1.18.1 Modding**
 *with JDK18*
 
->Project Name: Space Sim
+```Space Sim```
 >
 >Author: 1HA
 >
