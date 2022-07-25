@@ -1,7 +1,6 @@
 package net.hawon.spacesim.common.block.edges.cables;
 
 import net.hawon.spacesim.common.block.edges.EdgeBlock;
-import net.hawon.spacesim.common.block.edges.StateManager;
 import net.hawon.spacesim.common.network.PacketHandler;
 import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
 import net.hawon.spacesim.core.Init.ItemInit;

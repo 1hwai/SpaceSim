@@ -1,7 +1,6 @@
 package net.hawon.spacesim.common.network;
 
 import net.hawon.spacesim.common.block.edges.EdgeBE;
-import net.hawon.spacesim.common.block.machines.skeleton.NodeBE;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -25,7 +24,9 @@ public abstract class BFS<T extends BlockEntity, E extends EdgeBE> {
     * Call super.find()
     * Override this method when use
     * */
-    public void find() {
+    abstract public void find();
+
+    protected void clear() {
         queue.clear();
         visited.clear();
     }

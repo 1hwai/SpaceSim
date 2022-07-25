@@ -27,6 +27,7 @@ public class CrusherBE extends MachineBE {
     }
 
     private void crush() {
+//        PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(this.worldPosition));
     }
 
     private boolean isInputItemValid(ItemStack stack) {

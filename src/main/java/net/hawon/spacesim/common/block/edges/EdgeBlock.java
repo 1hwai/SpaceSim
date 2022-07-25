@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Material;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static net.hawon.spacesim.common.block.utils.SpaceBlockProperties.*;
@@ -32,12 +33,14 @@ public class EdgeBlock extends Block {
 
     @Override
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         BlockState blockState = defaultBlockState();
         for (Direction direction : Direction.values()) {
             blockState = blockState.setValue(StateManager.attach(direction, true), false);
             blockState = blockState.setValue(StateManager.attach(direction, false), false);
         }
+
+//        context.getClickedPos()
 
         return blockState;
     }

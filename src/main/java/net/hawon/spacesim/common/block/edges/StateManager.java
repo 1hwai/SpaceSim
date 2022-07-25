@@ -1,5 +1,6 @@
 package net.hawon.spacesim.common.block.edges;
 
+import net.hawon.spacesim.common.block.machines.skeleton.NodeBE;
 import net.hawon.spacesim.common.block.machines.skeleton.SourceBE;
 import net.hawon.spacesim.common.block.edges.cables.CableBE;
 import net.hawon.spacesim.common.block.utils.SpaceBlockProperties;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class StateManager<T> {
+public class StateManager {
 
     public static void setState(Level level, BlockPos pos) {
 
@@ -20,9 +21,9 @@ public class StateManager<T> {
             BlockEntity be = level.getBlockEntity(pos.relative(direction));
             boolean[] attachment = new boolean[2];
 
-            if (be instanceof SourceBE) {
+            if (be instanceof NodeBE) {
                 attachment[0] = true;
-            } else if (be instanceof CableBE) { // Fix required
+            } else if (be instanceof EdgeBE) { // Fix required
                 attachment[1] = true;
             }
             blockState = blockState.setValue(attach(direction, true), attachment[0]);

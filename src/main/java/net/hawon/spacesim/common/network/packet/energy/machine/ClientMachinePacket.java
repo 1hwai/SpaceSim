@@ -1,6 +1,5 @@
 package net.hawon.spacesim.common.network.packet.energy.machine;
 
-import net.hawon.spacesim.client.ClientAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;

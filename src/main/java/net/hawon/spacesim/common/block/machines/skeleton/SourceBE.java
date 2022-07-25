@@ -13,4 +13,11 @@ public abstract class SourceBE extends NodeBE {
     public SourceBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
+
+    public void updateChildren() {
+        for (NodeBE node : children) {
+            node.find();
+        }
+    }
+
 }

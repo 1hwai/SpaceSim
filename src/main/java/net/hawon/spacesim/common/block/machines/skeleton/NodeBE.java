@@ -1,6 +1,7 @@
 package net.hawon.spacesim.common.block.machines.skeleton;
 
-import net.hawon.spacesim.common.block.edges.cables.CableBE;
+import net.hawon.spacesim.common.network.PacketHandler;
+import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -11,23 +12,39 @@ import java.util.ArrayList;
 
 public abstract class NodeBE extends BlockEntity {
 
+    /*
+    * Tree Node
+    * */
     public NodeBE parent;
     public ArrayList<NodeBE> children = new ArrayList<>();
+    public Direction input, output; //Electrical
 
     public NodeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
-    public boolean setParent(NodeBE be) {// Fix required
+    public void find() {
+        if (!level.isClientSide())
+            PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(worldPosition));
+    }
+
+    public void updateDirection(Direction facing) {
+        output = facing;
+        input = output.getOpposite();
+        find();
+    }
+
+    public void setParent(NodeBE be) { // Fix required
         if (be == this)
-            return false;
+            return;
+        if (be == parent)
+            return;
         if (parent != null) {
             parent.children.remove(this);
 //            parent.children.add(be);
         }
         be.children.add(this);
         parent = be;
-        return true;
     }
 
     public boolean addChild(NodeBE be) {
