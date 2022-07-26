@@ -1,6 +1,6 @@
-package net.hawon.spacesim.common.block.machines.crusher;
+package net.hawon.spacesim.common.block.nodes.crusher;
 
-import net.hawon.spacesim.common.block.machines.MachineBE;
+import net.hawon.spacesim.common.block.nodes.MachineBE;
 import net.hawon.spacesim.core.Init.BlockEntityInit;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
@@ -14,6 +14,8 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 
+import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
+
 public class CrusherBE extends MachineBE {
 
     public static final Component TITLE = new TranslatableComponent("addServer.resourcePack");
@@ -23,6 +25,9 @@ public class CrusherBE extends MachineBE {
     }
 
     public void tick() {
+        if (timer == 0) {
+            rotate(getBlockState().getValue(FACING));
+        }
         timer++;
     }
 

@@ -1,9 +1,7 @@
-package net.hawon.spacesim.common.block.machines.crusher;
+package net.hawon.spacesim.common.block.nodes.crusher;
 
 import net.hawon.spacesim.common.container.CrusherContainer;
 import net.hawon.spacesim.common.item.RenchItem;
-import net.hawon.spacesim.common.network.PacketHandler;
-import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -96,7 +94,7 @@ public class CrusherBlock extends Block implements EntityBlock {
 
         if (!level.isClientSide()) {
             if (level.getBlockEntity(pos) instanceof CrusherBE crusherBE) {
-                PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(pos));
+//                PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(pos));
             }
         }
 
@@ -111,7 +109,7 @@ public class CrusherBlock extends Block implements EntityBlock {
                 if (item == ItemInit.RENCH.get())
                     return RenchItem.rotate(state, level, pos, player);
                 if (item == ItemInit.GALVANOMETER.get()) {
-                    System.out.println(crusherBE.parent);
+                    System.out.println(crusherBE.parent + " input: " + crusherBE.input);
                     return InteractionResult.FAIL;
                 }
 

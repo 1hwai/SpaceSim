@@ -1,6 +1,6 @@
 package net.hawon.spacesim.common.network.packet.energy.machine;
 
-import net.hawon.spacesim.common.block.machines.MachineBE;
+import net.hawon.spacesim.common.block.nodes.MachineBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;

@@ -1,9 +1,9 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.block.machines.generator.TestgenBE;
+import net.hawon.spacesim.common.block.nodes.generator.TestgenBE;
 import net.hawon.spacesim.common.block.edges.cables.CableBE;
-import net.hawon.spacesim.common.block.machines.crusher.CrusherBE;
+import net.hawon.spacesim.common.block.nodes.crusher.CrusherBE;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;

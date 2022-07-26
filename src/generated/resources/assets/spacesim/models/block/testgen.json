@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "side": "spacesim:block/testgen_side",
+    "front": "spacesim:block/testgen_front",
+  }
+}

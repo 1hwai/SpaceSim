@@ -1,12 +1,9 @@
 package net.hawon.spacesim.common.network.energy;
 
 import net.hawon.spacesim.common.block.edges.cables.CableBE;
-import net.hawon.spacesim.common.block.machines.MachineBE;
-import net.hawon.spacesim.common.block.machines.skeleton.SourceBE;
+import net.hawon.spacesim.common.block.nodes.MachineBE;
 import net.hawon.spacesim.common.network.BFS;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class MachineNetwork extends BFS<MachineBE, CableBE> {
 

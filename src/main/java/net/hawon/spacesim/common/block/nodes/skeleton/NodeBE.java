@@ -1,5 +1,6 @@
-package net.hawon.spacesim.common.block.machines.skeleton;
+package net.hawon.spacesim.common.block.nodes.skeleton;
 
+import net.hawon.spacesim.common.block.edges.cables.CableBE;
 import net.hawon.spacesim.common.network.PacketHandler;
 import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class NodeBE extends BlockEntity {
 
@@ -23,15 +25,12 @@ public abstract class NodeBE extends BlockEntity {
         super(type, pos, state);
     }
 
-    public void find() {
-        if (!level.isClientSide())
-            PacketHandler.INSTANCE.sendToServer(new ServerMachinePacket(worldPosition));
-    }
 
-    public void updateDirection(Direction facing) {
+    public void rotate(Direction facing) {
         output = facing;
         input = output.getOpposite();
-        find();
+        setChanged();
+        System.out.println("Rotate : " + facing);
     }
 
     public void setParent(NodeBE be) { // Fix required

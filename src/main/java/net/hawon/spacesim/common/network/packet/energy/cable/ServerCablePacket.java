@@ -35,9 +35,12 @@ public class ServerCablePacket {
             BlockEntity be = level.getBlockEntity(cablePos);
 
             if (be instanceof CableBE cableBE) {
-
+                CableNetwork network = new CableNetwork(level, cableBE);
+                network.find();
                 success.set(true);
             }
+
+            success.set(false);
         });
 
         ctx.get().setPacketHandled(true);

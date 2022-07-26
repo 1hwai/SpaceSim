@@ -1,4 +1,4 @@
-package net.hawon.spacesim.common.block.machines.skeleton;
+package net.hawon.spacesim.common.block.nodes.skeleton;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;

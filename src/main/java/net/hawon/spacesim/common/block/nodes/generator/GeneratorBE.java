@@ -1,7 +1,6 @@
-package net.hawon.spacesim.common.block.machines.generator;
+package net.hawon.spacesim.common.block.nodes.generator;
 
-import net.hawon.spacesim.common.block.machines.skeleton.SourceBE;
-import net.hawon.spacesim.common.network.Electricity;
+import net.hawon.spacesim.common.block.nodes.skeleton.SourceBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;

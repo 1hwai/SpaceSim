@@ -1,5 +1,6 @@
 package net.hawon.spacesim.common.item;
 
+import net.hawon.spacesim.common.block.nodes.skeleton.NodeBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +20,8 @@ public class RenchItem extends Item {
     public static InteractionResult rotate(BlockState state, Level level, BlockPos pos, Player player) {
         state = state.setValue(FACING, player.getDirection().getOpposite());
         level.setBlock(pos, state, Block.UPDATE_ALL);
+        if (level.getBlockEntity(pos) instanceof NodeBE nodeBE)
+            nodeBE.rotate(player.getDirection().getOpposite());
 
         return InteractionResult.FAIL;
     }

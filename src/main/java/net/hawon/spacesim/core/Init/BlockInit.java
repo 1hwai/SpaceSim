@@ -1,9 +1,9 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
-import net.hawon.spacesim.common.block.machines.generator.TestgenBlock;
+import net.hawon.spacesim.common.block.nodes.generator.TestgenBlock;
 import net.hawon.spacesim.common.block.edges.cables.CopperCableBlock;
-import net.hawon.spacesim.common.block.machines.crusher.CrusherBlock;
+import net.hawon.spacesim.common.block.nodes.crusher.CrusherBlock;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

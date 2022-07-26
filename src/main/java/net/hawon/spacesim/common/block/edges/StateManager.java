@@ -1,8 +1,6 @@
 package net.hawon.spacesim.common.block.edges;
 
-import net.hawon.spacesim.common.block.machines.skeleton.NodeBE;
-import net.hawon.spacesim.common.block.machines.skeleton.SourceBE;
-import net.hawon.spacesim.common.block.edges.cables.CableBE;
+import net.hawon.spacesim.common.block.nodes.skeleton.NodeBE;
 import net.hawon.spacesim.common.block.utils.SpaceBlockProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +9,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+
+import static net.hawon.spacesim.common.block.utils.SpaceBlockProperties.*;
 
 public class StateManager {
 
@@ -37,23 +37,43 @@ public class StateManager {
     public static BooleanProperty attach(Direction direction, Boolean inv) {
         if (inv) { //inv = true;
             return switch (direction) {
-                case UP -> SpaceBlockProperties.INV_UP;
-                case DOWN -> SpaceBlockProperties.INV_DOWN;
-                case NORTH -> SpaceBlockProperties.INV_NORTH;
-                case SOUTH -> SpaceBlockProperties.INV_SOUTH;
-                case EAST -> SpaceBlockProperties.INV_EAST;
-                case WEST -> SpaceBlockProperties.INV_WEST;
+                case UP -> INV_UP;
+                case DOWN -> INV_DOWN;
+                case NORTH -> INV_NORTH;
+                case SOUTH -> INV_SOUTH;
+                case EAST -> INV_EAST;
+                case WEST -> INV_WEST;
             };
         } else {
             return switch (direction) {
-                case UP -> SpaceBlockProperties.UP;
-                case DOWN -> SpaceBlockProperties.DOWN;
-                case NORTH -> SpaceBlockProperties.NORTH;
-                case SOUTH -> SpaceBlockProperties.SOUTH;
-                case EAST -> SpaceBlockProperties.EAST;
-                case WEST -> SpaceBlockProperties.WEST;
+                case UP -> UP;
+                case DOWN -> DOWN;
+                case NORTH -> NORTH;
+                case SOUTH -> SOUTH;
+                case EAST -> EAST;
+                case WEST -> WEST;
             };
         }
+    }
+
+    public static int getConnections(BlockState state) {
+        int statusCode = 0;
+        //Never change this Order
+        int up = state.getValue(INV_UP) || state.getValue(UP) ? 1 : 0;
+        int down = state.getValue(INV_DOWN) || state.getValue(DOWN) ? 1 : 0;
+        int north = state.getValue(INV_NORTH) || state.getValue(NORTH) ? 1 : 0;
+        int south = state.getValue(INV_SOUTH) || state.getValue(SOUTH) ? 1 : 0;
+        int east = state.getValue(INV_EAST) || state.getValue(EAST) ? 1 : 0;
+        int west = state.getValue(INV_WEST) || state.getValue(WEST) ? 1 : 0;
+
+        int[] direction = { up, down, north, south, east, west };
+        int i = 1;
+        for (int connected : direction) {
+            statusCode += connected * i;
+            i*=10;
+        }
+
+        return statusCode;
     }
 
 }

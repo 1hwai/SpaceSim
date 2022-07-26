@@ -32,15 +32,15 @@ public class PacketHandler {
                 .encoder(ClientCablePacket::encode).decoder(ClientCablePacket::new)
                 .consumer(ClientCablePacket::handle)
                 .add();
-        //Machine
-        INSTANCE.messageBuilder(ServerMachinePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ServerMachinePacket::encode).decoder(ServerMachinePacket::new)
-                .consumer(ServerMachinePacket::handle)
-                .add();
-        INSTANCE.messageBuilder(ClientMachinePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ClientMachinePacket::encode).decoder(ClientMachinePacket::new)
-                .consumer(ClientMachinePacket::handle)
-                .add();
+//        //Machine
+//        INSTANCE.messageBuilder(ServerMachinePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
+//                .encoder(ServerMachinePacket::encode).decoder(ServerMachinePacket::new)
+//                .consumer(ServerMachinePacket::handle)
+//                .add();
+//        INSTANCE.messageBuilder(ClientMachinePacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
+//                .encoder(ClientMachinePacket::encode).decoder(ClientMachinePacket::new)
+//                .consumer(ClientMachinePacket::handle)
+//                .add();
 
     }
 }

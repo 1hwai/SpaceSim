@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "spacesim:block/testgen"
+    },
+    "facing=south": {
+      "model": "spacesim:block/testgen",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "spacesim:block/testgen",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "spacesim:block/testgen",
+      "y": 90
+    }
+  }
+}
