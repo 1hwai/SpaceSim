@@ -30,8 +30,8 @@ public class StateManager {
             blockState = blockState.setValue(attach(direction, false), attachment[1]);
 
         }
-
-        level.setBlock(pos, blockState, Block.UPDATE_ALL);
+        if (level.getBlockState(pos) != blockState)
+            level.setBlock(pos, blockState, Block.UPDATE_ALL);
     }
 
     public static BooleanProperty attach(Direction direction, Boolean inv) {

@@ -1,5 +1,6 @@
 package net.hawon.spacesim.common.block.nodes.generator;
 
+import net.hawon.spacesim.common.item.RenchItem;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -69,6 +70,9 @@ public class TestgenBlock extends Block implements EntityBlock {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item == ItemInit.GALVANOMETER.get()) {
                     System.out.println(testgenBE.children);
+                    return InteractionResult.FAIL;
+                } else if (item == ItemInit.RENCH.get()) {
+                    return RenchItem.rotate(state, level, pos, player);
                 }
             }
 

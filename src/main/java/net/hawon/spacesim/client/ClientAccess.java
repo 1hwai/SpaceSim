@@ -10,7 +10,7 @@ public class ClientAccess {
     public static boolean updateCable(BlockPos pos) {
         final BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(pos);
         if (blockEntity instanceof CableBE cableBE) {
-            cableBE.setChanged();
+//            cableBE.setChanged();
             return true;
         }
         return false;

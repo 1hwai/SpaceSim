@@ -48,7 +48,7 @@ public class EdgeBlock extends Block {
     @Override
     @SuppressWarnings("deprecation")
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+//        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
         if (!level.isClientSide()) {
             StateManager.setState(level, pos);

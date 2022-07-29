@@ -16,9 +16,6 @@ public class TestgenBE extends SourceBE {
     }
 
     public void tick()  {
-        if (timer == 0) {
-            rotate(getBlockState().getValue(FACING));
-        }
         timer++;
     }
 

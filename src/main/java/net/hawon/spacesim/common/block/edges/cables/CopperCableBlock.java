@@ -65,20 +65,19 @@ public class CopperCableBlock extends EdgeBlock implements EntityBlock {
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
-        if (!level.isClientSide())
-            if (!(level.getBlockEntity(fromPos) instanceof CableBE))
-                PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(pos));
-
+//        if (!level.isClientSide())
+//            PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(pos));
     }
 
     @Override
     public void destroy(@NotNull LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
+        super.destroy(levelAccessor, pos, state);
         PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(pos));
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public InteractionResult use(BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
             if (level.getBlockEntity(pos) instanceof CableBE cable) {
                 Item item = player.getItemInHand(hand).getItem();

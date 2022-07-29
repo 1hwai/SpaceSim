@@ -21,6 +21,7 @@ public class SpaceBlockStates extends BlockStateProvider {
 
         //BLOCK ENTITY
         registerCrusher();
+        registerTestgen();
         simpleBlock(BlockInit.DOCKING_PORT.get());
         simpleBlock(BlockInit.EXAMPLE_CHEST.get());
         //ORE
@@ -41,7 +42,17 @@ public class SpaceBlockStates extends BlockStateProvider {
         bld.partialState().with(FACING, Direction.SOUTH).modelForState().modelFile(crusher).rotationY(180).addModel();
         bld.partialState().with(FACING, Direction.WEST).modelForState().modelFile(crusher).rotationY(270).addModel();
         bld.partialState().with(FACING, Direction.EAST).modelForState().modelFile(crusher).rotationY(90).addModel();
+    }
 
+    protected void registerTestgen() {
+        BlockModelBuilder testgen = models().getBuilder("block/testgen");
+
+        VariantBlockStateBuilder bld = getVariantBuilder(BlockInit.TESTGEN.get());
+
+        bld.partialState().with(FACING, Direction.NORTH).modelForState().modelFile(testgen).addModel();
+        bld.partialState().with(FACING, Direction.SOUTH).modelForState().modelFile(testgen).rotationY(180).addModel();
+        bld.partialState().with(FACING, Direction.WEST).modelForState().modelFile(testgen).rotationY(270).addModel();
+        bld.partialState().with(FACING, Direction.EAST).modelForState().modelFile(testgen).rotationY(90).addModel();
     }
 
 }

@@ -38,9 +38,12 @@ public class ServerCablePacket {
                 CableNetwork network = new CableNetwork(level, cableBE);
                 network.find();
                 success.set(true);
+            } else if (level.isEmptyBlock(cablePos)) {
+                CableNetwork network = new CableNetwork(level, cablePos);
+                network.killConnection();
+                success.set(true);
             }
 
-            success.set(false);
         });
 
         ctx.get().setPacketHandled(true);

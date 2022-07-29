@@ -1,16 +1,14 @@
 package net.hawon.spacesim.common.block.nodes.skeleton;
 
-import net.hawon.spacesim.common.block.edges.cables.CableBE;
-import net.hawon.spacesim.common.network.PacketHandler;
-import net.hawon.spacesim.common.network.packet.energy.machine.ServerMachinePacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 public abstract class NodeBE extends BlockEntity {
 
@@ -23,10 +21,12 @@ public abstract class NodeBE extends BlockEntity {
 
     public NodeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+        rotate(state);
     }
 
 
-    public void rotate(Direction facing) {
+    public void rotate(BlockState state) {
+        Direction facing = getBlockState().getValue(FACING);
         output = facing;
         input = output.getOpposite();
         setChanged();
@@ -34,24 +34,15 @@ public abstract class NodeBE extends BlockEntity {
     }
 
     public void setParent(NodeBE be) { // Fix required
-        if (be == this)
-            return;
-        if (be == parent)
-            return;
-        if (parent != null) {
-            parent.children.remove(this);
-//            parent.children.add(be);
-        }
-        be.children.add(this);
+        System.out.println("setParent() be : " + be);
         parent = be;
+        if (parent == null) return;
+        if (!parent.children.contains(this))
+            parent.children.add(this);
     }
 
-    public boolean addChild(NodeBE be) {
-        if (be.parent == this || children.contains(be))
-            return false;
-        be.parent = this;
-        children.add(be);
-        return true;
+    public void addChild(NodeBE be) {
+        be.setParent(this);
     }
 
     public void rmParent() {
@@ -74,6 +65,16 @@ public abstract class NodeBE extends BlockEntity {
     public void rmChildren() {
         children.forEach((node) -> node.parent = null);
         children.clear();
+    }
+
+    public void validateChildren(ArrayList<NodeBE> checkList) {
+        if (children.isEmpty()) return;
+        for (int i = children.size() - 1; i >= 0; i--) {
+            NodeBE child = children.get(i);
+            if (!checkList.contains(child)) {
+                rmChild(child);
+            }
+        }
     }
 
 }

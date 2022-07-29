@@ -24,7 +24,7 @@ public class CableBE extends EdgeBE {
     }
 
     public void find() {
-        if (!Objects.requireNonNull(level).isClientSide()) {
+        if (Objects.requireNonNull(level).isClientSide()) {
             System.out.println(worldPosition);
             PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(worldPosition));
         }
@@ -32,14 +32,6 @@ public class CableBE extends EdgeBE {
 
     public void tick() {
         timer++;
-    }
-
-    public void setSourceBE(SourceBE sourceBE) {
-        this.sourceBE = sourceBE;
-    }
-
-    public SourceBE getSourceBE() {
-        return sourceBE;
     }
 
 }

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "side": "spacesim:block/generator_side",
-    "front": "spacesim:block/generator_idle",
-    "top": "spacesim:block/generator_side"
-  }
-}
