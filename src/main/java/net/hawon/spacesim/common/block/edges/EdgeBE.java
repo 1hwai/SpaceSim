@@ -12,13 +12,4 @@ public class EdgeBE extends BlockEntity {
         super(type, pos, state);
     }
 
-//    @Override
-//    public final CompoundTag getUpdateTag() {
-//        return writeUpdate(super.getUpdateTag());
-//    }
-//
-//    public CompoundTag writeUpdate(CompoundTag tag) {
-//        return tag;
-//    }
-
 }

@@ -22,6 +22,7 @@ public class Electricity {
         this.current = current;
         this.voltage = voltage;
         this.resistance = resistance;
+
     }
 
     public void voltageDrop(Electricity e) {

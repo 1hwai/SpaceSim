@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -56,7 +57,7 @@ public class CrusherBE extends MachineBE {
             }
 
             @Override
-            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 CrusherBE.super.update();
                 return super.extractItem(slot, amount, simulate);
             }
@@ -79,7 +80,7 @@ public class CrusherBE extends MachineBE {
             }
 
             @Override
-            public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+            public @NotNull ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
                 CrusherBE.super.update();
                 return super.insertItem(slot, stack, simulate);
             }

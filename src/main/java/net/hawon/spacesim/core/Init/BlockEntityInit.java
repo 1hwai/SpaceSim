@@ -30,7 +30,7 @@ public final class BlockEntityInit {
 
     public static final RegistryObject<BlockEntityType<CableBE>> CABLE = BLOCK_ENTITIES
             .register("cable", () -> BlockEntityType.Builder
-                    .of(CableBE::new, BlockInit.COPPER_CABLE.get()).build(null));
+                    .of(CableBE::new, BlockInit.COPPER_CABLE_MID.get()).build(null));
 
     private BlockEntityInit() {
     }

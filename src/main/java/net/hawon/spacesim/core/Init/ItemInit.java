@@ -34,12 +34,6 @@ public class ItemInit {
 
     public static final RegistryObject<Item> GALVANOMETER = ITEMS.register("galvanometer", () -> new Galvanometer(ITEM_PROPERTIES));
 
-
-
-    private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
-        return ITEMS.register(name, item);
-    }
-
     public static <B extends Block> RegistryObject<Item> fromBlock(RegistryObject<B> block) {
         return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), ITEM_PROPERTIES));
     }

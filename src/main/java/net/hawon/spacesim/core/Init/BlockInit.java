@@ -1,8 +1,9 @@
 package net.hawon.spacesim.core.Init;
 
 import net.hawon.spacesim.SpaceSim;
+import net.hawon.spacesim.common.block.edges.cables.CableBlock;
+import net.hawon.spacesim.common.block.edges.cables.CableType;
 import net.hawon.spacesim.common.block.nodes.generator.TestgenBlock;
-import net.hawon.spacesim.common.block.edges.cables.CopperCableBlock;
 import net.hawon.spacesim.common.block.nodes.crusher.CrusherBlock;
 import net.hawon.spacesim.common.block.storage.examplechest.ExampleChestBlock;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +29,7 @@ public class BlockInit {
     public static final RegistryObject<Block> DOCKING_PORT = BLOCKS.register("docking_port", () -> new Block(ORE_PROPERTIES));
     public static final RegistryObject<Item> DOCKING_PORT_ITEM = fromBlock(DOCKING_PORT);
 
-    //BLOCK ENTITY
+    //BE
     public static final RegistryObject<ExampleChestBlock> EXAMPLE_CHEST = BLOCKS.register("example_chest", () -> new ExampleChestBlock(ORE_PROPERTIES));
     public static final RegistryObject<Item> EXAMPLE_CHEST_ITEM = fromBlock(EXAMPLE_CHEST);
 
@@ -39,8 +40,13 @@ public class BlockInit {
     public static final RegistryObject<CrusherBlock> CRUSHER = BLOCKS.register("crusher", () -> new CrusherBlock(ORE_PROPERTIES.dynamicShape()));
     public static final RegistryObject<Item> CRUSHER_ITEM = fromBlock(CRUSHER);
 
-    public static final RegistryObject<CopperCableBlock> COPPER_CABLE = BLOCKS.register("copper_cable", CopperCableBlock::new);
-    public static final RegistryObject<Item> COPPER_CABLE_ITEM = fromBlock(COPPER_CABLE);
+    //Cables
+    public static final RegistryObject<CableBlock> COPPER_CABLE_MID = BLOCKS.register(CableType.COPPER_MID.toString(), () -> new CableBlock(CableType.COPPER_MID));
+    public static final RegistryObject<Item> COPPER_CABLE_MID_ITEM = fromBlock(COPPER_CABLE_MID);
+    public static final RegistryObject<CableBlock> ALUMINUM_CABLE_MID = BLOCKS.register(CableType.ALUMINIUM_MID.toString(), () -> new CableBlock(CableType.ALUMINIUM_MID));
+    public static final RegistryObject<Item> ALUMINUM_CABLE_MID_ITEM = fromBlock(ALUMINUM_CABLE_MID);
+    public static final RegistryObject<CableBlock> TIN_CABLE_MID = BLOCKS.register(CableType.TIN_MID.toString(), () -> new CableBlock(CableType.TIN_MID));
+    public static final RegistryObject<Item> TIN_CABLE_MID_ITEM = fromBlock(TIN_CABLE_MID);
 
     //ORE
     public static final RegistryObject<Block> BAUXITE_ORE = BLOCKS.register("bauxite_ore", () -> new Block(ORE_PROPERTIES));
