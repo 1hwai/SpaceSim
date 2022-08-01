@@ -1,0 +1,196 @@
+{
+  "variants": {
+    "down=false,east=false,north=false,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/none"
+    },
+    "down=true,east=false,north=false,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/d"
+    },
+    "down=false,east=true,north=false,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/e"
+    },
+    "down=true,east=true,north=false,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/de"
+    },
+    "down=false,east=false,north=true,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/n"
+    },
+    "down=true,east=false,north=true,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/dn"
+    },
+    "down=false,east=true,north=true,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/ne"
+    },
+    "down=true,east=true,north=true,south=false,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/dne"
+    },
+    "down=false,east=false,north=false,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/s"
+    },
+    "down=true,east=false,north=false,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/ds"
+    },
+    "down=false,east=true,north=false,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/se"
+    },
+    "down=true,east=true,north=false,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/dse"
+    },
+    "down=false,east=false,north=true,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/ns"
+    },
+    "down=true,east=false,north=true,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/dns"
+    },
+    "down=false,east=true,north=true,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/nse"
+    },
+    "down=true,east=true,north=true,south=true,up=false,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/dnse"
+    },
+    "down=false,east=false,north=false,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/u"
+    },
+    "down=true,east=false,north=false,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/ud"
+    },
+    "down=false,east=true,north=false,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/ue"
+    },
+    "down=true,east=true,north=false,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/ude"
+    },
+    "down=false,east=false,north=true,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/un"
+    },
+    "down=true,east=false,north=true,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/udn"
+    },
+    "down=false,east=true,north=true,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/une"
+    },
+    "down=true,east=true,north=true,south=false,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/udne"
+    },
+    "down=false,east=false,north=false,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/us"
+    },
+    "down=true,east=false,north=false,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/uds"
+    },
+    "down=false,east=true,north=false,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/use"
+    },
+    "down=true,east=true,north=false,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/udse"
+    },
+    "down=false,east=false,north=true,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/uns"
+    },
+    "down=true,east=false,north=true,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/udns"
+    },
+    "down=false,east=true,north=true,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/unse"
+    },
+    "down=true,east=true,north=true,south=true,up=true,west=false": {
+      "model": "spacesim:block/cable/copper_cable_mid/udnse"
+    },
+    "down=false,east=false,north=false,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/w"
+    },
+    "down=true,east=false,north=false,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dw"
+    },
+    "down=false,east=true,north=false,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/ew"
+    },
+    "down=true,east=true,north=false,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dew"
+    },
+    "down=false,east=false,north=true,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/nw"
+    },
+    "down=true,east=false,north=true,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dnw"
+    },
+    "down=false,east=true,north=true,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/new"
+    },
+    "down=true,east=true,north=true,south=false,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dnew"
+    },
+    "down=false,east=false,north=false,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/sw"
+    },
+    "down=true,east=false,north=false,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dsw"
+    },
+    "down=false,east=true,north=false,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/sew"
+    },
+    "down=true,east=true,north=false,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dsew"
+    },
+    "down=false,east=false,north=true,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/nsw"
+    },
+    "down=true,east=false,north=true,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dnsw"
+    },
+    "down=false,east=true,north=true,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/nsew"
+    },
+    "down=true,east=true,north=true,south=true,up=false,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/dnsew"
+    },
+    "down=false,east=false,north=false,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/uw"
+    },
+    "down=true,east=false,north=false,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udw"
+    },
+    "down=false,east=true,north=false,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/uew"
+    },
+    "down=true,east=true,north=false,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udew"
+    },
+    "down=false,east=false,north=true,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/unw"
+    },
+    "down=true,east=false,north=true,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udnw"
+    },
+    "down=false,east=true,north=true,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/unew"
+    },
+    "down=true,east=true,north=true,south=false,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udnew"
+    },
+    "down=false,east=false,north=false,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/usw"
+    },
+    "down=true,east=false,north=false,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udsw"
+    },
+    "down=false,east=true,north=false,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/usew"
+    },
+    "down=true,east=true,north=false,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udsew"
+    },
+    "down=false,east=false,north=true,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/unsw"
+    },
+    "down=true,east=false,north=true,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udnsw"
+    },
+    "down=false,east=true,north=true,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/unsew"
+    },
+    "down=true,east=true,north=true,south=true,up=true,west=true": {
+      "model": "spacesim:block/cable/copper_cable_mid/udnsew"
+    }
+  }
+}
