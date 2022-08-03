@@ -4,8 +4,6 @@ public class Electricity {
     public double current, voltage, resistance;
     public double power;
 
-    public Electricity regular;
-
     public Electricity() {
         this(0, 0);
     }

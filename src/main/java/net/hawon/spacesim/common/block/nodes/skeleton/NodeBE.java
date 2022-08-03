@@ -1,5 +1,8 @@
 package net.hawon.spacesim.common.block.nodes.skeleton;
 
+import net.hawon.spacesim.common.block.edges.cables.CableBE;
+import net.hawon.spacesim.common.network.PacketHandler;
+import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,22 +24,22 @@ public abstract class NodeBE extends BlockEntity {
 
     public NodeBE(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-        rotate(state);
+        rotate();
     }
 
-
-    public void rotate(BlockState state) {
-        Direction facing = getBlockState().getValue(FACING);
-        output = facing;
+    public void rotate() {
+        output = getBlockState().getValue(FACING);
         input = output.getOpposite();
         setChanged();
-        System.out.println("Rotate : " + facing);
+        PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(worldPosition.relative(input)));
+
+        System.out.println("Rotate : " + output);
     }
 
     public void setParent(NodeBE be) { // Fix required
         System.out.println("setParent() be : " + be);
+        if (be == null) return;
         parent = be;
-        if (parent == null) return;
         if (!parent.children.contains(this))
             parent.children.add(this);
     }
@@ -68,11 +71,11 @@ public abstract class NodeBE extends BlockEntity {
     }
 
     public void validateChildren(ArrayList<NodeBE> checkList) {
-        if (children.isEmpty()) return;
+        if (children.isEmpty() || checkList.isEmpty()) return;
         for (int i = children.size() - 1; i >= 0; i--) {
             NodeBE child = children.get(i);
             if (!checkList.contains(child)) {
-                rmChild(child);
+                child.rmParent();
             }
         }
     }

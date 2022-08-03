@@ -26,9 +26,6 @@ public class CableNetwork extends BFS<CableBE, CableBE> {
         super(level, be);
     }
 
-    /*
-    * CableBlock.destroy() will call this method
-    * */
     public CableNetwork(Level level, BlockPos pos) {
         super(level, null);
         was = pos;
@@ -49,8 +46,14 @@ public class CableNetwork extends BFS<CableBE, CableBE> {
                     sourceBE.rmChildren();
                 }
             } else if (neighborBE instanceof CableBE neighborCableBE) {
-                CableNetwork network = new CableNetwork(level, neighborCableBE);
-                network.find();
+                neighborCableBE.find();
+                if (sourceBE != null) {
+                    BlockEntity blockEntity = level.getBlockEntity(sourceBE.getBlockPos().relative(sourceBE.output));
+                    if (blockEntity instanceof CableBE cableBE) {
+                        System.out.println("Imma Cable In-front of SourceBE");
+                        cableBE.find();
+                    }
+                }
             }
         }
     }
@@ -66,7 +69,7 @@ public class CableNetwork extends BFS<CableBE, CableBE> {
             CableBE cableBE = element.edge;
             for (Direction direction : Direction.values()) {
                 BlockEntity neighborBE;
-                neighborBE = level.getBlockEntity(cableBE.getBlockPos().relative(direction));
+                neighborBE = cableBE.getRelative(level, direction);
                 if (neighborBE instanceof SourceBE _sourceBE) {
                     if (direction == _sourceBE.output.getOpposite()) {
                         sourceBE = _sourceBE;
@@ -82,8 +85,8 @@ public class CableNetwork extends BFS<CableBE, CableBE> {
         }
 
         if (sourceBE != null) {
-            System.out.println("Me : " + be + " " + be.getBlockPos());
-            System.out.println("SourceBE : " + sourceBE + " " + sourceBE.getBlockPos());
+            System.out.println("Me : " + be.getBlockPos());
+            System.out.println("SourceBE : " + sourceBE.getBlockPos());
         }
     }
 
@@ -92,22 +95,23 @@ public class CableNetwork extends BFS<CableBE, CableBE> {
 
         for (Direction direction : Direction.values()) {
             if (flow == null || direction != flow.getOpposite()) {
-                BlockEntity neighborBE = level.getBlockEntity(be.getBlockPos().relative(direction));
+                BlockEntity neighborBE = be.getRelative(level, direction);
                 if (neighborBE instanceof CableBE neighborCableBE) {
                     queue.add(new Element<>(start, neighborCableBE));
                 }
             }
         }
+        System.out.println("flow : " + flow);
 
         while (!queue.isEmpty()) {
             Element<CableBE> element = queue.poll();
             CableBE cableBE = element.edge;
             for (Direction direction : Direction.values()) {
-                BlockEntity neighborBE = level.getBlockEntity(cableBE.getBlockPos().relative(direction));
+                BlockEntity neighborBE = cableBE.getRelative(level, direction);
+                System.out.println("Look what I found: " + neighborBE);
                 if (neighborBE instanceof NodeBE nodeBE) {
                     if (direction == nodeBE.input.getOpposite()) {
                         if (sourceBE != null) {
-                            System.out.println("New Kid : " + nodeBE);
                             nodeBE.setParent(sourceBE);
                             children.add(nodeBE);
                         }
@@ -121,8 +125,12 @@ public class CableNetwork extends BFS<CableBE, CableBE> {
             }
         }
 
-        if (sourceBE != null)
-            sourceBE.validateChildren(children);
+        System.out.println("New kids: " + children);
+
+        if (sourceBE != null) {
+            if (be.getRelative(level, flow.getOpposite()) == sourceBE)
+                sourceBE.validateChildren(children);
+        }
         if (sourceBE == null && !children.isEmpty()) {
             children.forEach(NodeBE::rmParent);
         }

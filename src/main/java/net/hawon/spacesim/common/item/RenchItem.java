@@ -21,7 +21,7 @@ public class RenchItem extends Item {
         state = state.setValue(FACING, player.getDirection().getOpposite());
         level.setBlock(pos, state, Block.UPDATE_ALL);
         if (level.getBlockEntity(pos) instanceof NodeBE nodeBE)
-            nodeBE.rotate(state);
+            nodeBE.rotate();
 
         return InteractionResult.FAIL;
     }

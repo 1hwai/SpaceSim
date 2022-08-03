@@ -44,11 +44,9 @@ public class EdgeBlock extends Block {
     @Override
     @SuppressWarnings("deprecation")
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-
         if (!level.isClientSide()) {
             CableStateManager.setState(level, pos);
         }
-
     }
 
 }

@@ -1,5 +1,6 @@
 package net.hawon.spacesim.common.block.nodes.generator;
 
+import net.hawon.spacesim.common.block.nodes.skeleton.NodeBlock;
 import net.hawon.spacesim.common.item.RenchItem;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 
-public class TestgenBlock extends Block implements EntityBlock {
+public class TestgenBlock extends NodeBlock implements EntityBlock {
 
     public TestgenBlock(Properties properties) {
         super(properties);

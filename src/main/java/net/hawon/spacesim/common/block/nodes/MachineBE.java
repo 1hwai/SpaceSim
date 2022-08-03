@@ -32,7 +32,7 @@ public abstract class MachineBE extends ConsumerBE {
     public MachineBE(BlockEntityType<?> type, BlockPos pos, BlockState state, int inputSize, int outputSize) {
         super(type, pos, state);
 
-        e.regular = new Electricity(0.2, 220, 1100);
+//        e.regular = new Electricity(0.2, 220, 1100);
 
         INPUT_SIZE = inputSize;
         OUTPUT_SIZE = outputSize;

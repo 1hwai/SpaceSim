@@ -1,5 +1,6 @@
 package net.hawon.spacesim.common.block.nodes.crusher;
 
+import net.hawon.spacesim.common.block.nodes.skeleton.NodeBlock;
 import net.hawon.spacesim.common.container.CrusherContainer;
 import net.hawon.spacesim.common.item.RenchItem;
 import net.hawon.spacesim.core.Init.ItemInit;
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 
-public class CrusherBlock extends Block implements EntityBlock {
+public class CrusherBlock extends NodeBlock implements EntityBlock {
 
     public static final VoxelShape NORTH = makeShape(Direction.NORTH);
     public static final VoxelShape SOUTH = makeShape(Direction.SOUTH);
@@ -49,7 +50,7 @@ public class CrusherBlock extends Block implements EntityBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return switch (state.getValue(FACING)) {
             case SOUTH -> SOUTH;
             case WEST -> WEST;

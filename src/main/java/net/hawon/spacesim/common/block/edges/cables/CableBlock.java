@@ -2,7 +2,9 @@ package net.hawon.spacesim.common.block.edges.cables;
 
 import net.hawon.spacesim.common.block.edges.CableStateManager;
 import net.hawon.spacesim.common.block.edges.EdgeBlock;
+import net.hawon.spacesim.common.block.nodes.skeleton.NodeBlock;
 import net.hawon.spacesim.common.network.PacketHandler;
+import net.hawon.spacesim.common.network.energy.CableNetwork;
 import net.hawon.spacesim.common.network.packet.energy.cable.ServerCablePacket;
 import net.hawon.spacesim.core.Init.ItemInit;
 import net.minecraft.core.BlockPos;
@@ -55,8 +57,7 @@ public class CableBlock extends EdgeBlock implements EntityBlock {
     }
 
     @Override
-    public void destroy(@NotNull LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
-        super.destroy(levelAccessor, pos, state);
+    public void destroy(@NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockState state) {
         PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(pos));
     }
 
@@ -66,19 +67,21 @@ public class CableBlock extends EdgeBlock implements EntityBlock {
         BlockState blockState = defaultBlockState();
         for (Direction direction : Direction.values()) {
             blockState = blockState.setValue(CableStateManager.attach(direction), false);
+
         }
 
         return blockState;
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
         if (!level.isClientSide()) {
-            CableStateManager.setState(level, pos);
+            if (level.getBlockState(fromPos).getBlock() instanceof NodeBlock) {
+                CableNetwork network = new CableNetwork(level, pos);
+                network.killConnection();
+            }
         }
-
     }
 
     @SuppressWarnings("deprecation")
@@ -94,6 +97,8 @@ public class CableBlock extends EdgeBlock implements EntityBlock {
             if (level.getBlockEntity(pos) instanceof CableBE cable) {
                 Item item = player.getItemInHand(hand).getItem();
                 if (item.asItem() == ItemInit.GALVANOMETER.get()) {
+                    System.out.println(cable.e.resistance);
+                    PacketHandler.INSTANCE.sendToServer(new ServerCablePacket(pos));
                 }
             }
         }
